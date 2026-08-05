@@ -142,9 +142,33 @@
   footer p{ color:var(--text-muted); font-size:0.9rem; font-weight:500; }
   .reveal{ opacity:0; transform:translateY(26px); transition:opacity .7s ease, transform .7s ease; }
   .reveal.in-view{ opacity:1; transform:translateY(0); }
+
+  /* PRELOADER STYLES */
+  #preloader{ position:fixed; inset:0; z-index:9999; background:var(--bg); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .pre-lane{ position:absolute; top:0; bottom:0; width:33.3334%; display:flex; align-items:center; justify-content:center; transform:translateY(0); }
+  .pre-lane.l1{ left:0; background:var(--swim-dim); }
+  .pre-lane.l2{ left:33.3334%; background:var(--basketball-dim); }
+  .pre-lane.l3{ left:66.6668%; background:var(--combat-dim); }
+  .pre-lane span{ font-family:'Montserrat', sans-serif; font-weight:900; font-size:clamp(1.2rem,3vw,2rem); color:rgba(255,255,255,0.95); text-transform:uppercase; opacity:0; transform:translateY(16px); letter-spacing: 2px;}
+  #preloader.animate .pre-lane{ animation: laneIn .7s cubic-bezier(.7,0,.2,1) forwards; }
+  #preloader.animate .pre-lane.l1{ animation-delay:.05s; }
+  #preloader.animate .pre-lane.l2{ animation-delay:.18s; }
+  #preloader.animate .pre-lane.l3{ animation-delay:.31s; }
+  #preloader.animate .pre-lane span{ animation: wordIn .5s ease forwards; }
+  #preloader.animate .pre-lane.l1 span{ animation-delay:.5s; }
+  #preloader.animate .pre-lane.l2 span{ animation-delay:.62s; }
+  #preloader.animate .pre-lane.l3 span{ animation-delay:.74s; }
+  #preloader.leave{ animation: preOut .7s cubic-bezier(.7,0,.2,1) forwards; animation-delay:1.5s; }
 </style>
 </head>
 <body data-sport="swim">
+
+<!-- AÇILIŞ ANİMASYONU -->
+<div id="preloader">
+  <div class="pre-lane l1"><span>YÜZME</span></div>
+  <div class="pre-lane l2"><span>BASKETBOL</span></div>
+  <div class="pre-lane l3"><span>DÖVÜŞ</span></div>
+</div>
 
 <header id="siteHeader">
   <nav>
@@ -200,7 +224,7 @@
       </div>
       <div>
         <div class="eyebrow reveal">Eğitmen Profili</div>
-        <h2 class="section-title reveal" id="aboutName">Yükleniyor...</h2>
+        <h2 class="section-title reveal" id="aboutName">Kaan Yıldırım</h2>
         <div class="about-copy reveal"><p id="aboutText">Biyografi bilgileri yükleniyor...</p></div>
         <ul class="cert-list reveal" id="aboutCerts">
           <li>Yükleniyor...</li>
@@ -225,15 +249,15 @@
       </div>
 
       <div class="sport-panel swim reveal">
-        <div id="desc-swim" class="branch-desc">Yükleniyor...</div>
+        <div id="desc-swim" class="branch-desc">Yüzme branşında her seviyeye uygun; birebir özel ders, 2-3 kişilik VIP grup dersleri, çocuk ve yetişkin gruplarına özel eğitimler sunulmaktadır.</div>
         <div class="cards-grid" id="swimGrid"></div>
       </div>
       <div class="sport-panel basketball">
-        <div id="desc-basketball" class="branch-desc">Yükleniyor...</div>
+        <div id="desc-basketball" class="branch-desc">Basketbol branşında; temel altyapı eğitiminden profesyonel performans antrenmanlarına kadar, birebir ve grup dersleri verilmektedir.</div>
         <div class="cards-grid" id="basketGrid"></div>
       </div>
       <div class="sport-panel combat">
-        <div id="desc-combat" class="branch-desc">Yükleniyor...</div>
+        <div id="desc-combat" class="branch-desc">Dövüş sporlarında; kondisyon artırıcı birebir teknik antrenmanlar, savunma ve refleks geliştirici özel yetişkin dersleri mevcuttur.</div>
         <div class="cards-grid" id="combatGrid"></div>
       </div>
     </div>
@@ -245,7 +269,9 @@
       <h2 class="section-title reveal" style="margin-bottom:40px;">Öğrenci Yorumları</h2>
     </div>
     <div class="marquee-container reveal">
-       <div class="marquee-track" id="testiGrid">Yükleniyor...</div>
+       <div class="marquee-track" id="testiGrid">
+         <p style="color:var(--text-sub); margin-left:20px;">Yorumlar yükleniyor...</p>
+       </div>
     </div>
   </section>
 
@@ -253,11 +279,12 @@
     <div class="container" style="max-width:760px;">
       <div class="eyebrow reveal">Sıkça Sorulan Sorular</div>
       <h2 class="section-title reveal" style="margin-bottom:30px;">Aklınıza Takılanlar</h2>
-      <div class="faq-list reveal" id="faqList">Yükleniyor...</div>
+      <div class="faq-list reveal" id="faqList">
+        <p style="color:var(--text-sub)">Sıkça sorulan sorular yükleniyor...</p>
+      </div>
     </div>
   </section>
 
-  <!-- İLETİŞİM BÖLÜMÜ (RANDEVU KISMI KALDIRILDI) -->
   <section id="iletisim">
     <div class="container">
       <div class="reveal" style="text-align: center; max-width: 600px; margin: 0 auto 40px;">
@@ -299,6 +326,17 @@
 </footer>
 
 <script>
+  // AÇILIŞ EKRANINI KALDIRAN KOD (Sorunun Çözümü!)
+  const pre = document.getElementById('preloader');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduced){ 
+     pre.remove(); 
+  } else { 
+     requestAnimationFrame(()=> pre.classList.add('animate')); 
+     setTimeout(()=> pre.classList.add('leave'), 10); 
+     setTimeout(()=> pre.remove(), 2300); 
+  }
+
   // LÜTFEN KENDİ FIREBASE AYARLARINI BURAYA YAPIŞTIR!
   const firebaseConfig = { 
     apiKey: "AIzaSyA6d55XjKFlj4-eZPCYrfTl1451f-IKdq0", 
@@ -312,12 +350,10 @@
   if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
   const db = firebase.firestore();
 
-  // Veri Dinleyici
   db.collection("appData").doc("main").onSnapshot((doc) => {
     if (doc.exists) {
       const data = doc.data();
       
-      // Üst Başlık & Avatar
       if(data.clubName) {
         document.getElementById('headerClubName').textContent = data.clubName;
         const words = data.clubName.split(" ");
@@ -326,30 +362,25 @@
         document.getElementById('avatarInitials').textContent = initials.toUpperCase();
       }
 
-      if (data.siteData) { renderSiteData(data.siteData); } 
+      renderSiteData(data.siteData || {});
     }
   });
 
   function renderSiteData(site) {
-    // 1. HAKKIMDA 
-    if(site.about) {
-       document.getElementById('aboutName').textContent = site.about.name;
-       document.getElementById('aboutText').textContent = site.about.text;
-       document.getElementById('aboutPhilosophy').textContent = '"' + site.about.philosophy + '"';
-       
-       // Sertifikaları (Her satırı ayırıp <li> yapar)
-       const certsArray = site.about.certs.split('\n').filter(c => c.trim() !== '');
-       document.getElementById('aboutCerts').innerHTML = certsArray.map(c => `<li><i class="ph ph-check-circle"></i> ${c}</li>`).join('');
-    }
+    // 1. HAKKIMDA (Varsayılan metin koruması ile)
+    document.getElementById('aboutName').textContent = site.about?.name || "Kaan Yıldırım";
+    document.getElementById('aboutText').textContent = site.about?.text || "Biyografi bilgileri henüz girilmedi...";
+    document.getElementById('aboutPhilosophy').textContent = '"' + (site.about?.philosophy || "Her öğrenci farklı bir hızda öğrenir. Benim işim, o hıza saygı duyup güveni önce inşa etmek.") + '"';
+    
+    const certs = site.about?.certs || "Cankurtaranlık Sertifikası\nYüzme Antrenörlüğü Belgesi\nBasketbol Antrenörlüğü Sertifikası\nBoks & Kickbox Antrenörlük Belgesi\nSu Güvenliği ve İlk Yardım Sertifikası";
+    document.getElementById('aboutCerts').innerHTML = certs.split('\n').filter(c => c.trim() !== '').map(c => `<li><i class="ph ph-check-circle"></i> ${c}</li>`).join('');
 
-    // 2. BRANŞ AÇIKLAMALARI
-    if(site.branchDetails) {
-       document.getElementById('desc-swim').innerHTML = site.branchDetails.swim;
-       document.getElementById('desc-basketball').innerHTML = site.branchDetails.basketball;
-       document.getElementById('desc-combat').innerHTML = site.branchDetails.combat;
-    }
+    // 2. BRANŞ AÇIKLAMALARI (Varsayılan metin koruması ile)
+    document.getElementById('desc-swim').innerHTML = site.branchDetails?.swim || "Yüzme branşında her seviyeye uygun; birebir özel ders, 2-3 kişilik VIP grup dersleri, çocuk ve yetişkin gruplarına özel eğitimler sunulmaktadır.";
+    document.getElementById('desc-basketball').innerHTML = site.branchDetails?.basketball || "Basketbol branşında; temel altyapı eğitiminden profesyonel performans antrenmanlarına kadar, birebir ve grup dersleri verilmektedir.";
+    document.getElementById('desc-combat').innerHTML = site.branchDetails?.combat || "Dövüş sporlarında; kondisyon artırıcı birebir teknik antrenmanlar, savunma ve refleks geliştirici özel yetişkin dersleri mevcuttur.";
 
-    // 3. DERS PAKETLERİ (Hizmetler)
+    // 3. DERS PAKETLERİ
     const swimGrid = document.getElementById('swimGrid'); const basketGrid = document.getElementById('basketGrid'); const combatGrid = document.getElementById('combatGrid');
     swimGrid.innerHTML = ''; basketGrid.innerHTML = ''; combatGrid.innerHTML = '';
     (site.services || []).forEach(s => {
@@ -358,14 +389,13 @@
        if(s.sport === 'basketball') basketGrid.innerHTML += cardHTML;
        if(s.sport === 'combat') combatGrid.innerHTML += cardHTML;
     });
-    if(swimGrid.innerHTML==='') swimGrid.innerHTML = '<p style="color:var(--text-sub)">Ders paketi bulunmuyor.</p>';
-    if(basketGrid.innerHTML==='') basketGrid.innerHTML = '<p style="color:var(--text-sub)">Ders paketi bulunmuyor.</p>';
-    if(combatGrid.innerHTML==='') combatGrid.innerHTML = '<p style="color:var(--text-sub)">Ders paketi bulunmuyor.</p>';
+    if(swimGrid.innerHTML==='') swimGrid.innerHTML = '<p style="color:var(--text-sub)">Bu branş için ders paketi eklenmemiş.</p>';
+    if(basketGrid.innerHTML==='') basketGrid.innerHTML = '<p style="color:var(--text-sub)">Bu branş için ders paketi eklenmemiş.</p>';
+    if(combatGrid.innerHTML==='') combatGrid.innerHTML = '<p style="color:var(--text-sub)">Bu branş için ders paketi eklenmemiş.</p>';
 
     // 4. MARQUEE YORUMLAR (Yatay Kayan Yorumlar)
     const testiGrid = document.getElementById('testiGrid');
     if(site.testimonials && site.testimonials.length > 0) {
-      // Yorumları HTML'e dönüştür
       const itemsHTML = site.testimonials.map(t => `<div class="testi-card"><i class="ph-fill ph-quotes quote-icon"></i><p class="quote">"${t.quote}"</p><div class="testi-meta"><b>${t.name}</b><span>${t.role}</span></div></div>`).join('');
       // Sonsuz dönmesi için divleri 2 kere kopyalayarak yanyana ekliyoruz
       testiGrid.innerHTML = itemsHTML + itemsHTML; 
@@ -378,22 +408,17 @@
       attachFaqListeners(); 
     } else { faqList.innerHTML = '<p style="color:var(--text-sub)">Henüz soru eklenmemiş.</p>'; }
 
-    // 6. İLETİŞİM BİLGİLERİ (Randevu Yok, Kartlar Var)
-    if(site.contact) {
-      const c = site.contact;
-      if(c.phone) { 
-         document.querySelectorAll('.c-phone-text').forEach(e => e.textContent = c.phone); 
-         document.querySelectorAll('.c-phone-link').forEach(e => e.href = "tel:" + c.phone.replace(/\s+/g, ''));
-      }
-      if(c.email) { 
-         document.querySelectorAll('.c-email-text').forEach(e => e.textContent = c.email); 
-         document.querySelectorAll('.c-email-link').forEach(e => e.href = "mailto:" + c.email);
-      }
-      if(c.whatsappNum) {
-        const msg = c.whatsappMsg ? encodeURIComponent(c.whatsappMsg) : "";
-        document.querySelectorAll('.c-wa-link').forEach(e => e.href = `https://wa.me/${c.whatsappNum}?text=${msg}`);
-      }
-    }
+    // 6. İLETİŞİM BİLGİLERİ (Varsayılan Korumalı)
+    const c = site.contact || { phone: "+90 500 000 00 00", email: "bilgi@siteniz.com", whatsappNum: "905000000000", whatsappMsg: "Merhaba, dersler hakkında bilgi almak istiyorum." };
+    
+    document.querySelectorAll('.c-phone-text').forEach(e => e.textContent = c.phone); 
+    document.querySelectorAll('.c-phone-link').forEach(e => e.href = "tel:" + c.phone.replace(/\s+/g, ''));
+    
+    document.querySelectorAll('.c-email-text').forEach(e => e.textContent = c.email); 
+    document.querySelectorAll('.c-email-link').forEach(e => e.href = "mailto:" + c.email);
+    
+    const msg = c.whatsappMsg ? encodeURIComponent(c.whatsappMsg) : "";
+    document.querySelectorAll('.c-wa-link').forEach(e => e.href = `https://wa.me/${c.whatsappNum}?text=${msg}`);
 
     document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
   }
