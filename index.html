@@ -61,7 +61,7 @@
   .nav-links{ display:flex; align-items:center; gap:34px; }
   .nav-links a{ font-size:0.95rem; font-weight:600; color:var(--text-muted); transition:color .25s; position:relative; }
   .nav-links a:hover{ color:var(--accent); }
-  .nav-cta{ background:var(--accent); color:#fff !important; padding:10px 24px; border-radius:var(--radius); font-weight:700; font-size:0.9rem; transition:background .35s, transform .2s; }
+  .nav-cta{ background:var(--accent); color:#000 !important; padding:10px 24px; border-radius:var(--radius); font-weight:700; font-size:0.9rem; transition:background .35s, transform .2s; }
   .nav-cta:hover{ transform:translateY(-2px); background: var(--accent-hover); color:#fff !important;}
   .burger{ display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:8px; }
   .burger span{ width:24px; height:2px; background:var(--text); }
@@ -111,6 +111,7 @@
   .cert-list li i{ color:var(--accent); font-size: 1.3rem; flex-shrink:0; margin-top: 2px; }
   .philosophy{ margin-top:30px; padding:26px 28px; background:var(--bg); border-left:4px solid var(--accent); border-radius:var(--radius); font-style:italic; color:var(--text); font-size: 1.1rem; font-weight: 400;}
   .about-copy p{ color:var(--text-muted); margin-bottom:16px; font-size: 1.1rem; line-height: 1.8;}
+  @media (max-width: 880px){ .about-grid{ grid-template-columns:1fr; } }
 
   /* SERVICES (BRANŞLAR) */
   .sport-tabs{ display:inline-flex; flex-wrap:wrap; gap:8px; background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:8px; margin-bottom:30px; box-shadow: 0 10px 20px rgba(0,0,0,0.2);}
@@ -132,12 +133,17 @@
   .practical-item h4{ font-family:'Space Grotesk',sans-serif; font-weight:700; margin:10px 0; font-size:1.15rem; text-transform: none; letter-spacing: 0; }
   .practical-item p{ color:var(--text-muted); font-size:0.95rem; }
 
-  /* DERSLERDEN GÖRÜNTÜLER (GALERİ) */
+  /* DİKEY DERSLERDEN GÖRÜNTÜLER (GALERİ / SHORTS) */
   #galeri{ background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
-  .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top:20px; }
-  .gallery-item { border-radius: 12px; overflow: hidden; background: var(--surface-2); border: 1px solid var(--line); box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: transform 0.3s; }
+  .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 24px; margin-top:20px; }
+  .gallery-item { 
+     border-radius: 12px; overflow: hidden; background: var(--surface-2); border: 1px solid var(--line); 
+     box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: transform 0.3s;
+     aspect-ratio: 9 / 16; /* YOUTUBE SHORTS VE REELS DİKEY ORANI */
+     position: relative;
+  }
   .gallery-item:hover { transform: translateY(-5px); border-color:var(--accent); }
-  .gallery-item img, .gallery-item video { width: 100%; height: 260px; object-fit: cover; display: block; }
+  .gallery-item img, .gallery-item video, .gallery-item iframe { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border: none; }
 
   /* YATAY KAYAN YORUMLAR (MARQUEE) */
   #yorumlar{ overflow: hidden; padding-bottom: 80px;}
@@ -210,7 +216,6 @@
     
     .contact-cards { grid-template-columns: 1fr; gap: 16px; }
     .gallery-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-    .gallery-item img, .gallery-item video { height: 160px; }
     
     .social-floats { right: 16px; bottom: 16px; gap: 10px; }
     .social-float { width: 46px; height: 46px; font-size: 1.4rem; }
@@ -329,7 +334,7 @@
     </div>
   </section>
 
-  <!-- DERSLERDEN GÖRÜNTÜLER (GALERİ) -->
+  <!-- DİKEY DERSLERDEN GÖRÜNTÜLER (YOUTUBE SHORTS FORMATI) -->
   <section id="galeri">
     <div class="container">
       <div class="eyebrow reveal">Medya</div>
@@ -498,18 +503,21 @@
            panelsContainer.querySelectorAll('.sport-panel').forEach(p => p.classList.remove('active'));
            btn.classList.add('active');
            document.getElementById(btn.getAttribute('data-target')).classList.add('active');
+           document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
          });
        });
     } else {
        tabsContainer.innerHTML = '<p style="color:var(--text-sub)">Branşlar yükleniyor...</p>';
     }
 
-    // 3. GALERİ (Medya)
+    // 3. GALERİ (Medya - YouTube Desteği Eklendi)
     const galleryGrid = document.getElementById('galleryGrid');
     if(site.gallery && site.gallery.length > 0) {
       galleryGrid.innerHTML = site.gallery.slice().reverse().map(m => {
         if(m.type === 'video') {
            return `<div class="gallery-item"><video src="${m.url}" controls></video></div>`;
+        } else if(m.type === 'youtube') {
+           return `<div class="gallery-item"><iframe src="${m.url}" allowfullscreen></iframe></div>`;
         } else {
            // Resim linki bozuksa kartı tamamen gizler.
            return `<div class="gallery-item"><img src="${m.url}" alt="Ders Görüntüsü" onerror="this.parentElement.style.display='none';"/></div>`;
