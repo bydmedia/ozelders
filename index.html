@@ -326,7 +326,7 @@
 </footer>
 
 <script>
-  // AÇILIŞ EKRANINI KALDIRAN KOD (Sorunun Çözümü!)
+  // AÇILIŞ EKRANINI KALDIRAN KOD
   const pre = document.getElementById('preloader');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(reduced){ 
@@ -337,14 +337,14 @@
      setTimeout(()=> pre.remove(), 2300); 
   }
 
-  // LÜTFEN KENDİ FIREBASE AYARLARINI BURAYA YAPIŞTIR!
-  const firebaseConfig = { 
-    apiKey: "AIzaSyA6d55XjKFlj4-eZPCYrfTl1451f-IKdq0", 
-    authDomain: "aquaclub44.firebaseapp.com", 
-    projectId: "aquaclub44", 
-    storageBucket: "aquaclub44.firebasestorage.app", 
-    messagingSenderId: "984045542069", 
-    appId: "1:984045542069:web:f04273e9644ad03ed9fcfc" 
+  // SENİN YENİ FIREBASE ŞİFRELERİN BURADA!
+  const firebaseConfig = {
+    apiKey: "AIzaSyD_kv7CgD7V7x-yyOggRPyZygJdXgirD78",
+    authDomain: "ozelderss-f48f3.firebaseapp.com",
+    projectId: "ozelderss-f48f3",
+    storageBucket: "ozelderss-f48f3.firebasestorage.app",
+    messagingSenderId: "694122650546",
+    appId: "1:694122650546:web:5d97fa6e2b42289d6462ab"
   };
   
   if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
@@ -408,7 +408,7 @@
       attachFaqListeners(); 
     } else { faqList.innerHTML = '<p style="color:var(--text-sub)">Henüz soru eklenmemiş.</p>'; }
 
-    // 6. İLETİŞİM BİLGİLERİ (Varsayılan Korumalı)
+    // 6. İLETİŞİM BİLGİLERİ
     const c = site.contact || { phone: "+90 500 000 00 00", email: "bilgi@siteniz.com", whatsappNum: "905000000000", whatsappMsg: "Merhaba, dersler hakkında bilgi almak istiyorum." };
     
     document.querySelectorAll('.c-phone-text').forEach(e => e.textContent = c.phone); 
