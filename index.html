@@ -12,15 +12,8 @@
 <style>
   /* KOYU VE KURUMSAL TEMA (DARK CORPORATE) */
   :root { 
-    --bg: #090e17; /* Gece Mavisi Arkaplan */
-    --surface: #111827; 
-    --surface-2: #1f2937; 
-    --line: #374151; 
-    --text: #f9fafb; 
-    --text-muted: #9ca3af; 
-    --accent: #0ea5e9; /* Sky Blue - Premium Spor Rengi */
-    --accent-hover: #0284c7;
-    --radius: 8px; 
+    --bg: #090e17; --surface: #111827; --surface-2: #1f2937; --line: #374151; 
+    --text: #f9fafb; --text-muted: #9ca3af; --accent: #0ea5e9; --accent-hover: #0284c7; --radius: 8px; 
   }
   *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
   html{ scroll-behavior:smooth; }
@@ -39,7 +32,7 @@
   a{ color:inherit; text-decoration:none; }
   ul{ list-style:none; }
   img{ max-width:100%; display:block; }
-  section{ padding:100px 0; position:relative; }
+  section{ padding:110px 0; position:relative; }
   .container{ width:min(1140px, 92%); margin:0 auto; }
   .eyebrow{ font-family:'Space Grotesk', sans-serif; font-size:0.9rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--accent); margin-bottom:16px; display:flex; align-items:center; gap:10px; font-weight: 700; }
   .eyebrow::before{ content:''; width:28px; height:2px; background:var(--accent); }
@@ -68,11 +61,15 @@
   .nav-links{ display:flex; align-items:center; gap:34px; }
   .nav-links a{ font-size:0.95rem; font-weight:600; color:var(--text-muted); transition:color .25s; position:relative; }
   .nav-links a:hover{ color:var(--accent); }
-  .nav-cta{ background:var(--accent); color:#fff !important; padding:10px 24px; border-radius:var(--radius); font-weight:700; font-size:0.9rem; transition:background .35s, transform .2s; }
+  .nav-cta{ background:var(--accent); color:#000 !important; padding:10px 24px; border-radius:var(--radius); font-weight:700; font-size:0.9rem; transition:background .35s, transform .2s; }
   .nav-cta:hover{ transform:translateY(-2px); background: var(--accent-hover); color:#fff !important;}
   .burger{ display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:8px; }
   .burger span{ width:24px; height:2px; background:var(--text); }
-  @media (max-width: 880px){ .nav-links{ position:fixed; top:0; right:-100%; height:100vh; width:min(320px,80%); background:var(--surface); flex-direction:column; justify-content:center; align-items:flex-start; padding:40px; gap:26px; transition:right .4s ease; border-left:1px solid var(--line); box-shadow: -10px 0 30px rgba(0,0,0,0.5);} .nav-links.open{ right:0; } .burger{ display:flex; } .nav-links a.nav-cta{ margin-top:10px; } }
+  
+  @media (max-width: 880px){ 
+    .nav-links{ position:fixed; top:0; right:-100%; height:100vh; width:min(320px,80%); background:var(--surface); flex-direction:column; justify-content:center; align-items:flex-start; padding:40px; gap:26px; transition:right .4s ease; border-left:1px solid var(--line); box-shadow: -10px 0 30px rgba(0,0,0,0.5);} 
+    .nav-links.open{ right:0; } .burger{ display:flex; } .nav-links a.nav-cta{ margin-top:10px; } 
+  }
 
   #anasayfa{ padding-top:180px; padding-bottom:60px; min-height:100vh; display:flex; align-items:center; }
   .hero-grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:60px; align-items:center; }
@@ -81,8 +78,8 @@
   .hero p.lead{ color:var(--text-muted); font-size:1.15rem; max-width:520px; margin-bottom:38px; line-height: 1.7; font-weight: 400;}
   .hero-ctas{ display:flex; gap:16px; flex-wrap:wrap; margin-bottom:44px; }
   .btn{ display:inline-flex; align-items:center; gap:10px; padding:15px 28px; border-radius:var(--radius); font-weight:700; font-size:0.95rem; cursor:pointer; border:2px solid transparent; transition:all .3s ease; }
-  .btn-primary{ background:var(--accent); color:#fff; box-shadow: 0 8px 20px -6px rgba(14,165,233,0.5); }
-  .btn-primary:hover{ transform:translateY(-3px); box-shadow: 0 12px 26px -8px rgba(14,165,233,0.7); background: var(--accent-hover); color:#fff;}
+  .btn-primary{ background:var(--accent); color:#000; box-shadow: 0 8px 20px -6px var(--accent); }
+  .btn-primary:hover{ transform:translateY(-3px); box-shadow: 0 12px 26px -8px var(--accent); background: var(--accent-hover); color:#fff;}
   .btn-ghost{ background:transparent; color:var(--text); border-color:var(--line); }
   .btn-ghost:hover{ border-color:var(--accent); color:var(--accent); background: var(--surface); }
   .hero-stats{ display:flex; flex-wrap:wrap; gap:36px; }
@@ -102,8 +99,7 @@
   .signature-badge{ position:absolute; bottom:-16px; right:-16px; background:var(--surface); border:1px solid var(--line); padding:20px 24px; border-radius:var(--radius); max-width:260px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
   .signature-badge b{ display:block; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.1rem; color:var(--accent); margin-bottom:8px; text-transform: uppercase;}
   .signature-badge span{ font-size:0.9rem; color:var(--text-muted); line-height: 1.5; display: block; font-weight: 400;}
-  @media (max-width: 880px){ .hero-grid{ grid-template-columns:1fr; } .signature{ order:-1; max-width:100%; margin:0 auto 40px; aspect-ratio:4/3;} }
-
+  
   /* ABOUT */
   #hakkimda{ background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
   .about-grid{ display:grid; grid-template-columns:0.8fr 1.2fr; gap:70px; align-items:start; }
@@ -115,13 +111,12 @@
   .cert-list li i{ color:var(--accent); font-size: 1.3rem; flex-shrink:0; margin-top: 2px; }
   .philosophy{ margin-top:30px; padding:26px 28px; background:var(--bg); border-left:4px solid var(--accent); border-radius:var(--radius); font-style:italic; color:var(--text); font-size: 1.1rem; font-weight: 400;}
   .about-copy p{ color:var(--text-muted); margin-bottom:16px; font-size: 1.1rem; line-height: 1.8;}
-  @media (max-width: 880px){ .about-grid{ grid-template-columns:1fr; } }
 
-  /* SERVICES (SADECE BRANŞLAR) */
+  /* SERVICES (BRANŞLAR) */
   .sport-tabs{ display:inline-flex; flex-wrap:wrap; gap:8px; background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:8px; margin-bottom:30px; box-shadow: 0 10px 20px rgba(0,0,0,0.2);}
   .tab-btn{ background:transparent; border:none; color:var(--text-muted); font-weight:700; font-size:0.95rem; padding:12px 24px; border-radius:6px; cursor:pointer; transition:all .3s ease; font-family:'DM Sans',sans-serif; display: inline-flex; align-items: center; gap: 8px; }
   .tab-btn i { font-size: 1.3rem; }
-  .tab-btn.active{ background:var(--accent); color:#fff; box-shadow: 0 4px 10px rgba(14,165,233,0.2);}
+  .tab-btn.active{ background:var(--accent); color:#000; box-shadow: 0 4px 10px rgba(14,165,233,0.2);}
   .tab-btn:not(.active):hover{ color:var(--text); background: var(--bg); }
   
   .sport-panel{ display:none; animation:fadeIn .4s ease; }
@@ -144,7 +139,7 @@
   .gallery-item:hover { transform: translateY(-5px); border-color:var(--accent); }
   .gallery-item img, .gallery-item video { width: 100%; height: 260px; object-fit: cover; display: block; }
 
-  /* YATAY KAYAN YORUMLAR (MARQUEE) CSS'i */
+  /* YATAY KAYAN YORUMLAR (MARQUEE) */
   #yorumlar{ overflow: hidden; padding-bottom: 80px;}
   .marquee-container { width: 100%; position: relative; padding: 20px 0; }
   .marquee-track { display: flex; width: max-content; gap: 24px; animation: scrollMarquee 45s linear infinite; }
@@ -173,36 +168,63 @@
   .contact-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 40px 24px; text-align: center; transition: all .3s; box-shadow: 0 4px 20px rgba(0,0,0,0.2);}
   .contact-card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 15px 30px rgba(14,165,233,0.15);}
   .contact-card .icon-box { margin: 0 auto 24px; width: 70px; height: 70px; background: var(--bg); border: 1px solid var(--line); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; color: var(--accent); transition: all .35s; }
-  .contact-card:hover .icon-box { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .contact-card:hover .icon-box { background: var(--accent); color: #000; border-color: var(--accent); }
   .contact-card b { display: block; font-family:'Space Grotesk',sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
   .contact-card span { font-size: 1rem; color: var(--text-muted); font-weight: 500;}
 
-  /* WHATSAPP VE INSTAGRAM BUTONLARI */
-  .wa-float{ position:fixed; bottom:30px; right:30px; z-index:400; width:64px; height:64px; border-radius:50%; background:#25D366; color: white; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 30px rgba(37, 211, 102, 0.4); transition:transform .25s ease; font-size: 2.2rem; }
-  .wa-float:hover{ transform:scale(1.1); color: white; }
-  .wa-float::before{ content:''; position:absolute; inset:-6px; border-radius:50%; border:2px solid #25D366; opacity:0.6; animation:pulse 2.2s ease-out infinite; }
-  
-  .ig-float{ position:fixed; bottom:30px; left:30px; z-index:400; width:64px; height:64px; border-radius:50%; background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); color: white; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 30px rgba(214, 36, 159, 0.3); transition:transform .25s ease; font-size: 2.2rem; }
-  .ig-float:hover{ transform:scale(1.1); color: white; }
-  
-  @keyframes pulse{ 0%{ transform:scale(1); opacity:0.6; } 100%{ transform:scale(1.5); opacity:0; } }
+  /* WHATSAPP VE INSTAGRAM BUTONLARI (KÜÇÜLTÜLDÜ VE SAĞ ALT KÖŞEYE ALT ALTA YERLEŞTİRİLDÜ) */
+  .social-floats { position: fixed; bottom: 20px; right: 20px; z-index: 400; display: flex; flex-direction: column; gap: 14px; }
+  .social-float { width: 52px; height: 52px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.7rem; box-shadow: 0 8px 24px rgba(0,0,0,0.3); transition: transform 0.25s ease; position: relative; }
+  .social-float:hover { transform: scale(1.1); color: white; }
+  .ig-float { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+  .wa-float { background: #25D366; }
+  .wa-float::before { content:''; position:absolute; inset:-5px; border-radius:50%; border:2px solid #25D366; opacity:0.6; animation:pulse 2.2s ease-out infinite; }
+  @keyframes pulse { 0%{ transform:scale(1); opacity:0.6; } 100%{ transform:scale(1.5); opacity:0; } }
   
   footer{ padding:40px 0; text-align:center; background: var(--surface); border-top:1px solid var(--line); }
   footer p{ color:var(--text-muted); font-size:0.95rem; font-weight:600; }
   .reveal{ opacity:0; transform:translateY(30px); transition:opacity .8s ease, transform .8s ease; }
   .reveal.in-view{ opacity:1; transform:translateY(0); }
+
+  /* KUSURSUZ MOBİL UYUM (RESPONSIVE) */
+  @media (max-width: 768px) {
+    section { padding: 70px 0; }
+    #anasayfa { padding-top: 130px; padding-bottom: 50px; }
+    .hero-grid { gap: 40px; grid-template-columns: 1fr; }
+    .signature { order: -1; max-width: 100%; margin: 0 auto; aspect-ratio: 4/3; }
+    .hero h1 { font-size: 2.3rem; margin-bottom: 16px; }
+    .hero p.lead { font-size: 1.05rem; }
+    .hero-stats { gap: 15px; }
+    .hero-stats div { padding-left: 10px; margin-bottom: 0; }
+    .hero-stats b { font-size: 1.3rem; }
+    
+    .loader-logo .nht { font-size: 4rem; }
+    .loader-logo .canli { font-size: 1.2rem; letter-spacing: 8px; }
+    
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .avatar { max-width: 320px; margin: 0 auto; }
+    
+    .sport-tabs { justify-content: center; width: 100%; border: none; background: transparent; box-shadow: none; padding: 0; }
+    .tab-btn { flex: 1; min-width: 120px; justify-content: center; padding: 10px 12px; font-size: 0.85rem; border: 1px solid var(--line); background: var(--surface); }
+    .tab-btn.active { border-color: var(--accent); }
+    
+    .contact-cards { grid-template-columns: 1fr; gap: 16px; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .gallery-item img, .gallery-item video { height: 160px; }
+    
+    .social-floats { right: 16px; bottom: 16px; gap: 10px; }
+    .social-float { width: 46px; height: 46px; font-size: 1.4rem; }
+  }
 </style>
 </head>
 <body>
 
-<!-- HAREKETLİ ORB ANİMASYONLARI -->
 <div class="bg-animation">
   <div class="bg-orb orb-1"></div>
   <div class="bg-orb orb-2"></div>
   <div class="bg-orb orb-3"></div>
 </div>
 
-<!-- YENİ AÇILIŞ ANİMASYONU -->
 <div id="preloader">
   <div class="loader-logo">
     <span class="nht">NHT</span>
@@ -305,7 +327,6 @@
     </div>
   </section>
 
-  <!-- DERSLERDEN GÖRÜNTÜLER (GALERİ) -->
   <section id="galeri">
     <div class="container">
       <div class="eyebrow reveal">Medya</div>
@@ -338,7 +359,6 @@
     </div>
   </section>
 
-  <!-- İLETİŞİM BÖLÜMÜ -->
   <section id="iletisim">
     <div class="container">
       <div class="reveal" style="text-align: center; max-width: 600px; margin: 0 auto 40px;">
@@ -366,18 +386,17 @@
       </div>
     </div>
   </section>
-
 </main>
 
-<!-- WHATSAPP BUTONU (SAĞ ALT) -->
-<a href="#" target="_blank" class="wa-float c-wa-link" aria-label="WhatsApp'tan yaz">
-  <i class="ph-fill ph-whatsapp-logo"></i>
-</a>
-
-<!-- INSTAGRAM BUTONU (SOL ALT) -->
-<a href="#" target="_blank" class="ig-float c-ig-link" aria-label="Instagram'a git" style="display:none;">
-  <i class="ph ph-instagram-logo"></i>
-</a>
+<!-- SAĞ ALT KÖŞE SOSYAL MEDYA BUTONLARI -->
+<div class="social-floats">
+  <a href="#" target="_blank" class="social-float ig-float c-ig-link" aria-label="Instagram'a git" style="display:none;">
+    <i class="ph ph-instagram-logo"></i>
+  </a>
+  <a href="#" target="_blank" class="social-float wa-float c-wa-link" aria-label="WhatsApp'tan yaz">
+    <i class="ph-fill ph-whatsapp-logo"></i>
+  </a>
+</div>
 
 <footer>
   <div class="container">
@@ -386,14 +405,9 @@
 </footer>
 
 <script>
-  // AÇILIŞ EKRANINI (PRELOADER) KALDIRAN KOD
   const pre = document.getElementById('preloader');
-  setTimeout(()=> { 
-    pre.classList.add('leave'); 
-    setTimeout(()=> pre.remove(), 800); 
-  }, 1800); 
+  setTimeout(()=> { pre.classList.add('leave'); setTimeout(()=> pre.remove(), 800); }, 1800); 
 
-  // SENİN YENİ FIREBASE ŞİFRELERİN
   const firebaseConfig = {
     apiKey: "AIzaSyD_kv7CgD7V7x-yyOggRPyZygJdXgirD78",
     authDomain: "ozelderss-f48f3.firebaseapp.com",
@@ -414,13 +428,11 @@
   });
 
   function renderSiteData(site) {
-    // 1. HAKKIMDA 
     const aboutName = site.about?.name || "Nihat Canlı";
     document.getElementById('aboutName').textContent = aboutName;
     document.getElementById('aboutText').textContent = site.about?.text || "Biyografi bilgileri henüz girilmedi...";
     document.getElementById('aboutPhilosophy').textContent = '"' + (site.about?.philosophy || "Spor sadece fiziksel bir gelişim değil, mental bir disiplindir.") + '"';
     
-    // Fotoğraf Entegrasyonu
     const photoImg = document.getElementById('aboutImage');
     const initialsSpan = document.getElementById('avatarInitials');
     if(site.about?.photoUrl && site.about.photoUrl.startsWith("http")) {
@@ -439,7 +451,6 @@
     const certs = site.about?.certs || "Eğitim Sertifikaları Eklenmedi";
     document.getElementById('aboutCerts').innerHTML = certs.split('\n').filter(c => c.trim() !== '').map(c => `<li><i class="ph ph-check-circle"></i> ${c}</li>`).join('');
 
-    // 2. BRANŞLAR (Açıklamalar)
     const branches = site.branches || [];
     document.getElementById('heroBranchCount').textContent = branches.length > 0 ? branches.length : 3;
 
@@ -448,7 +459,6 @@
     
     if(branches.length > 0) {
        tabsContainer.innerHTML = ''; panelsContainer.innerHTML = '';
-       
        branches.forEach((b, index) => {
          const isActive = index === 0;
          const safeId = b.id || index;
@@ -474,54 +484,43 @@
            panelsContainer.querySelectorAll('.sport-panel').forEach(p => p.classList.remove('active'));
            btn.classList.add('active');
            document.getElementById(btn.getAttribute('data-target')).classList.add('active');
+           document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
          });
        });
     } else {
        tabsContainer.innerHTML = '<p style="color:var(--text-sub)">Branşlar yükleniyor...</p>';
     }
 
-    // 3. GALERİ (Medya)
     const galleryGrid = document.getElementById('galleryGrid');
     if(site.gallery && site.gallery.length > 0) {
       galleryGrid.innerHTML = site.gallery.slice().reverse().map(m => {
-        if(m.type === 'video') {
-           return `<div class="gallery-item"><video src="${m.url}" controls></video></div>`;
-        } else {
-           // Resim linki bozuksa kartı tamamen gizler.
-           return `<div class="gallery-item"><img src="${m.url}" alt="Ders Görüntüsü" onerror="this.parentElement.style.display='none';"/></div>`;
-        }
+        if(m.type === 'video') { return `<div class="gallery-item"><video src="${m.url}" controls></video></div>`; } 
+        else { return `<div class="gallery-item"><img src="${m.url}" alt="Ders Görüntüsü" onerror="this.parentElement.style.display='none';"/></div>`; }
       }).join('');
     } else {
       galleryGrid.innerHTML = '<p style="color:var(--text-sub)">Henüz medya eklenmemiş.</p>';
     }
 
-    // 4. MARQUEE YORUMLAR
     const testiGrid = document.getElementById('testiGrid');
     if(site.testimonials && site.testimonials.length > 0) {
       const itemsHTML = site.testimonials.map(t => `<div class="testi-card"><i class="ph-fill ph-quotes quote-icon"></i><p class="quote">"${t.quote}"</p><div class="testi-meta"><b>${t.name}</b><span>${t.role}</span></div></div>`).join('');
       testiGrid.innerHTML = itemsHTML + itemsHTML; 
     } else { testiGrid.innerHTML = '<p style="color:var(--text-sub); margin-left:20px;">Henüz yorum eklenmemiş.</p>'; }
 
-    // 5. SSS
     const faqList = document.getElementById('faqList');
     if(site.faqs && site.faqs.length > 0) {
       faqList.innerHTML = site.faqs.map(f => `<div class="faq-item reveal"><button class="faq-q">${f.q} <i class="ph ph-caret-down"></i></button><div class="faq-a"><p>${f.a}</p></div></div>`).join('');
       attachFaqListeners(); 
     } else { faqList.innerHTML = '<p style="color:var(--text-sub)">Henüz soru eklenmemiş.</p>'; }
 
-    // 6. İLETİŞİM BİLGİLERİ & INSTAGRAM BUTONU
     const c = site.contact || { phone: "+90 500 000 00 00", email: "bilgi@siteniz.com", whatsappNum: "905000000000", whatsappMsg: "Merhaba, dersler hakkında bilgi almak istiyorum.", instagramUrl: "" };
-    
     document.querySelectorAll('.c-phone-text').forEach(e => e.textContent = c.phone); 
     document.querySelectorAll('.c-phone-link').forEach(e => e.href = "tel:" + c.phone.replace(/\s+/g, ''));
-    
     document.querySelectorAll('.c-email-text').forEach(e => e.textContent = c.email); 
     document.querySelectorAll('.c-email-link').forEach(e => e.href = "mailto:" + c.email);
-    
     const msg = c.whatsappMsg ? encodeURIComponent(c.whatsappMsg) : "";
     document.querySelectorAll('.c-wa-link').forEach(e => e.href = `https://wa.me/${c.whatsappNum}?text=${msg}`);
 
-    // Instagram Butonu Kontrolü
     const igBtns = document.querySelectorAll('.c-ig-link');
     if(c.instagramUrl && c.instagramUrl.length > 5) {
        igBtns.forEach(e => { e.href = c.instagramUrl; e.style.display = 'flex'; });
@@ -532,7 +531,6 @@
     document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
   }
 
-  // Animasyonlar ve Etkileşimler
   const header = document.getElementById('siteHeader'); window.addEventListener('scroll', ()=> header.classList.toggle('scrolled', window.scrollY > 40));
   const burger = document.getElementById('burger'); const navLinks = document.getElementById('navLinks'); burger.addEventListener('click', ()=> navLinks.classList.toggle('open')); navLinks.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> navLinks.classList.remove('open')));
   
@@ -546,7 +544,6 @@
       });
     });
   }
-
   const io = new IntersectionObserver((entries)=>{ entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); } }); }, { threshold: 0.15 });
 </script>
 </body>
