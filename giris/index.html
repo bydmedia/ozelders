@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<meta name="theme-color" content="#F1F5F9"/>
+<meta name="theme-color" content="#061121"/>
 <title>AquaClub Pro</title>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-/* 🌟 KURUMSAL SAAS TEMA (MANROPE FONT & MIDNIGHT BLUE) 🌟 */
+/* 🌟 KURUMSAL SAAS TEMA & FULL RESPONSIVE 🌟 */
 :root {
   --bg-color: #F1F5F9;
   --sidebar-bg: #061121;
@@ -36,8 +36,7 @@ body{
   font-variant-numeric: tabular-nums;
 }
 #root{height:100%}
-input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.5)}
-input[type="month"]::-webkit-calendar-picker-indicator{filter:invert(0.5)}
+input[type="date"]::-webkit-calendar-picker-indicator, input[type="month"]::-webkit-calendar-picker-indicator{filter:invert(0.5)}
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:#CBD5E1;border-radius:10px}
@@ -242,7 +241,7 @@ class ErrorBoundary extends React.Component {
 
 function Inp({label,value,onChange,type="text",placeholder,rows,half,autoFocus,disabled}){ return<div style={{marginBottom:12,flex:half?"1":"unset"}}>{label&&<div style={{fontSize:10.5,color:"var(--text-sub)",marginBottom:6,fontWeight:800,textTransform:"uppercase",letterSpacing:0.5}}>{label}</div>}{rows?<textarea className="corp-inp" style={{minHeight:60}} rows={rows} value={value||""} onChange={e=>onChange(e.target.value)} placeholder={placeholder} disabled={disabled}/>:<input className="corp-inp" type={type} value={value||""} onChange={e=>onChange(e.target.value)} placeholder={placeholder} autoFocus={autoFocus} disabled={disabled}/>}</div> }
 function Sel({label,value,onChange,options}){ return<div style={{marginBottom:12}}>{label&&<div style={{fontSize:10.5,color:"var(--text-sub)",marginBottom:6,fontWeight:800,textTransform:"uppercase",letterSpacing:0.5}}>{label}</div>}<select className="corp-inp" style={{cursor:"pointer", paddingRight:24}} value={value||""} onChange={e=>onChange(e.target.value)}><option value="">Seçiniz...</option>{(options||[]).map(o=><option key={o.value} value={o.value}>{o.label}</option>)}</select></div> }
-function Btn({children,onClick,type="button",variant="primary",sm,full,style={},title,disabled}){ return<button type={type} onClick={onClick} disabled={disabled} className={`corp-btn corp-btn-${variant}`} style={{...style, width: full ? "100%" : "auto"}} title={title}>{children}</button> }
+function Btn({children,onClick,type="button",variant="primary",sm,full,style={},title,disabled}){ return<button type={type} onClick={onClick} disabled={disabled} className={`corp-btn corp-btn-${variant}`} style={{...style, width: full ? "100%" : "auto", opacity: disabled ? 0.6 : 1, cursor: disabled ? "not-allowed" : "pointer"}} title={title}>{children}</button> }
 function Card({children,style={}}){ return<div className="corp-card" style={style}>{children}</div> }
 function StatCard({label,value,col}){ return<div style={{background:"var(--card-bg)",border:`1px solid var(--border)`,borderRadius:"12px",padding:"20px",boxShadow:"0 2px 4px rgba(0,0,0,0.02)"}}><div className="num" style={{fontSize:20,fontWeight:900,color:col||"var(--text-main)",marginBottom:4}}>{value}</div><div style={{fontSize:11,color:"var(--text-sub)",fontWeight:800,textTransform:"uppercase",letterSpacing:0.5}}>{label}</div></div> }
 function SectionTitle({children,action}){ return<div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16,marginTop:8}}><div style={{fontSize:18,fontWeight:900,color:"var(--text-main)",letterSpacing:-0.5}}>{children}</div>{action}</div> }
@@ -319,16 +318,18 @@ function PremiumAreaChart({data}) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   MEDYA GALERİSİ MODÜLÜ (Firebase Storage)
+   🌟 YENİ: MEDYA GALERİSİ MODÜLÜ (FİREBASE STORAGE) 🌟
 ═══════════════════════════════════════════════════════════════ */
 function MediaGalleryPage({ mediaList }) {
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
   const fileInputRef = useRef(null);
+  
   const safeMedia = safeArr(mediaList).sort((a,b) => b.id - a.id);
 
   const handleFileChange = async (e) => {
-    const file = e.target.files[0]; if (!file) return;
+    const file = e.target.files[0];
+    if (!file) return;
     if (!storage) { alert("Sistem Storage altyapısına bağlanamadı. Ayarlarınızı kontrol edin."); return; }
     if (file.size > 50 * 1024 * 1024) { alert("Dosya boyutu çok yüksek. Lütfen 50 MB altı bir dosya seçin."); return; }
     
@@ -358,26 +359,50 @@ function MediaGalleryPage({ mediaList }) {
     DB.set("mediaList", safeMedia.filter(m => m.id !== item.id));
   };
 
-  function copyLink(url) { navigator.clipboard.writeText(url).then(()=>alert("Medya linki başarıyla kopyalandı! Bu linki WhatsApp veya diğer yerlerde kullanabilirsiniz.")); }
+  function copyLink(url) {
+     navigator.clipboard.writeText(url).then(()=>alert("Medya linki başarıyla kopyalandı! Bu linki WhatsApp veya diğer yerlerde kullanabilirsiniz."));
+  }
 
   return (
     <div className="main-content" style={{padding:24, maxWidth:1200, margin:"0 auto"}}>
-       <SectionTitle action={<div><input type="file" ref={fileInputRef} style={{display:'none'}} accept="image/*,video/*" onChange={handleFileChange} /><Btn variant="primary" onClick={()=>fileInputRef.current.click()} disabled={uploading}>{uploading ? `Yükleniyor... %${progress}` : "+ Yeni Medya Yükle"}</Btn></div>}>Medya ve Video Galerisi</SectionTitle>
+       <SectionTitle action={
+         <div>
+           <input type="file" ref={fileInputRef} style={{display:'none'}} accept="image/*,video/*" onChange={handleFileChange} />
+           <Btn variant="primary" onClick={()=>fileInputRef.current.click()} disabled={uploading}>
+             {uploading ? `Yükleniyor... %${progress}` : "+ Yeni Medya Yükle"}
+           </Btn>
+         </div>
+       }>Medya ve Video Galerisi</SectionTitle>
+       
        {uploading && <div style={{width:'100%', height:8, background:'var(--border)', borderRadius:6, marginBottom:24, overflow:'hidden', boxShadow:"inset 0 1px 2px rgba(0,0,0,0.1)"}}><div style={{width:`${progress}%`, height:'100%', background:'var(--success)', transition:'width 0.2s'}}></div></div>}
+       
        {safeMedia.length === 0 ? <Card style={{textAlign:"center", padding:60, color:"var(--text-sub)", fontWeight:800, fontSize:15}}>Sisteme henüz hiç medya yüklenmemiş.</Card> :
          <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(280px, 1fr))", gap:24}}>
            {safeMedia.map(m => (
              <div key={m.id} style={{background:"var(--card-bg)", border:"1px solid var(--border)", borderRadius:12, overflow:"hidden", display:"flex", flexDirection:"column", boxShadow:"0 4px 6px -1px rgba(0,0,0,0.05)"}}>
-               <div style={{height:220, background:"#000", position:"relative", display:"flex", alignItems:"center", justifyContent:"center"}}>{m.type === 'video' ? <video src={m.url} controls controlsList="nodownload" style={{width:"100%", height:"100%", objectFit:"contain", outline:"none"}}></video> : <img src={m.url} style={{width:"100%", height:"100%", objectFit:"cover"}} />}</div>
+               <div style={{height:220, background:"#000", position:"relative", display:"flex", alignItems:"center", justifyContent:"center"}}>
+                 {m.type === 'video' ? 
+                   <video src={m.url} controls controlsList="nodownload" style={{width:"100%", height:"100%", objectFit:"contain", outline:"none"}}></video> :
+                   <img src={m.url} style={{width:"100%", height:"100%", objectFit:"cover"}} />
+                 }
+               </div>
                <div style={{padding:"16px", display:"flex", justifyContent:"space-between", alignItems:"center", background:"#fff"}}>
-                 <div style={{overflow:"hidden", paddingRight:10}}><div style={{fontSize:13, fontWeight:800, color:"var(--text-main)", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis", maxWidth:180}} title={m.name}>{m.name}</div><div style={{fontSize:11, color:"var(--text-sub)", fontWeight:700, marginTop:4}}>{fmtDate(m.date)}</div></div>
-                 <div style={{display:"flex", gap:8}}><Btn sm variant="secondary" onClick={()=>copyLink(m.url)} title="Linki Kopyala"><Icon name="link" size={14}/></Btn><Btn sm variant="danger" onClick={()=>handleDelete(m)} title="Sil"><Icon name="trash" size={14}/></Btn></div>
+                 <div style={{overflow:"hidden", paddingRight:10}}>
+                   <div style={{fontSize:13, fontWeight:800, color:"var(--text-main)", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis", maxWidth:180}} title={m.name}>{m.name}</div>
+                   <div style={{fontSize:11, color:"var(--text-sub)", fontWeight:700, marginTop:4}}>{fmtDate(m.date)}</div>
+                 </div>
+                 <div style={{display:"flex", gap:8}}>
+                    <Btn sm variant="secondary" onClick={()=>copyLink(m.url)} title="Linki Kopyala"><Icon name="link" size={14}/></Btn>
+                    <Btn sm variant="danger" onClick={()=>handleDelete(m)} title="Sil"><Icon name="trash" size={14}/></Btn>
+                 </div>
                </div>
              </div>
            ))}
          </div>
        }
-       <div style={{marginTop:30, padding:"16px", background:"var(--warning-bg)", border:"1px solid rgba(217,119,6,0.3)", borderRadius:8, color:"#92400E", fontSize:12, fontWeight:700}}>💡 <strong>Öneri:</strong> Buraya yüklediğiniz video ve fotoğrafların linklerini WhatsApp'tan velilere gönderebilirsiniz.</div>
+       <div style={{marginTop:30, padding:"16px", background:"var(--warning-bg)", border:"1px solid rgba(217,119,6,0.3)", borderRadius:8, color:"#92400E", fontSize:12, fontWeight:700}}>
+         💡 <strong>Öneri:</strong> Buraya yüklediğiniz video ve fotoğrafların linklerini "WhatsApp Merkezi"ndeki davet linkleri gibi velilere kolayca gönderebilirsiniz. Videolar otomatik oynatıcı ile açılır.
+       </div>
     </div>
   )
 }
@@ -409,6 +434,7 @@ function Dashboard({students,expenses}){
   allPayments.filter(p => p.date && p.date.startsWith(currentYear)).forEach(p => { const m = p.date.slice(0, 7); if(mData[m]) mData[m].rev += Number(p.amount); });
   safeArr(expenses).filter(e => e.date && e.date.startsWith(currentYear)).forEach(e => { const m = e.date.slice(0, 7); if(mData[m]) mData[m].exp += Number(e.amount); });
   
+  // 12 Ayın tamamını gösterir, boşlukları (0) da çizer, grafik kopmaz
   const chartData = Object.values(mData);
 
   const recentPay = [...allPayments].sort(sortDateDesc).slice(0,4);
@@ -421,7 +447,7 @@ function Dashboard({students,expenses}){
        <Btn variant="secondary" onClick={() => setShowNotes(true)}><Icon name="info" size={14}/> Güncelleme Notları</Btn>
     </div>
 
-    <Card style={{marginBottom:24, background:"var(--card-bg)", border:"1px solid var(--border)", display:"flex", alignItems:"center", gap:20, flexWrap:"wrap", padding:"16px 24px"}}>
+    <Card style={{marginBottom:24, background:"var(--card-bg)", border:"1px solid var(--border)", display:"flex", alignItems:"center", gap:24, flexWrap:"wrap", padding:"16px 24px"}}>
        <div style={{flex:1, minWidth:200, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center"}}>
           <div style={{fontSize:13, fontWeight:900, marginBottom:12, color:"var(--text-main)", textTransform:"uppercase"}}>Nakit Akışı Özeti</div>
           <CashFlowDonut rev={totalRev} exp={totalExp} />
@@ -491,7 +517,7 @@ function Dashboard({students,expenses}){
          <ul style={{paddingLeft:20, fontSize:13, color:"var(--text-main)", lineHeight:1.8, fontWeight:600}}>
            <li style={{marginBottom:12}}><strong>Tam Bağımsız Medya Galerisi (Firebase Storage):</strong> Sisteminizin sol menüsündeki "Medya Galerisi" üzerinden kendi Firebase sunucularınıza direkt olarak MP4 video ve fotoğraf yükleyebilir, dahili oynatıcı ile izletebilir ve kopyaladığınız linki velilerle paylaşabilirsiniz.</li>
            <li style={{marginBottom:12}}><strong>Tam Mobil Uyumluluk:</strong> Tüm sistem %100 mobil uyumlu hale getirildi. Yan menü akıllı bir "Off-Canvas" menüye dönüştürüldü ve sekmeler telefonda yatay kaydırılabilir formata geçti.</li>
-           <li style={{marginBottom:12}}><strong>Öğrenci Rehberi Görsel İyileştirme:</strong> Kartların sol kenarına görsel zaafiyeti kapatan hafif geçişli yeşil bir ışıklandırma eklendi.</li>
+           <li style={{marginBottom:12}}><strong>Öğrenci Rehberi Görsel İyileştirme:</strong> Kartların sol kenarına görsel zaafiyeti kapatan hafif geçişli yeşil bir ışıklandırma eklendi. Listede Başlangıç ve Bitiş tarihleri görünür hale getirildi, süresi bitenler kırmızı olarak vurgulandı.</li>
            <li style={{marginBottom:12}}><strong>Dinamik Excel Çıktısı (Özel Rapor):</strong> Öğrenci Rehberi Excel butonuna tıklanıldığında artık Veli Adı, Adres, Telefon, Servis, Borç vb. sütunları seçerek özelleştirilmiş özel rapor çıkartabilirsiniz.</li>
          </ul>
        </div>
@@ -727,7 +753,7 @@ function StudentsPage({students, stockItems, routes, setRoutes}){
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   GELİŞMİŞ TAHSİLAT GEÇMİŞİ
+   GELİŞMİŞ TAHSİLAT GEÇMİŞİ (YENİLENEN MODÜL + FİLTRELER)
 ═══════════════════════════════════════════════════════════════ */
 function PaymentsPage({students}){
   const safeStudents = safeArr(students);
@@ -839,15 +865,154 @@ function PendingPaymentsPage({students}){
   </div>
 }
 
+function ExpensesPage({expenses}){
+  const [show,setShow]=useState(false); const [f,setF]=useState(EMPTY_EXPENSE); const u=(k,v)=>setF(p=>({...p,[k]:v}));
+  const valid=safeArr(expenses).sort(sortDateDesc); const total=valid.reduce((t,e)=>t+Number(e.amount),0);
+  function save(){ if(!f.title.trim()) return; const n = f.id ? valid.map(e=>e.id===f.id?{...f}:e) : [...valid,{...f,id:Date.now()}]; DB.set("expenses",n); setShow(false); setF(EMPTY_EXPENSE); }
+  return<div className="main-content" style={{padding:24, maxWidth:800, margin:"0 auto"}}><SectionTitle action={<Btn onClick={()=>{setF(EMPTY_EXPENSE);setShow(true);}}>+ Gider Ekle</Btn>}>Kurum Giderleri ({total.toLocaleString("tr-TR")} ₺)</SectionTitle>{valid.length===0?<Card style={{textAlign:"center",padding:"50px 0",color:"var(--text-sub)",fontWeight:800,fontSize:14}}>Gider kaydı bulunamadı.</Card>:valid.map(e=><Card key={e.id} style={{padding:"20px"}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}><div><div style={{fontWeight:800,fontSize:15,color:"var(--text-main)"}}>{e.title}</div><div className="num" style={{fontSize:12,color:"var(--text-sub)",marginTop:6,fontWeight:700}}>{fmtDate(e.date)}</div></div><div className="num" style={{fontWeight:900,color:"var(--danger)",fontSize:17}}>-{Number(e.amount).toLocaleString("tr-TR")} ₺</div></div><div style={{display:"flex",gap:10,marginTop:20}}><Btn sm variant="secondary" onClick={()=>{setF(e);setShow(true);}}>Düzenle</Btn><Btn sm variant="danger" onClick={()=>{if(confirm('Gider kaydı silinsin mi?')) DB.set("expenses", valid.filter(x=>x.id!==e.id));}}>Sil</Btn></div></Card>)}<Modal show={show} onClose={()=>setShow(false)} title={f.id?"Gider Düzenle":"Yeni Gider Ekle"}><Inp label="Açıklama (Ne alındı?)" value={f.title} onChange={v=>u("title",v.toLocaleUpperCase("tr-TR"))} autoFocus/><Inp label="Tarih" value={f.date} onChange={v=>u("date",v)} type="date"/><Inp label="Tutar (₺)" value={f.amount} onChange={v=>u("amount",v)} type="number"/><Btn full onClick={save} style={{marginTop:20, padding:"12px"}}>Kaydet</Btn></Modal></div>
+}
+
+function AttendancePage({students}){
+  const [tab, setTab] = useState(0); const [date, setDate] = useState(TODAY); const [selectedGroup, setSelectedGroup] = useState(""); const [logDate, setLogDate] = useState(TODAY); const [logGroup, setLogGroup] = useState("ALL");
+  const safeStudents = safeArr(students); const allGroups = Array.from(new Set(safeStudents.map(s=>s.groupName).filter(Boolean)));
+  const activeInGroup = safeStudents.filter(s => courseStatus(s) === "active" && s.groupName === selectedGroup);
+  const presentCount = activeInGroup.filter(s => (s.attendance||{})[date]).length;
+  const studentsInLogGroup = safeStudents.filter(s => courseStatus(s) === "active" && (logGroup === "ALL" || s.groupName === logGroup));
+  const attendedInLog = studentsInLogGroup.filter(s => (s.attendance||{})[logDate]);
+  function exportAttendanceLog() { if(studentsInLogGroup.length === 0) { alert("Öğrenci bulunamadı."); return; } const rows = studentsInLogGroup.map(s => [s.name, s.groupName || "-", s.guardianPhone1 || "-", !!(s.attendance||{})[logDate] ? "KATILDI" : "KATILMADI"]); exportCSV(`Yoklama_${logDate}_${logGroup}`, ["Ad Soyad", "Grup", "Veli Telefon", "Durum"], rows); }
+
+  return <div className="main-content" style={{padding:24, maxWidth:800, margin:"0 auto"}}>
+    <TabBar tabs={["Yoklama Al", "Geçmiş Kayıtlar"]} active={tab} onChange={setTab}/>
+    {tab === 0 && <div>
+      <SectionTitle>Grup Bazlı Yoklama Al</SectionTitle>
+      <Card>
+         <div style={{display:"flex", gap:16, marginBottom:20, flexWrap:"wrap"}}><Inp label="Tarih" type="date" value={date} onChange={setDate} half/><div style={{flex:1, minWidth:150}}><Sel label="Grup Seçin" value={selectedGroup} onChange={setSelectedGroup} options={allGroups.map(g=>({value:g, label:g}))}/></div></div>
+         {!selectedGroup ? <div style={{textAlign:"center", padding:"40px", color:"var(--text-sub)", fontWeight:800, fontSize:14}}>Lütfen grup seçiniz.</div> : 
+           <div>
+              <div style={{display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16, background:"var(--bg-color)", padding:"16px 20px", borderRadius:8, border:"1px solid var(--border)"}}><span style={{fontWeight:800, color:"var(--text-main)", fontSize:13}}>Toplam Öğrenci: <span className="num">{activeInGroup.length}</span></span><span style={{fontWeight:900, color:"var(--success)", fontSize:13}}>Katılan: <span className="num">{presentCount}</span></span></div>
+              {activeInGroup.length === 0 ? <div style={{textAlign:"center", padding:"30px", color:"var(--text-sub)", fontWeight:700}}>Bu grupta aktif öğrenci bulunmuyor.</div> : 
+                activeInGroup.map(s => <div key={s.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"16px 0",borderBottom:`1px solid var(--border)`}}><div style={{fontWeight:800,fontSize:14,color:"var(--text-main)"}}>{s.name}</div><Toggle checked={!!(s.attendance||{})[date]} onChange={(v)=>{const n=safeStudents.map(st=>{if(st.id!==s.id)return st; const att={...(st.attendance||{})}; if(v)att[date]=true; else delete att[date]; return{...st,attendance:att};}); DB.set("students",n);}}/></div>)
+              }
+           </div>
+         }
+      </Card>
+    </div>}
+    {tab === 1 && <div>
+      <SectionTitle action={<Btn variant="success" onClick={exportAttendanceLog}><Icon name="chart" size={14}/> Excel Çıktısı</Btn>}>Geçmiş Yoklama</SectionTitle>
+      <Card>
+        <div style={{display:"flex", gap:16, marginBottom:20, flexWrap:"wrap"}}><Inp label="Tarih" type="date" value={logDate} onChange={setLogDate} half/><div style={{flex:1, minWidth:150}}><Sel label="Grup Filtresi" value={logGroup} onChange={setLogGroup} options={[{value:"ALL", label:"Tüm Gruplar"}, ...allGroups.map(g=>({value:g, label:g}))]}/></div></div>
+        <div style={{marginTop:20}}>
+          <div style={{display:"flex",justifyContent:"space-between", fontSize:13, fontWeight:800, color:"var(--text-main)", marginBottom:16, borderBottom:"1px solid var(--border)", paddingBottom:12}}><span>Öğrenciler ({studentsInLogGroup.length})</span><span style={{color:"var(--success)", fontWeight:900}}>Katılım: <span className="num">{attendedInLog.length}</span></span></div>
+          {studentsInLogGroup.length === 0 ? <div style={{textAlign:"center", padding:"40px", color:"var(--text-sub)", fontWeight:700}}>Kayıt bulunamadı.</div> : 
+            studentsInLogGroup.map(s => {
+              const isPresent = (s.attendance||{})[logDate];
+              return <div key={s.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"16px 0",borderBottom:`1px solid var(--border)`}}>
+                <div><div style={{fontWeight:800, fontSize:14, color:"var(--text-main)"}}>{s.name}</div><div style={{fontSize:11.5, fontWeight:700, color:"var(--text-sub)", marginTop:4}}>{s.groupName || "Grup Yok"}</div></div>
+                {isPresent ? <Badge label="KATILDI" color="var(--success)"/> : <Badge label="KATILMADI" color="var(--danger)"/>}
+              </div>
+            })
+          }
+        </div>
+      </Card>
+    </div>}
+  </div>
+}
+
+function StaffPage({staff}){
+  const validStaff = safeArr(staff); const [tab, setTab] = useState(0); const [showAdd, setShowAdd] = useState(false); const [f, setF] = useState(EMPTY_STAFF); const [selectedMonth, setSelectedMonth] = useState(TODAY.slice(0,7)); const [activeStaffId, setActiveStaffId] = useState(null); const u=(k,v)=>setF(p=>({...p,[k]:v}));
+  function save(){ if(!f.name.trim()) return; const n = f.id ? validStaff.map(s=>s.id===f.id?{...s,...f}:s) : [...validStaff,{...f,id:Date.now(),attendance:{},dailyWage:Number(f.dailyWage||0)}]; DB.set("staff",n); setShowAdd(false); setF(EMPTY_STAFF); }
+  const daysInMonth = new Date(Number(selectedMonth.split("-")[0]), Number(selectedMonth.split("-")[1]), 0).getDate(); const daysArray = Array.from({length: daysInMonth}, (_, i) => i + 1);
+  return<div className="main-content" style={{padding:24, maxWidth:800, margin:"0 auto"}}><TabBar tabs={["Personel Listesi","Yoklama & Maaş"]} active={tab} onChange={setTab}/>{tab===0&&<div><SectionTitle action={<Btn onClick={()=>{setF(EMPTY_STAFF);setShowAdd(true);}}>+ Personel Ekle</Btn>}>Çalışanlar</SectionTitle>{validStaff.length===0?<Card style={{textAlign:"center",padding:"50px 0",color:"var(--text-sub)",fontWeight:800}}>Kayıtlı çalışan yok.</Card>:<div style={{display:"grid", gap:16}}>{validStaff.map(s=><Card key={s.id} style={{margin:0, padding:"20px"}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}><div><div style={{fontWeight:800,fontSize:15,color:"var(--text-main)"}}>{s.name}</div><div style={{fontSize:12,color:"var(--text-sub)",fontWeight:700,marginTop:6}}><span className="num">{Number(s.dailyWage||0).toLocaleString("tr-TR")}</span> ₺ Günlük Yevmiye</div></div><Btn variant="danger" onClick={()=>{if(confirm('Silinsin mi?')) DB.set("staff", validStaff.filter(x=>x.id!==s.id))}}>Kaldır</Btn></div></Card>)}</div>}</div>}{tab===1&&<div><Inp label="Ay Seçimi" type="month" value={selectedMonth} onChange={setSelectedMonth}/><div style={{display:"grid", gap:16, marginTop:20}}>{validStaff.map(s=>{ const daysCount = Object.keys(s.attendance||{}).filter(k=>k.startsWith(selectedMonth)&&s.attendance[k]).length; const isExp = activeStaffId === s.id; return <Card key={s.id} style={{margin:0, padding:"20px"}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",cursor:"pointer"} } onClick={()=>setActiveStaffId(isExp?null:s.id)}><div><div style={{fontWeight:800,fontSize:15,color:"var(--text-main)"}}>{s.name}</div><div style={{fontSize:12.5,color:"var(--success)",fontWeight:900,marginTop:6}}><span className="num">{daysCount}</span> Gün Mesai • Hakediş: <span className="num">{(daysCount*Number(s.dailyWage||0)).toLocaleString("tr-TR")}</span> ₺</div></div><Btn sm variant="secondary">{isExp?"Kapat ▲":"Puantaj ▼"}</Btn></div>{isExp && <div style={{marginTop:20, paddingTop:20, borderTop:`1px solid var(--border)`}}><Inp label="Günlük Yevmiye (₺) (Anlık Değişim)" type="number" value={s.dailyWage} onChange={(v)=>DB.set("staff", validStaff.map(x=>x.id===s.id?{...x,dailyWage:Number(v)}:x))}/><div style={{fontSize:11,fontWeight:800,color:"var(--text-sub)",marginBottom:16,textTransform:"uppercase",marginTop:20}}>Çalışılan Günler</div><div style={{display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(40px, 1fr))", gap:10}}>{daysArray.map(d=>{ const key = `${selectedMonth}-${String(d).padStart(2,'0')}`; const isP = !!s.attendance?.[key]; return <button key={d} type="button" onClick={()=>{ const att={...(s.attendance||{})}; if(isP) delete att[key]; else att[key]=true; DB.set("staff", validStaff.map(x=>x.id===s.id?{...x,attendance:att}:x)); }} style={{padding:"10px 0", borderRadius:8, border:`1px solid ${isP?"var(--success)":"var(--border)"}`, background:isP?"var(--success-bg)":"var(--bg-color)", color:isP?"var(--success)":"var(--text-main)", fontWeight:900, fontSize:13, cursor:"pointer", transition:"all 0.2s"}} className="num">{d}</button>})}</div></div>}</Card>})}</div></div>}<Modal show={showAdd} onClose={()=>setShowAdd(false)} title="Personel Kaydı"><Inp label="Ad Soyad *" value={f.name} onChange={v=>u("name",v.toLocaleUpperCase("tr-TR"))} autoFocus/><Inp label="Günlük Yevmiye (₺) *" value={f.dailyWage} onChange={v=>u("dailyWage",v)} type="number"/><Btn full onClick={save} style={{marginTop:20, padding:"12px"}}>Kaydet</Btn></Modal></div>
+}
+
+function InventoryPage({items}){
+  const validItems = safeArr(items); const [show,setShow]=useState(false); const [f,setF]=useState(EMPTY_ITEM); const u=(k,v)=>setF(p=>({...p,[k]:v}));
+  function save(){ if(!f.name.trim()) return; const n = f.id ? validItems.map(i=>i.id===f.id?{...f}:i) : [...validItems,{...f,id:Date.now()}]; DB.set("stock",n); setShow(false); setF(EMPTY_ITEM); }
+  return<div className="main-content" style={{padding:24, maxWidth:1000, margin:"0 auto"}}>
+    <SectionTitle action={<Btn onClick={()=>{setF(EMPTY_ITEM);setShow(true);}}>+ Yeni Ürün</Btn>}>Depo Envanteri</SectionTitle>
+    {validItems.length===0 ? <Card style={{textAlign:"center",padding:"50px 0",color:"var(--text-sub)",fontWeight:800}}>Ürün yok.</Card> :
+    <div>
+       <div className="list-header" style={{gridTemplateColumns: "2fr 1fr 1.5fr 1fr"}}><div>Ürün & Kategori</div><div>Fiyat</div><div>Stok Durumu</div><div style={{textAlign:"right"}}>İşlemler</div></div>
+       <div style={{display:"flex", flexDirection:"column"}}>
+          {validItems.map(item=>(item && item.id) && <div key={item.id} className="list-row" style={{gridTemplateColumns: "2fr 1fr 1.5fr 1fr"}}>
+             <div>
+                <div style={{fontWeight:800,fontSize:13.5,color:"var(--text-main)"}}>{item.name}</div>
+                <div style={{fontSize:10.5,color:"var(--text-sub)",fontWeight:800,textTransform:"uppercase",marginTop:4}}>{item.category || "Genel"}</div>
+             </div>
+             <div className="num" style={{fontWeight:900,color:"var(--success)",fontSize:14}}>{Number(item.price||0).toLocaleString("tr-TR")} ₺</div>
+             <div style={{display:"flex",gap:12,alignItems:"center"}}>
+                <button type="button" onClick={()=>{DB.set("stock",validItems.map(i=>i.id===item.id?{...i,stock:Math.max(0,Number(i.stock||0)-1)}:i));}} style={{width:28,height:28,borderRadius:6,background:"var(--danger-bg)",border:`none`,cursor:"pointer",fontWeight:900,fontSize:16,color:"var(--danger)"}}>-</button>
+                <span className="num" style={{fontWeight:900,fontSize:15,color:"var(--text-main)"}}>{item.stock||0}</span>
+                <button type="button" onClick={()=>{DB.set("stock",validItems.map(i=>i.id===item.id?{...i,stock:Math.max(0,Number(i.stock||0)+1)}:i));}} style={{width:28,height:28,borderRadius:6,background:"var(--success-bg)",border:`none`,cursor:"pointer",fontWeight:900,fontSize:16,color:"var(--success)"}}>+</button>
+             </div>
+             <div style={{display:"flex",gap:6,justifyContent:"flex-end"}}>
+                <Btn sm variant="secondary" onClick={()=>{setF(item);setShow(true);}} style={{padding:"8px"}}><Icon name="edit" size={14}/></Btn>
+                <Btn sm variant="danger" onClick={()=>DB.set("stock", validItems.filter(i=>i.id!==item.id))} style={{padding:"8px"}}><Icon name="trash" size={14}/></Btn>
+             </div>
+          </div>)}
+       </div>
+    </div>}
+    <Modal show={show} onClose={()=>setShow(false)} title="Ürün İşlemi"><Inp label="Ürün Adı *" value={f.name} onChange={v=>u("name",v.toLocaleUpperCase("tr-TR"))} autoFocus/><Sel label="Kategori" value={f.category} onChange={v=>u("category",v)} options={STOCK_CATS.map(c=>({value:c,label:c}))}/><div style={{display:"flex",gap:16}}><div style={{flex:1}}><Inp label="Fiyatı (₺)" value={f.price} onChange={v=>u("price",v)} type="number"/></div><div style={{flex:1}}><Inp label="Stok" value={f.stock} onChange={v=>u("stock",v)} type="number"/></div></div><Btn full onClick={save} style={{marginTop:20, padding:"12px"}}>Kaydet</Btn></Modal>
+  </div>
+}
+
+function WhatsAppPage({students, waLinks}) {
+  const safeLinks = safeArr(waLinks); const [title, setTitle] = useState(""); const [url, setUrl] = useState(""); const [search, setSearch] = useState(""); const [groupFilter, setGroupFilter] = useState("ALL"); const [selectedStudent, setSelectedStudent] = useState(null); const [showInviteModal, setShowInviteModal] = useState(false);
+  function addLink() { if(!title.trim() || !url.trim()) return; DB.set("waLinks", [...safeLinks, { id:Date.now(), name: title.toLocaleUpperCase("tr-TR"), url: url }]); setTitle(""); setUrl(""); }
+  function triggerInvite(student) { if(safeLinks.length === 0) { alert("Lütfen bağlantı ekleyin."); return; } setSelectedStudent(student); setShowInviteModal(true); }
+  function completeInvite(linkUrl) { if(!selectedStudent.guardianPhone1) return; const phone = selectedStudent.guardianPhone1.replace(/\D/g,""); const msg = `SAYIN VELİMİZ,\n${selectedStudent.name} İSİMLİ ÖĞRENCİMİZİN DUYURU TAKİBİ İÇİN LİNKTEN KATILABİLİRSİNİZ:\n\n${linkUrl}`; window.open(`https://wa.me/${phone.startsWith('0')?'90'+phone.slice(1):'90'+phone}?text=${encodeURIComponent(msg)}`, "_blank"); setShowInviteModal(false); }
+  const activeStudents = safeArr(students).filter(s => courseStatus(s) === "active" && s.guardianPhone1); const allGroups = Array.from(new Set(activeStudents.map(s=>s.groupName).filter(Boolean)));
+  const filteredStudents = activeStudents.filter(s => { const matchName = s.name && s.name.toLowerCase().includes(search.toLowerCase()); const matchGroup = groupFilter === "ALL" || s.groupName === groupFilter; return matchName && matchGroup; }).sort((a, b) => (b.id||0) - (a.id||0));
+  return <div className="main-content" style={{padding:24, maxWidth:800, margin:"0 auto"}}><SectionTitle>WhatsApp Merkezi</SectionTitle><Card style={{marginBottom:30}}><Btn full style={{background:"var(--success)", color:"#fff", border:"none", padding:"14px", fontSize:14}} onClick={()=>window.open("https://web.whatsapp.com", "_blank")}><Icon name="chat" size={18}/> WhatsApp Web Sürümünü Aç</Btn></Card><SectionTitle>Grup Davet Linkleri</SectionTitle><Card style={{marginBottom:30}}><div style={{display:"flex", gap:12, flexWrap:"wrap"}}><input className="corp-inp" style={{flex:1, minWidth:150}} value={title} onChange={e=>setTitle(e.target.value)} placeholder="Grup Adı (Örn: CUMARTESİ)" /><input className="corp-inp" style={{flex:2, minWidth:200}} value={url} onChange={e=>setUrl(e.target.value)} placeholder="https://chat.whatsapp.com/..." /><Btn onClick={addLink}>Ekle</Btn></div><div style={{marginTop:20}}>{safeLinks.length === 0 && <div style={{fontSize:12, color:"var(--text-sub)", textAlign:"center", fontWeight:700}}>Bağlantı yok.</div>}{safeLinks.map(l=><div key={l.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"12px 16px",background:"var(--bg-color)",borderRadius:8,border:"1px solid var(--border)",marginBottom:10}}><span style={{fontSize:13,fontWeight:800,color:"var(--text-main)",display:"flex",alignItems:"center",gap:8}}><Icon name="link" size={16}/> {l.name}</span><button type="button" onClick={()=>DB.set("waLinks", safeLinks.filter(x=>x.id!==l.id))} style={{background:"var(--danger-bg)",border:"none",color:"var(--danger)",cursor:"pointer",fontWeight:800,padding:"6px 10px",borderRadius:6}}>Sil</button></div>)}</div></Card><SectionTitle>Öğrenci Daveti</SectionTitle><div style={{display:"flex", gap:16, marginBottom:20, flexWrap:"wrap"}}><input className="corp-inp" style={{flex:2, minWidth:200}} placeholder="Öğrenci ara..." value={search} onChange={e=>setSearch(e.target.value)}/><select className="corp-inp" style={{flex:1, cursor:"pointer", minWidth:150}} value={groupFilter} onChange={e=>setGroupFilter(e.target.value)}><option value="ALL">Tüm Gruplar</option>{allGroups.map(g=><option key={g} value={g}>{g}</option>)}</select></div><Card>{filteredStudents.length === 0 ? <div style={{textAlign:"center",padding:"30px 0",color:"var(--text-sub)",fontSize:13,fontWeight:700}}>Aktif öğrenci yok.</div> : filteredStudents.map(s=><div key={s.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"16px 0",borderBottom:`1px solid var(--border)`}}><div><div style={{fontWeight:800,fontSize:14,color:"var(--text-main)"}}>{s.name}</div><div style={{fontSize:11.5,color:"var(--text-sub)",marginTop:6,fontWeight:700}}>GRUP: {s.groupName||"Yok"}</div></div><Btn style={{background:"var(--success-bg)",color:"var(--success)"}} onClick={()=>triggerInvite(s)}>Davet Gönder</Btn></div>)}</Card><Modal show={showInviteModal} onClose={()=>setShowInviteModal(false)} title="Hangi Grubu Gönderelim?"><div style={{fontSize:13,color:"var(--text-main)",marginBottom:24,lineHeight:1.6,fontWeight:600}}><strong>{selectedStudent?.name}</strong> için link seç:</div><div style={{display:"flex", flexDirection:"column", gap:10}}>{safeLinks.map(l=><button key={l.id} type="button" onClick={()=>completeInvite(l.url)} style={{width:"100%",padding:"14px",borderRadius:8,background:"var(--bg-color)",border:`1px solid var(--border)`,color:"var(--accent)",fontWeight:800,fontSize:14,textAlign:"left",cursor:"pointer",transition:"all 0.2s"}}>{l.name}</button>)}</div></Modal></div>
+}
+
+function SettingsPage({navItems, clubName, logoUrl, appUsers}){
+  const [tab, setTab] = useState(0); const [nameVal, setNameVal] = useState(clubName); const [logoVal, setLogoVal] = useState(logoUrl);
+  const [showUserModal, setShowUserModal] = useState(false); const [uForm, setUForm] = useState({ id:null, username:"", password:"", role:"staff", allowedTabs:[] });
+  
+  function toggleMenuAccess(menuId) { const tabs = uForm.allowedTabs || []; if(tabs.includes(menuId)) setUForm({...uForm, allowedTabs: tabs.filter(t=>t!==menuId)}); else setUForm({...uForm, allowedTabs: [...tabs, menuId]}); }
+  function saveUser() { if(!uForm.username||!uForm.password)return; let n = safeArr(appUsers); if(uForm.id) n = n.map(u => u.id === uForm.id ? {...uForm} : u); else n = [...n, {...uForm, id:Date.now()}]; DB.set("appUsers", n); setShowUserModal(false); }
+  function deleteUser(id) { if(id === "admin") { alert("Ana yönetici hesabı silinemez."); return; } if(confirm("Hesabı silmek istediğinize emin misiniz?")) { DB.set("appUsers", safeArr(appUsers).filter(x=>x.id!==id)); } }
+
+  return<div className="main-content" style={{padding:24, maxWidth:800, margin:"0 auto"}}>
+    <TabBar tabs={["Kurum Ayarları", "Personel Yetkileri"]} active={tab} onChange={setTab}/>
+    {tab === 0 && (
+      <div><Card style={{padding:"30px"}}><Inp label="Kulüp/Kurum Adı" value={nameVal} onChange={setNameVal}/><Inp label="Kurum Logosu (URL)" value={logoVal} onChange={setLogoVal} placeholder="https://site.com/logo.png"/></Card><Btn full onClick={()=>{DB.set("clubName",nameVal); DB.set("logoUrl", logoVal); alert("Kaydedildi.");}} style={{padding:"14px"}}>Sisteme Kaydet</Btn></div>
+    )}
+    {tab===1&&<div>
+      <SectionTitle action={<Btn onClick={()=>{setUForm({id:null,username:"",password:"",role:"staff",allowedTabs:["dashboard","students","attendance"]});setShowUserModal(true);}}>+ Yeni Personel</Btn>}>Yetkiler</SectionTitle>
+      {safeArr(appUsers).map(u=><Card key={u.id} style={{padding:"20px 24px"}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}><div><div style={{fontWeight:800,fontSize:15,color:"var(--text-main)"}}>{u.username}</div><div style={{fontSize:11,color:u.role==='admin'?"var(--success)":"var(--text-sub)",fontWeight:800,textTransform:"uppercase",marginTop:6}}>{u.role==='admin'?'Yönetici':'Çalışan'}</div></div><div style={{display:"flex",gap:12}}><Btn variant="secondary" onClick={()=>{setUForm(u);setShowUserModal(true);}}>Düzenle</Btn>{u.role !== 'admin' && <Btn variant="danger" onClick={()=>deleteUser(u.id)}>Kaldır</Btn>}</div></div></Card>)}
+      <Modal show={showUserModal} onClose={()=>setShowUserModal(false)} title="Personel Hesabı"><Inp label="Kullanıcı Adı" value={uForm.username} onChange={v=>setUForm({...uForm,username:v})} autoFocus/><Inp label="Şifre" value={uForm.password} onChange={v=>setUForm({...uForm,password:v})}/>{uForm.id !== "admin" && (<div style={{marginTop: 24}}><div style={{fontSize:12, fontWeight:800, marginBottom:16, color:"var(--text-main)", textTransform:"uppercase"}}>Erişim İzinleri</div><div style={{display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(140px, 1fr))", gap:12}}>{navItems.map(nav => nav.id !== "settings" && (<label key={nav.id} style={{display:"flex", alignItems:"center", gap:10, padding:"14px", background:"var(--bg-color)", borderRadius:8, cursor:"pointer", border:`1px solid ${(uForm.allowedTabs||[]).includes(nav.id)?"var(--accent)":"var(--border)"}`, transition:"all 0.2s"}}><input type="checkbox" checked={(uForm.allowedTabs||[]).includes(nav.id)} onChange={() => toggleMenuAccess(nav.id)} style={{width:18,height:18,accentColor:"var(--accent)"}}/><span style={{fontSize:13, fontWeight:700, color:"var(--text-main)"}}>{nav.label}</span></label>))}</div></div>)}<Btn full onClick={saveUser} style={{marginTop:30, padding:"12px"}}>Kaydet</Btn></Modal>
+    </div>}
+  </div>
+}
+
+function LoginScreen({ onSuccess, appUsers, adminPin, logoUrl, clubName }) {
+  const [user, setUser] = useState(""); const [pass, setPass] = useState(""); const [err, setErr] = useState(false);
+  const handleLogin = (e) => { e.preventDefault(); if (user.toLowerCase() === "admin" && (pass === "0309" || pass === adminPin)) { onSuccess({ id: 'admin', username: 'admin', role: 'admin', allowedTabs: NAV_ITEMS.map(n=>n.id) }); return; } const foundUser = safeArr(appUsers).find(u => u.username.toLowerCase() === user.toLowerCase() && u.password === pass); if (foundUser) { onSuccess(foundUser); return; } setErr(true); setTimeout(() => setErr(false), 2000); };
+  return (
+    <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",height:"100vh",background:"var(--bg-color)",padding:20}}>
+      {logoUrl ? <img src={logoUrl} style={{maxHeight:80, marginBottom:30, objectFit:"contain"}} alt="Logo" /> : <div style={{fontSize:36, fontWeight:900, color:"var(--accent)", marginBottom:40, letterSpacing:-1.5}}>{clubName || "AquaClub Pro"}</div>}
+      <form onSubmit={handleLogin} style={{background:"var(--card-bg)",padding:"40px 32px",borderRadius:16,border:`1px solid ${err?"var(--danger)":"var(--border)"}`,textAlign:"center",boxShadow:"0 10px 15px -3px rgba(0,0,0,0.05)",width:"100%",maxWidth:360, transition:"all 0.3s"}}>
+        <div style={{fontSize:18,fontWeight:800,marginBottom:24,color:"var(--text-main)"}}>Kurumsal Giriş</div>
+        <Inp value={user} onChange={setUser} placeholder="Kullanıcı Adı" autoFocus style={{textAlign:"center", fontSize:13}}/>
+        <Inp value={pass} onChange={setPass} type="password" placeholder="Şifre" style={{textAlign:"center", fontSize:13, letterSpacing:4}}/>
+        <Btn full type="submit" onClick={handleLogin} style={{marginTop:16, padding:"12px", fontSize:13}}>Giriş Yap</Btn>
+        <div style={{height: 20, marginTop: 16}}>{err && <div style={{color:"var(--danger)",fontSize:12,fontWeight:800}}>Hatalı Bilgi Girdiniz!</div>}</div>
+      </form>
+    </div>
+  );
+}
+
 /* ═══════════════════════════════════════════════════════════════
-   APP ROOT & GECE MAVİSİ YAN MENÜ (MEDIA İÇERİR)
+   APP ROOT 
 ═══════════════════════════════════════════════════════════════ */
 function App(){
   const [currentUser, setCurrentUser] = useState(() => { try { return JSON.parse(sessionStorage.getItem("aqua_user")); } catch { return null; } });
   const [isDbLoaded, setIsDbLoaded] = useState(false);
   const [students,setStudents]=useState([]); const [expenses,setExpenses]=useState([]); const [staff,setStaff]=useState([]); const [stockItems,setStockItems]=useState([]);
-  const [routes,setRoutes]=useState([]); const [waLinks,setWaLinks]=useState([]); const [appUsers, setAppUsers]=useState([]); const [clubName,setClubName]=useState("AquaClub Pro"); const [logoUrl,setLogoUrl]=useState(""); const [oldPinCode, setOldPinCode]=useState("0309");
-  const [mediaList, setMediaList]=useState([]); 
+  const [routes,setRoutes]=useState([]); const [waLinks,setWaLinks]=useState([]); const [mediaList, setMediaList]=useState([]); 
+  const [appUsers, setAppUsers]=useState([]); const [clubName,setClubName]=useState("AquaClub Pro"); const [logoUrl,setLogoUrl]=useState(""); const [oldPinCode, setOldPinCode]=useState("0309");
 
   const [activeTab,setActiveTab]=useState("dashboard"); 
   const [sidebarOpen,setSidebarOpen]=useState(false);
@@ -898,7 +1063,7 @@ function App(){
             <span style={{color:"white", fontWeight:900, fontSize:18}}>AC</span>
           </div>
         }
-        <div><div style={{fontSize:16,fontWeight:900, color:"#FFFFFF", letterSpacing:-0.3}}>{clubName}</div><div style={{fontSize:11,color:"#94A3B8",fontWeight:800,marginTop:4, textTransform:"uppercase"}}>{currentUser.username}</div></div>
+        <div><div style={{fontSize:15,fontWeight:900, color:"#FFFFFF", letterSpacing:-0.3}}>{clubName}</div><div style={{fontSize:11,color:"#94A3B8",fontWeight:800,marginTop:4, textTransform:"uppercase"}}>{currentUser.username}</div></div>
       </div>
       <div style={{flex:1, overflowY:"auto", padding:"20px 16px"}}>
         {visibleNav.map(item => {
