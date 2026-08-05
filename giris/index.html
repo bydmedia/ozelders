@@ -6,28 +6,28 @@
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="theme-color" content="#2563EB"/>
-<title>Nihat Canlı Özel Spor Okulu | Yönetim</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='1em' font-size='80'>⚡</text></svg>">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>NHT CANLI | Yönetim</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
+/* 🌟 KURUMSAL YÖNETİM TEMA 🌟 */
 :root {
-  --bg-color: #F8FAFC; --sidebar-bg: #0F172A; --sidebar-border: #1E293B;
+  --bg-color: #F8FAFC; --sidebar-bg: #0B1121; --sidebar-border: #1E293B;
   --card-bg: #FFFFFF; --text-main: #0F172A; --text-sub: #64748B;
-  --accent: #2563EB; --accent-hover: #1D4ED8; --accent-light: #EFF6FF;
+  --accent: #0EA5E9; --accent-hover: #0284C7; --accent-light: #E0F2FE;
   --border: #E2E8F0; --success: #059669; --success-bg: #D1FAE5;
   --danger: #DC2626; --danger-bg: #FEE2E2; --warning: #D97706; --warning-bg: #FEF3C7;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;background:var(--bg-color);transition:background 0.3s ease; font-family:'Manrope',sans-serif; color:var(--text-main); font-size:12px; line-height:1.4;}
+html,body{height:100%;background:var(--bg-color);transition:background 0.3s ease; font-family:'DM Sans',sans-serif; color:var(--text-main); font-size:12px; line-height:1.4;}
 #root{height:100%}
 ::-webkit-scrollbar{width:5px;height:5px} ::-webkit-scrollbar-track{background:transparent} ::-webkit-scrollbar-thumb{background:#CBD5E1;border-radius:10px}
-.num { font-family: 'Manrope', monospace; font-variant-numeric: tabular-nums; letter-spacing: -0.5px; }
+.num { font-variant-numeric: tabular-nums; letter-spacing: -0.5px; }
 
 .corp-inp { width: 100%; padding: 8px 12px; background-color: #F8FAFC; border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); font-size: 12px; font-weight: 600; outline: none; font-family: inherit; transition:all 0.2s;}
-.corp-inp:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15); background-color: #FFFFFF;}
+.corp-inp:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.15); background-color: #FFFFFF;}
 .corp-btn { padding: 8px 14px; border-radius: 6px; border: 1px solid transparent; cursor: pointer; font-weight: 700; font-size: 12px; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 6px; outline: none; }
 .corp-btn:active { transform: scale(0.98); }
-.corp-btn-primary { background: var(--accent); color: #fff; box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2); }
+.corp-btn-primary { background: var(--accent); color: #fff; box-shadow: 0 2px 4px rgba(14, 165, 233, 0.2); }
 .corp-btn-secondary { background: #FFFFFF; border-color: var(--border); color: var(--text-main); }
 .corp-btn-danger { background: var(--danger-bg); color: var(--danger); }
 .corp-btn-success { background: var(--success-bg); color: var(--success); }
@@ -43,10 +43,10 @@ html,body{height:100%;background:var(--bg-color);transition:background 0.3s ease
 .sidebar-desktop .nav-parent.active { color: #FFFFFF; background: var(--accent); }
 .sidebar-desktop .nav-child { color: #94A3B8; background: transparent; border: none; border-radius: 6px; padding: 8px 14px 8px 36px; width: 100%; text-align: left; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; }
 .sidebar-desktop .nav-child:hover { color: #fff; background: rgba(255,255,255,0.06); }
-.sidebar-desktop .nav-child.active { color: #60A5FA; background: rgba(59, 130, 246, 0.15); font-weight: 800; }
+.sidebar-desktop .nav-child.active { color: var(--accent); background: rgba(14, 165, 233, 0.15); font-weight: 800; }
 .mobile-topbar { display: none; align-items: center; justify-content: space-between; padding: 16px 20px; background: var(--sidebar-bg); border-bottom: 1px solid var(--sidebar-border); color: #fff; z-index: 80; }
 .mobile-topbar .menu-btn { background: transparent; border: none; color: #fff; cursor: pointer; display: flex; align-items: center; padding: 4px; border-radius: 6px; }
-.mobile-overlay { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); z-index: 90; backdrop-filter: blur(2px); opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.mobile-overlay { display: none; position: fixed; inset: 0; background: rgba(11, 17, 33, 0.7); z-index: 90; backdrop-filter: blur(2px); opacity: 0; pointer-events: none; transition: opacity 0.3s; }
 .mobile-overlay.open { display: block; opacity: 1; pointer-events: auto; }
 .tab-container { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 20px; overflow-x: auto; gap: 6px; padding-bottom: 2px; scrollbar-width: none; }
 @media (max-width: 900px) {
@@ -59,6 +59,10 @@ html,body{height:100%;background:var(--bg-color);transition:background 0.3s ease
   .list-row > div { width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: 4px;}
   .list-row > div:last-child { flex-direction: row; justify-content: flex-end; border-top: 1px dashed var(--border); padding-top: 12px; margin-top: 4px; }
 }
+
+.logo-admin { display:flex; flex-direction:column; line-height:1; align-items:flex-start; }
+.logo-admin .nht { font-size:1.6rem; font-weight:800; color:#FFFFFF; letter-spacing:2px; }
+.logo-admin .canli { font-size:0.75rem; font-weight:600; color:var(--accent); letter-spacing:4px; margin-top:2px; }
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
@@ -76,7 +80,6 @@ const DAYS_TR=["Paz","Pzt","Sal","Çar","Per","Cum","Cmt"];
 const MONTHS_TR=["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
 const STOCK_CATS=["Ekipman","Kıyafet","Diğer"];
 
-// Genel Branş Kaydı İçin Güncellendi
 const EMPTY_S={ id:null,name:"",dob:"",guardianName:"",guardianPhone1:"",guardianPhone2:"",notes:"",courseStart:TODAY,courseEnd:"",totalSessions:12,weekDays:[1,3,5],branch:"",level:"",groupName:"",monthlyFee:"",discount:"",paymentNote:"",hasTransport:false,address:"",transportFee:"",driverName:"",driverPhone:"",equipment:[],payments:[],attendance:{}, initialPaymentAmount:"", initialPaymentDate:TODAY};
 const EMPTY_ITEM={id:null,name:"",category:"",price:"",stock:"",minStock:"",supplier:"",notes:""};
 const EMPTY_EXPENSE={id:null, title:"", amount:"", date:TODAY, category:"", isFood:false, expiryDate:"", note:"", qty:""};
@@ -106,7 +109,7 @@ const EXCEL_COLUMNS = [
   { id: 'financials', label: 'Aylık Ücret & Borç', default: true },
 ];
 
-// LÜTFEN KENDİ FIREBASE AYARLARINI BURAYA YAPIŞTIR!
+// SENİN DOĞRUDAN BAĞLANTIN BURADA (ŞİFRE ARAMANA GEREK YOK)
 const firebaseConfig = { 
   apiKey: "AIzaSyD_kv7CgD7V7x-yyOggRPyZygJdXgirD78", 
   authDomain: "ozelderss-f48f3.firebaseapp.com", 
@@ -119,12 +122,10 @@ const firebaseConfig = {
 let db = null; try { if (window.firebase && !window.firebase.apps.length) { window.firebase.initializeApp(firebaseConfig); } if (window.firebase) { db = window.firebase.firestore(); } } catch(e) { console.error(e); }
 function safeArr(val) { return (!val) ? [] : (Array.isArray(val) ? val : Object.values(val)).filter(item => item !== null && item !== undefined); }
 
-// DERİN BİRLEŞTİRME
 const DB={ set:(k,v)=>{ 
   if(!db) return; 
   const cleanV = Array.isArray(v) ? v.filter(i => i !== null && i !== undefined) : v; 
-  db.collection("appData").doc("main").set({ [k]: cleanV }, { merge: true })
-    .catch(err => { console.error(err); alert("HATA: Değişiklik kaydedilemedi!\nFirebase veritabanı kurallarınızı kontrol edin."); }); 
+  db.collection("appData").doc("main").set({ [k]: cleanV }, { merge: true }).catch(err => { console.error(err); alert("HATA: Değişiklik kaydedilemedi!"); }); 
 } };
 
 function fmtDate(d){ if(!d || typeof d !== 'string') return "—"; try { const parts = d.split("-"); return parts.length !== 3 ? d : `${parts[2]}.${parts[1]}.${parts[0]}`; } catch(e) { return d; } }
@@ -152,10 +153,10 @@ function Icon({name,size=16,color="currentColor",style={}}){
     payments: "M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z", expenses: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
     staff: "M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197", inventory: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4",
     link: "M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1",
-    settings: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z",
+    settings: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37-2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z",
+    globe: "M22 12A10 10 0 1 1 12 2a10 10 0 0 1 10 10z M2 12h20 M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z",
     trash: "M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16",
-    edit: "M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z", info: "M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z", menu: "M4 6h16M4 12h16M4 18h16",
-    globe: "M22 12A10 10 0 1 1 12 2a10 10 0 0 1 10 10z M2 12h20 M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+    edit: "M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z", info: "M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z", menu: "M4 6h16M4 12h16M4 18h16"
   };
   const path = icons[name] || icons.dashboard;
   return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>{path.split("M").filter(Boolean).map((seg,i)=><path key={i} d={"M"+seg}/>)}</svg>
@@ -177,7 +178,7 @@ function Row({label,val,href,col,isNum}){ return<div style={{display:"flex",just
 function TabBar({tabs,active,onChange}){ return<div className="tab-container">{tabs.map((t,i)=><button key={i} type="button" onClick={()=>onChange(i)} style={{padding:"12px 16px",background:active===i?"var(--bg-color)":"transparent",border:"1px solid", borderColor:active===i?"var(--border)":"transparent", borderBottom:"none", borderRadius:"8px 8px 0 0",color:active===i?"var(--accent)":"var(--text-sub)",cursor:"pointer",fontWeight:800,fontSize:12.5,fontFamily:"inherit",whiteSpace:"nowrap",transition:"all 0.2s"}}>{t}</button>)}</div> }
 function Badge({label,color}){ const map={active:["var(--success)","AKTİF"],upcoming:["var(--warning)","BAŞLAMADI"],ended:["var(--danger)","BİTTİ"],unknown:["var(--text-sub)","BELİRSİZ"]}; const [col,txt]=map[label]||[color||"var(--text-sub)",label]; return<span style={{fontSize:10.5,fontWeight:900,padding:"4px 8px",borderRadius:6,background:col+"15",color:col,letterSpacing:0.5, border:`1px solid ${col}40`}}>{txt}</span> }
 function Toggle({checked,onChange}){ return<button type="button" onClick={()=>onChange(!checked)} style={{width:40,height:22,borderRadius:12,background:checked?"var(--accent)":"var(--border)",border:"none",cursor:"pointer",position:"relative",transition:"background .3s",flexShrink:0}}><span style={{position:"absolute",top:2,left:checked?20:2,width:18,height:18,borderRadius:"50%",background:"#fff",transition:"left .3s",boxShadow:"0 2px 4px rgba(0,0,0,0.1)"}}/></button> }
-function Modal({show,onClose,title,children}){ if(!show)return null; return<div style={{position:"fixed",top:0,left:0,right:0,bottom:0,backgroundColor:"rgba(15, 23, 42, 0.7)",backdropFilter:"blur(3px)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:9999,padding:16}}><div style={{background:"var(--card-bg)",border:"1px solid var(--border)",borderRadius:12,padding:"24px",width:"100%",maxWidth:600,maxHeight:"90vh",display:"flex",flexDirection:"column",boxShadow:"0 20px 25px -5px rgba(0,0,0,0.1)"}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20,flexShrink:0,borderBottom:`1px solid var(--border)`,paddingBottom:12}}><div style={{fontSize:16,fontWeight:800,color:"var(--text-main)"}}>{title}</div><button type="button" onClick={onClose} style={{background:"var(--bg-color)",border:"1px solid var(--border)",borderRadius:6,width:32,height:32,color:"var(--text-sub)",cursor:"pointer",fontSize:18,fontWeight:800,display:"flex",alignItems:"center",justifyContent:"center"}}>×</button></div><div style={{flex:1,overflowY:"auto",paddingRight:6}}>{children}</div></div></div> }
+function Modal({show,onClose,title,children}){ if(!show)return null; return<div style={{position:"fixed",top:0,left:0,right:0,bottom:0,backgroundColor:"rgba(11, 17, 33, 0.7)",backdropFilter:"blur(3px)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:9999,padding:16}}><div style={{background:"var(--card-bg)",border:"1px solid var(--border)",borderRadius:12,padding:"24px",width:"100%",maxWidth:600,maxHeight:"90vh",display:"flex",flexDirection:"column",boxShadow:"0 20px 25px -5px rgba(0,0,0,0.1)"}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20,flexShrink:0,borderBottom:`1px solid var(--border)`,paddingBottom:12}}><div style={{fontSize:16,fontWeight:800,color:"var(--text-main)"}}>{title}</div><button type="button" onClick={onClose} style={{background:"var(--bg-color)",border:"1px solid var(--border)",borderRadius:6,width:32,height:32,color:"var(--text-sub)",cursor:"pointer",fontSize:18,fontWeight:800,display:"flex",alignItems:"center",justifyContent:"center"}}>×</button></div><div style={{flex:1,overflowY:"auto",paddingRight:6}}>{children}</div></div></div> }
 function DayPicker({value=[],onChange}){ const safeVal = safeArr(value).map(Number); return<div style={{display:"flex",gap:8,flexWrap:"wrap",marginBottom:12}}>{DAYS_TR.map((d,i)=>{const on=safeVal.includes(i);return<button key={i} type="button" onClick={()=>onChange(on?safeVal.filter(x=>x!==i):[...safeVal,i].sort())} style={{width:38,height:38,borderRadius:6,border:`1px solid ${on?"var(--accent)":"var(--border)"}`,background:on?"var(--accent-light)":"var(--card-bg)",color:on?"var(--accent)":"var(--text-sub)",cursor:"pointer",fontSize:12,fontWeight:800,fontFamily:"inherit",transition:"all 0.2s"}}>{d}</button>})}</div> }
 
 function CircleChart({pct, label, col, size=110, stroke=10}) {
@@ -227,7 +228,6 @@ function PremiumAreaChart({data}) {
 }
 
 function Dashboard({students,expenses}){
-  const [showNotes, setShowNotes] = useState(false);
   const safeStudents = safeArr(students); const active = safeStudents.filter(s=>courseStatus(s)==="active");
   const allPayments = safeStudents.flatMap(s=>safeArr(s.payments).map(p=>({...p, studentName: s.name})));
   const totalRev = allPayments.reduce((t, p) => t + Number(p.amount), 0); const totalExp = safeArr(expenses).reduce((t, e) => t + Number(e.amount), 0);
@@ -249,9 +249,8 @@ function Dashboard({students,expenses}){
   return<div className="main-content" style={{padding:24, maxWidth:1300, margin:"0 auto"}}>
     <div style={{display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:24}}>
        <div style={{fontSize:22, fontWeight:900, color:"var(--text-main)", letterSpacing:-0.5}}>Sistem Özeti</div>
-       <Btn variant="secondary" onClick={() => setShowNotes(true)}><Icon name="info" size={14}/> Güncelleme Notları</Btn>
     </div>
-    <Card style={{marginBottom:24, background:"var(--card-bg)", border:"1px solid var(--border)", display:"flex", alignItems:"center", gap:20, flexWrap:"wrap", padding:"16px 24px"}}>
+    <Card style={{marginBottom:24, display:"flex", alignItems:"center", gap:20, flexWrap:"wrap", padding:"16px 24px"}}>
        <div style={{flex:1, minWidth:200, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center"}}>
           <div style={{fontSize:13, fontWeight:900, marginBottom:12, color:"var(--text-main)", textTransform:"uppercase"}}>Nakit Akışı Özeti</div><CashFlowDonut rev={totalRev} exp={totalExp} />
        </div>
@@ -272,15 +271,6 @@ function Dashboard({students,expenses}){
       <Card style={{margin:0}}><div style={{fontSize:13.5, fontWeight:800, marginBottom:16, color:"var(--text-main)", textTransform:"uppercase"}}>📊 {currentYear} Yılı Finans Analizi</div><PremiumAreaChart data={chartData} /></Card>
       <Card style={{margin:0, display:"flex", justifyContent:"space-around", alignItems:"center", padding:"30px 16px"}}><CircleChart pct={collectionRate} label="Tahsilat Oranı" col={collectionRate < 70 ? "var(--danger)" : "var(--success)"} size={140} /><CircleChart pct={absenceRate} label="Günlük Devamsızlık" col={absenceRate > 30 ? "var(--warning)" : "var(--accent)"} size={140} /></Card>
     </div>
-    <Modal show={showNotes} onClose={()=>setShowNotes(false)} title="🚀 Sistem Güncelleme Notları">
-       <div style={{padding:"10px"}}>
-         <ul style={{paddingLeft:20, fontSize:13, color:"var(--text-main)", lineHeight:1.8, fontWeight:600}}>
-           <li style={{marginBottom:12}}><strong>Tam Entegrasyon:</strong> Menü sekmelerindeki takılmalar çözüldü, tüm sayfalar eksiksiz çalışıyor.</li>
-           <li style={{marginBottom:12}}><strong>Genel Branş Kaydı:</strong> Öğrenci kaydederken sadece Yüzme değil, Panelde eklediğiniz "Branşları" seçebileceksiniz.</li>
-           <li style={{marginBottom:12}}><strong>Site Yönetimi:</strong> Sınırsız branş ekleme, Hakkımda fotoğrafını güncelleme ve 30 yorum üretme fonksiyonları aktif!</li>
-         </ul>
-       </div>
-    </Modal>
   </div>
 }
 
@@ -295,7 +285,6 @@ function EqPicker({stockItems,current,onAdd,onRemove}){
   return<div><div style={{display:"flex",gap:8,marginBottom:12}}><select className="corp-inp" style={{flex:1}} value={sel} onChange={e=>setSel(e.target.value)}><option value="">Ekipman seçin...</option>{safeStock.filter(s=>Number(s.stock)>0).map(s=><option key={s.id} value={s.id}>{s.name} — {Number(s.price).toLocaleString("tr-TR")} ₺</option>)}</select><Btn onClick={()=>{if(!sel)return;const item=safeStock.find(s=>String(s.id)===String(sel));if(item)onAdd({name:item.name,price:item.price,stockId:item.id});setSel("");}}>Ekle</Btn></div>{safeArr(current).map(e=><div key={e.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"10px 14px",background:"var(--bg-color)",borderRadius:8,border:"1px solid var(--border)",marginBottom:8}}><div><div style={{fontSize:12.5,fontWeight:800,color:"var(--text-main)"}}>{e.name}</div><div style={{fontSize:10.5,color:"var(--text-sub)",fontWeight:600}}>{fmtDate(e.addedDate)}</div></div><div style={{display:"flex",alignItems:"center",gap:12}}><span className="num" style={{color:"var(--warning)",fontWeight:900,fontSize:14}}>{Number(e.price).toLocaleString("tr-TR")} ₺</span><button type="button" onClick={()=>onRemove(e.id)} style={{background:"var(--danger-bg)",border:"1px solid #FCA5A5",color:"var(--danger)",cursor:"pointer",fontSize:12,width:26,height:26,borderRadius:6,fontWeight:900}}>X</button></div></div>)}</div>
 }
 
-// ÖĞRENCİ FORMU - (Branş yapısına göre güncellendi)
 function StudentForm({initial,onSave,onCancel,stockItems,students,routes,siteBranches}){
   const [tab,setTab]=useState(0); const [f,setF]=useState({...EMPTY_S,...initial}); const [isNewGroup, setIsNewGroup]=useState(false); 
   const existingGroups = Array.from(new Set(safeArr(students).map(s=>s.groupName).filter(Boolean))); const safeRoutes = safeArr(routes);
@@ -342,7 +331,7 @@ function StudentDetail({student,onBack,students,stockItems,routes,siteBranches})
     {tab===1&&<div><Card><Row label="Branş" val={student.branch||"—"}/><Row label="Seviye" val={student.level||"—"}/><Row label="Grup" val={student.groupName||"—"}/><Row label="Günler" val={safeDays.map(d=>DAYS_TR[d]).join(", ")||"—"}/><Row label="Başlangıç" val={fmtDate(student.courseStart)}/><Row label="Bitiş" val={fmtDate(student.courseEnd)}/><Row isNum label="Kalan Seans" val={`${calcRemainingSessions(student)} / ${student.totalSessions||0}`} col="var(--accent)"/></Card></div>}
     {tab===2&&<div>{student.hasTransport?<Card><Row label="Adres" val={student.address||"—"}/><Row isNum label="Ücret" val={`${student.transportFee} ₺`}/><Row label="Şoför" val={student.driverName}/><Row label="Şoför Tel" val={student.driverPhone}/></Card>:<div style={{textAlign:"center",padding:"40px 0",color:"var(--text-sub)",fontWeight:700}}>Servis Kullanmıyor</div>}</div>}
     {tab===3&&<div>{safeEqs.length===0?<div style={{textAlign:"center",padding:"40px 0",color:"var(--text-sub)",fontWeight:700}}>Ekipman Yok</div>:<Card>{safeEqs.map(e=><Row isNum key={e.id} label={e.name} val={`${e.price} ₺`}/>)}</Card>}</div>}
-    {tab===4&&<div><SectionTitle action={<Btn onClick={()=>setShowPay(true)}>+ Tahsilat Ekle</Btn>}>Ödeme Geçmişi</SectionTitle><Card>{safePays.length===0?<div style={{textAlign:"center",padding:"30px 0",color:"var(--text-sub)",fontWeight:700}}>Kayıt yok.</div>:safePays.sort(sortDateDesc).map(p=><div key={p.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"14px 0",borderBottom:`1px solid var(--border)`}}><div><div style={{fontWeight:800,color:"var(--text-main)",fontSize:13}}>{fmtDate(p.date)}</div><div style={{fontSize:11.5,color:"var(--text-sub)",marginTop:4,fontWeight:700}}><span style={{background:"var(--accent-light)", color:"var(--accent)", padding:"2px 8px", borderRadius:6, marginRight:8}}>{p.category||"Aidat"}</span>{p.note||"Not yok"}</div></div><div style={{display:"flex",alignItems:"center",gap:16}}><span className="num" style={{color:"var(--success)",fontWeight:900,fontSize:15}}>+{Number(p.amount).toLocaleString("tr-TR")} ₺</span><button type="button" onClick={()=>delPay(p.id)} style={{background:"var(--danger-bg)",color:"var(--danger)",border:"none",borderRadius:6,width:28,height:28,cursor:"pointer",fontWeight:900}}>X</button></div></div>)}</Card>
+    {tab===4&&<div><SectionTitle action={<Btn onClick={()=>setShowPay(true)}>+ Tahsilat Ekle</Btn>}>Ödeme Geçmişi</SectionTitle><Card>{safePays.length===0?<div style={{textAlign:"center",padding:"30px 0",color:"var(--text-sub)",fontWeight:700}}>Kayıt yok.</div>:safePays.sort(sortDateDesc).map(p=><div key={p.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"14px 0",borderBottom:`1px solid var(--bg-color)`}}><div><div style={{fontWeight:800,color:"var(--text-main)",fontSize:13}}>{fmtDate(p.date)}</div><div style={{fontSize:11.5,color:"var(--text-sub)",marginTop:4,fontWeight:700}}><span style={{background:"var(--accent-light)", color:"var(--accent)", padding:"2px 8px", borderRadius:6, marginRight:8}}>{p.category||"Aidat"}</span>{p.note||"Not yok"}</div></div><div style={{display:"flex",alignItems:"center",gap:16}}><span className="num" style={{color:"var(--success)",fontWeight:900,fontSize:15}}>+{Number(p.amount).toLocaleString("tr-TR")} ₺</span><button type="button" onClick={()=>delPay(p.id)} style={{background:"var(--danger-bg)",color:"var(--danger)",border:"none",borderRadius:6,width:28,height:28,cursor:"pointer",fontWeight:900}}>X</button></div></div>)}</Card>
       <Modal show={showPay} onClose={()=>setShowPay(false)} title="Tahsilat Ekle"><Sel label="Ödeme Türü" value={payForm.category} onChange={v=>setPayForm(p=>({...p,category:v}))} options={[{label:"Aidat",value:"Aidat"},{label:"Envanter/Ekipman",value:"Envanter"},{label:"Diğer",value:"Diğer"}]}/><Inp label="Tutar (₺) *" value={payForm.amount} onChange={v=>setPayForm(p=>({...p,amount:v}))} type="number"/><Inp label="Tarih" value={payForm.date} onChange={v=>setPayForm(p=>({...p,date:v}))} type="date"/><Inp label="Açıklama" value={payForm.note} onChange={v=>setPayForm(p=>({...p,note:v.toLocaleUpperCase("tr-TR")}))}/><div style={{display:"flex",gap:12,marginTop:20}}><Btn variant="secondary" onClick={()=>setShowPay(false)} style={{flex:1, padding:"12px"}}>İptal</Btn><Btn onClick={addPay} style={{flex:2, padding:"12px"}}>Kaydet</Btn></div></Modal>
     </div>}
   </div>
@@ -351,6 +340,8 @@ function StudentDetail({student,onBack,students,stockItems,routes,siteBranches})
 function StudentsPage({students, stockItems, routes, setRoutes, siteBranches}){
   const [search,setSearch]=useState(""); const [groupFilter,setGroupFilter]=useState("ALL"); const [payFilter,setPayFilter]=useState("ALL");
   const [transportFilter, setTransportFilter]=useState("ALL"); const [statusFilter, setStatusFilter]=useState("ALL");
+  const [branchFilter, setBranchFilter]=useState("ALL"); // YENİ BRANŞ FİLTRESİ
+  
   const [showAdd,setShowAdd]=useState(false); const [showRoutes,setShowRoutes]=useState(false); const [showExport,setShowExport]=useState(false); 
   const [detailId,setDetailId]=useState(null);
   const [showPay, setShowPay] = useState(false); const [payForm, setPayForm] = useState({studentId:"", amount:"", date:TODAY, note:"", category:"Aidat"});
@@ -358,16 +349,19 @@ function StudentsPage({students, stockItems, routes, setRoutes, siteBranches}){
 
   const safeStudents = safeArr(students); const student=detailId?safeStudents.find(s=>s.id===detailId):null;
   const allGroups = Array.from(new Set(safeStudents.map(s=>s.groupName).filter(Boolean)));
+  const allBranches = Array.from(new Set(safeStudents.map(s=>s.branch).filter(Boolean)));
 
   const filtered = safeStudents.filter(s => {
     const debt = monthlyTotal(s) - totalPaid(s);
     const matchName = s && s.name && s.name.toLowerCase().includes(search.toLowerCase());
     const matchGroup = groupFilter === "ALL" || s.groupName === groupFilter;
+    const matchBranch = branchFilter === "ALL" || s.branch === branchFilter; // Branş Filtre Kontrolü
     let matchPay = true; if(payFilter === "PAID") matchPay = debt <= 0; if(payFilter === "UNPAID") matchPay = debt > 0;
     let matchTransport = true; if(transportFilter === "YES") matchTransport = !!s.hasTransport; if(transportFilter === "NO") matchTransport = !s.hasTransport;
     let matchStatus = true; const endPassed = s.courseEnd && new Date(s.courseEnd) < new Date(TODAY);
     if(statusFilter === "EXPIRED") matchStatus = endPassed; if(statusFilter === "ACTIVE") matchStatus = !endPassed;
-    return matchName && matchGroup && matchPay && matchTransport && matchStatus;
+    
+    return matchName && matchGroup && matchBranch && matchPay && matchTransport && matchStatus;
   });
 
   function save(f){ let n; if(f.id){n=safeStudents.map(s=>s.id===f.id?{...f}:s);} else{n=[...safeStudents,{...f,id:Date.now()}];} DB.set("students",n);setShowAdd(false); }
@@ -413,17 +407,19 @@ function StudentsPage({students, stockItems, routes, setRoutes, siteBranches}){
       </div>
     </div>
     <div style={{display:"flex", gap:12, marginBottom:20, flexWrap:"wrap"}}>
-       <input className="corp-inp" style={{flex:2, minWidth:200}} placeholder="Öğrenci adı ile ara..." value={search} onChange={e=>setSearch(e.target.value)}/>
+       <input className="corp-inp" style={{flex:2, minWidth:150}} placeholder="Öğrenci adı ile ara..." value={search} onChange={e=>setSearch(e.target.value)}/>
+       <select className="corp-inp" style={{flex:1, minWidth:120}} value={branchFilter} onChange={e=>setBranchFilter(e.target.value)}><option value="ALL">Tüm Branşlar</option>{allBranches.map(b=><option key={b} value={b}>{b}</option>)}</select>
        <select className="corp-inp" style={{flex:1, minWidth:120}} value={groupFilter} onChange={e=>setGroupFilter(e.target.value)}><option value="ALL">Tüm Gruplar</option>{allGroups.map(g=><option key={g} value={g}>{g}</option>)}</select>
        <select className="corp-inp" style={{flex:1, minWidth:120}} value={payFilter} onChange={e=>setPayFilter(e.target.value)}><option value="ALL">Ödeme Durumu</option><option value="PAID">Ödendi</option><option value="UNPAID">Borçlu</option></select>
        <select className="corp-inp" style={{flex:1, minWidth:120}} value={transportFilter} onChange={e=>setTransportFilter(e.target.value)}><option value="ALL">Servis Durumu</option><option value="YES">Servis İsteyenler</option><option value="NO">Servis İstemeyenler</option></select>
+       <select className="corp-inp" style={{flex:1, minWidth:120}} value={statusFilter} onChange={e=>setStatusFilter(e.target.value)}><option value="ALL">Kayıt Durumu</option><option value="ACTIVE">Aktif Kayıtlar</option><option value="EXPIRED">Süresi Dolanlar</option></select>
     </div>
     {filtered.length===0 && <div style={{textAlign:"center", padding:"50px 0", color:"var(--text-sub)", fontWeight:800}}>Kayıt bulunamadı.</div>}
     {filtered.length > 0 && <div className="list-header" style={{gridTemplateColumns:"2fr 2.5fr 2fr 1.5fr 1fr"}}><div>Ad Soyad & Servis</div><div>Kayıt & Grup</div><div>Veli & İletişim</div><div>Bakiye & Durum</div><div style={{textAlign:"right"}}>İşlemler</div></div>}
     <div style={{display:"flex", flexDirection:"column"}}>
       {filtered.map(s=>{
         const debt = monthlyTotal(s) - totalPaid(s); const endPassed = s.courseEnd && new Date(s.courseEnd) < new Date(TODAY);
-        return <div key={s.id} className="list-row" style={{gridTemplateColumns:"2fr 2.5fr 2fr 1.5fr 1fr", background: "linear-gradient(90deg, rgba(37, 99, 235, 0.05) 0%, #fff 15%, #fff 100%)", borderLeft: "4px solid var(--accent)"}}>
+        return <div key={s.id} className="list-row" style={{gridTemplateColumns:"2fr 2.5fr 2fr 1.5fr 1fr", background: "linear-gradient(90deg, rgba(14, 165, 233, 0.05) 0%, #fff 15%, #fff 100%)", borderLeft: "4px solid var(--accent)"}}>
           <div><div style={{fontWeight:800,fontSize:13.5, color:"var(--text-main)"}}>{s.name}</div><div style={{fontSize:11, color:"var(--text-sub)", marginTop:4, fontWeight:700}}>{s.hasTransport ? <span style={{color:"var(--accent)"}}>🚌 Servis: {s.driverName || "Kayıtlı"}</span> : "🚶‍♂️ Servis Yok"}</div></div>
           <div><div style={{fontSize:11.5,color:"var(--text-main)",fontWeight:800, textTransform:"uppercase"}}>{s.branch||"Branş Yok"} <span style={{color:"var(--text-sub)"}}>- {s.groupName||"Grup Yok"}</span></div><div style={{fontSize:10.5, fontWeight:700, marginTop:4}}><span style={{color:"var(--text-sub)"}}>{fmtDate(s.courseStart)}</span> - <span style={{color: endPassed ? "var(--danger)" : "var(--text-sub)", fontWeight: endPassed ? 900 : 700}}> {fmtDate(s.courseEnd)}</span></div></div>
           <div><div style={{fontSize:12.5,fontWeight:700, color:"var(--text-main)"}}>{s.guardianName||"—"}</div><div className="num" style={{fontSize:11.5,color:"var(--text-sub)",marginTop:4, fontWeight:600}}>{s.guardianPhone1||"—"}</div></div>
@@ -533,7 +529,7 @@ function WhatsAppPage({students, waLinks}) {
 }
 
 
-// WEBSITE PAGE (SİTE YÖNETİMİ) - ENTEGRE (Ders Paketleri Kalktı, Branşlar Geldi, Fotoğraf URL Eklendi)
+// WEBSITE PAGE (SİTE YÖNETİMİ)
 function WebsitePage({siteData, setSiteData}){
   const [tab, setTab] = useState(0);
   const [show, setShow] = useState(false);
@@ -617,7 +613,7 @@ function WebsitePage({siteData, setSiteData}){
     {tab===0 && <Card>
       <div style={{marginBottom:16, fontSize:14, fontWeight:800}}>Hakkımda Bölümü</div>
       <Inp label="Görünen İsim" value={aboutForm.name} onChange={v=>setAboutForm({...aboutForm, name:v})} />
-      <Inp label="Profil Fotoğrafı URL (Zorunlu Değil)" value={aboutForm.photoUrl} onChange={v=>setAboutForm({...aboutForm, photoUrl:v})} placeholder="https://..." />
+      <Inp label="Profil Fotoğrafı URL (İnternetten Resim Linki Kopylayın)" value={aboutForm.photoUrl} onChange={v=>setAboutForm({...aboutForm, photoUrl:v})} placeholder="https://..." />
       <Inp label="Kısa Özgeçmiş" value={aboutForm.text} onChange={v=>setAboutForm({...aboutForm, text:v})} rows={3} />
       <Inp label="Felsefem (Tırnak İçi Yazı)" value={aboutForm.philosophy} onChange={v=>setAboutForm({...aboutForm, philosophy:v})} rows={2} />
       <Inp label="Sertifikalar (Her satıra bir tane yazın)" value={aboutForm.certs} onChange={v=>setAboutForm({...aboutForm, certs:v})} rows={5} />
@@ -670,7 +666,7 @@ function WebsitePage({siteData, setSiteData}){
     <Modal show={show} onClose={()=>setShow(false)} title="Site İçeriği Düzenle">
       {tab===1 && <>
         <Inp label="Branş Adı *" value={f.name} onChange={v=>setF({...f,name:v})}/>
-        <Sel label="İkon (Phosphor Icon)" value={f.icon} onChange={v=>setF({...f,icon:v})} options={[{value:"waves",label:"Yüzme"},{value:"basketball",label:"Basketbol"},{value:"boxing-glove",label:"Dövüş"},{value:"person-simple-run",label:"Koşu/Atletizm"},{value:"barbell",label:"Ağırlık/Fitness"},{value:"person-simple-yoga",label:"Yoga/Pilates"}]}/>
+        <Sel label="İkon (Phosphor Icon)" value={f.icon} onChange={v=>setF({...f,icon:v})} options={[{value:"waves",label:"Yüzme"},{value:"basketball",label:"Basketbol"},{value:"boxing-glove",label:"Dövüş"},{value:"person-simple-run",label:"Koşu/Atletizm"},{value:"barbell",label:"Ağırlık/Fitness"},{value:"person-simple-yoga",label:"Yoga/Pilates"},{value:"tennis-ball",label:"Tenis"},{value:"volleyball",label:"Voleybol"}]}/>
         <Inp label="Branş Açıklaması (Birebir, grup vb.) *" value={f.desc} onChange={v=>setF({...f,desc:v})} rows={4}/>
       </>}
       {tab===2 && <>
@@ -712,7 +708,7 @@ function App(){
   const [currentUser, setCurrentUser] = useState(() => { try { return JSON.parse(sessionStorage.getItem("aqua_user")); } catch { return null; } });
   const [isDbLoaded, setIsDbLoaded] = useState(false);
   const [students,setStudents]=useState([]); const [expenses,setExpenses]=useState([]); const [staff,setStaff]=useState([]); const [stockItems,setStockItems]=useState([]);
-  const [routes,setRoutes]=useState([]); const [waLinks,setWaLinks]=useState([]); const [appUsers, setAppUsers]=useState([]); const [clubName,setClubName]=useState("Nihat Canlı"); const [logoUrl,setLogoUrl]=useState(""); const [oldPinCode, setOldPinCode]=useState("0309");
+  const [routes,setRoutes]=useState([]); const [waLinks,setWaLinks]=useState([]); const [appUsers, setAppUsers]=useState([]); const [clubName,setClubName]=useState("NHT CANLI"); const [logoUrl,setLogoUrl]=useState(""); const [oldPinCode, setOldPinCode]=useState("0309");
   
   const [siteData, setSiteData] = useState({});
   const [activeTab,setActiveTab]=useState("website"); const [sidebarOpen,setSidebarOpen]=useState(false);
@@ -764,9 +760,11 @@ function App(){
     <div className={`sidebar-desktop ${sidebarOpen ? 'open' : ''}`}>
       <div style={{padding:"28px 24px 24px", borderBottom:`1px solid var(--sidebar-border)`, display:"flex", alignItems:"center", gap:14}}>
         <div style={{width:44,height:44,borderRadius:10,background:`linear-gradient(135deg,var(--accent),#3B82F6)`,display:"flex",alignItems:"center",justifyContent:"center",overflow:"hidden",boxShadow:"0 4px 12px rgba(37, 99, 235, 0.3)"}}>
-           <span style={{color:"white", fontWeight:900, fontSize:16}}>NC</span>
+           <span style={{color:"white", fontWeight:900, fontSize:16}}>NHT</span>
         </div>
-        <div><div style={{fontSize:15,fontWeight:900, color:"#FFFFFF", letterSpacing:-0.3}}>{clubName}</div><div style={{fontSize:11,color:"#94A3B8",fontWeight:800,marginTop:4, textTransform:"uppercase"}}>Yönetici</div></div>
+        <div class="logo-admin">
+          <span class="nht">NHT</span><span class="canli">CANLI</span>
+        </div>
       </div>
       <div style={{flex:1, overflowY:"auto", padding:"20px 16px"}}>
         {visibleNav.map(item => {
@@ -789,7 +787,7 @@ function App(){
     <div style={{flex:1, display:"flex", flexDirection:"column", overflow:"hidden", position:"relative"}}>
       <div className="mobile-topbar">
          <div style={{display:"flex", alignItems:"center", gap:12}}>
-            <div style={{width:32,height:32,borderRadius:8,background:`var(--accent)`,display:"flex",alignItems:"center",justifyContent:"center"}}><span style={{color:"white", fontWeight:900, fontSize:14}}>NC</span></div>
+            <div style={{width:32,height:32,borderRadius:8,background:`var(--accent)`,display:"flex",alignItems:"center",justifyContent:"center"}}><span style={{color:"white", fontWeight:900, fontSize:12}}>NHT</span></div>
             <div style={{fontSize:16, fontWeight:800, color:"#fff", letterSpacing:-0.5}}>{clubName}</div>
          </div>
          <button className="menu-btn" onClick={()=>setSidebarOpen(true)}><Icon name="menu" size={24}/></button>
