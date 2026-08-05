@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<meta name="theme-color" content="#2563EB"/>
+<meta name="theme-color" content="#0ea5e9"/>
 <title>NHT CANLI | Yönetim</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -294,67 +294,38 @@ function WhatsAppPage({students, waLinks}) {
   return <div className="main-content" style={{padding:24, maxWidth:800, margin:"0 auto"}}><SectionTitle>WhatsApp Merkezi</SectionTitle><Card style={{marginBottom:30}}><Btn full style={{background:"var(--success)", color:"#fff", border:"none", padding:"14px", fontSize:14}} onClick={()=>window.open("https://web.whatsapp.com", "_blank")}><Icon name="chat" size={18}/> WhatsApp Web Sürümünü Aç</Btn></Card><SectionTitle>Grup Davet Linkleri</SectionTitle><Card style={{marginBottom:30}}><div style={{display:"flex", gap:12, flexWrap:"wrap"}}><input className="corp-inp" style={{flex:1, minWidth:150}} value={title} onChange={e=>setTitle(e.target.value)} placeholder="Grup Adı (Örn: CUMARTESİ)" /><input className="corp-inp" style={{flex:2, minWidth:200}} value={url} onChange={e=>setUrl(e.target.value)} placeholder="https://chat.whatsapp.com/..." /><Btn onClick={addLink}>Ekle</Btn></div><div style={{marginTop:20}}>{safeLinks.length === 0 && <div style={{fontSize:12, color:"var(--text-sub)", textAlign:"center", fontWeight:700}}>Bağlantı yok.</div>}{safeLinks.map(l=><div key={l.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"12px 16px",background:"var(--bg-color)",borderRadius:8,border:"1px solid var(--border)",marginBottom:10}}><span style={{fontSize:13,fontWeight:800,color:"var(--text-main)",display:"flex",alignItems:"center",gap:8}}><Icon name="link" size={16}/> {l.name}</span><button type="button" onClick={()=>DB.set("waLinks", safeLinks.filter(x=>x.id!==l.id))} style={{background:"var(--danger-bg)",border:"none",color:"var(--danger)",cursor:"pointer",fontWeight:800,padding:"6px 10px",borderRadius:6}}>Sil</button></div>)}</div></Card><SectionTitle>Öğrenci Daveti</SectionTitle><div style={{display:"flex", gap:16, marginBottom:20, flexWrap:"wrap"}}><input className="corp-inp" style={{flex:2, minWidth:200}} placeholder="Öğrenci ara..." value={search} onChange={e=>setSearch(e.target.value)}/><select className="corp-inp" style={{flex:1, cursor:"pointer", minWidth:150}} value={groupFilter} onChange={e=>setGroupFilter(e.target.value)}><option value="ALL">Tüm Gruplar</option>{allGroups.map(g=><option key={g} value={g}>{g}</option>)}</select></div><Card>{filteredStudents.length === 0 ? <div style={{textAlign:"center",padding:"30px 0",color:"var(--text-sub)",fontSize:13,fontWeight:700}}>Aktif öğrenci yok.</div> : filteredStudents.map(s=><div key={s.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"16px 0",borderBottom:`1px solid var(--border)`}}><div><div style={{fontWeight:800,fontSize:14,color:"var(--text-main)"}}>{s.name}</div><div style={{fontSize:11.5,color:"var(--text-sub)",marginTop:6,fontWeight:700}}>GRUP: {s.groupName||"Yok"}</div></div><Btn style={{background:"var(--success-bg)",color:"var(--success)"}} onClick={()=>triggerInvite(s)}>Davet Gönder</Btn></div>)}</Card><Modal show={showInviteModal} onClose={()=>setShowInviteModal(false)} title="Hangi Grubu Gönderelim?"><div style={{fontSize:13,color:"var(--text-main)",marginBottom:24,lineHeight:1.6,fontWeight:600}}><strong>{selectedStudent?.name}</strong> için link seç:</div><div style={{display:"flex", flexDirection:"column", gap:10}}>{safeLinks.map(l=><button key={l.id} type="button" onClick={()=>completeInvite(l.url)} style={{width:"100%",padding:"14px",borderRadius:8,background:"var(--bg-color)",border:`1px solid var(--border)`,color:"var(--accent)",fontWeight:800,fontSize:14,textAlign:"left",cursor:"pointer",transition:"all 0.2s"}}>{l.name}</button>)}</div></Modal></div>
 }
 
-// WEBSITE PAGE (SİTE YÖNETİMİ) - FİXED: Yükleme butonları kaldırıldı, tamamen URL'ye geçirildi.
+// WEBSITE PAGE (SİTE YÖNETİMİ) - YouTube Linki ve Dikey Galeri Optimizasyonu
 function WebsitePage({siteData, setSiteData}){
-  const [tab, setTab] = useState(0);
-  const [show, setShow] = useState(false);
-  const [showGal, setShowGal] = useState(false);
-  const [f, setF] = useState({});
-  const [galForm, setGalForm] = useState({url: "", type: "image"});
-  
-  const defaultFaqs = [
-    { id: 1, q: "Eğitim ücretleri nasıl belirleniyor?", a: "Seçtiğiniz branş, haftalık ders saati ve grup/birebir tercihinize göre size özel fiyatlandırma sunuyoruz." },
-    { id: 2, q: "Hangi yaş gruplarına ders veriyorsunuz?", a: "Çocuklardan yetişkinlere kadar her yaş grubuna özel hazırladığımız eğitim programlarımız mevcuttur." },
-    { id: 3, q: "Grup dersleri kaç kişi oluyor?", a: "Öğrenciyle birebir ilgilenebilmek ve verimliliği yüksek tutmak adına gruplarımız maksimum 3-5 kişiden oluşmaktadır." }
-  ];
-
+  const [tab, setTab] = useState(0); const [show, setShow] = useState(false); const [showGal, setShowGal] = useState(false);
+  const [f, setF] = useState({}); const [galForm, setGalForm] = useState({url: "", type: "image"});
+  const defaultFaqs = [ { id: 1, q: "Eğitim ücretleri nasıl belirleniyor?", a: "Seçtiğiniz branş, haftalık ders saati ve grup/birebir tercihinize göre size özel fiyatlandırma sunuyoruz." }, { id: 2, q: "Hangi yaş gruplarına ders veriyorsunuz?", a: "Çocuklardan yetişkinlere kadar her yaş grubuna özel hazırladığımız eğitim programlarımız mevcuttur." }, { id: 3, q: "Grup dersleri kaç kişi oluyor?", a: "Öğrenciyle birebir ilgilenebilmek ve verimliliği yüksek tutmak adına gruplarımız maksimum 3-5 kişiden oluşmaktadır." } ];
   const s = {
     about: siteData?.about || { name: "Nihat Canlı", photoUrl: "", text: "Yılların getirdiği tecrübe ile yüzme, basketbol ve dövüş sporlarında birebir ve grup özel dersleri veriyorum. Amacım her öğrencime, kendi hızında ve hedefine uygun; güvenli, sabırlı ve sonuç odaklı bir eğitim sunmak.", philosophy: "Spor sadece fiziksel bir gelişim değil, mental bir disiplindir. Benim işim bu disiplini inşa etmektir.", certs: "Cankurtaranlık Sertifikası\nYüzme Antrenörlüğü Belgesi\nBasketbol Antrenörlüğü Sertifikası" },
-    branches: siteData?.branches || [
-       { id:1, name: "Yüzme", icon: "waves", desc: "Yüzme branşında her seviyeye uygun; birebir özel ders, VIP grup dersleri, çocuk ve yetişkin gruplarına özel eğitimler sunulmaktadır." },
-       { id:2, name: "Basketbol", icon: "basketball", desc: "Basketbol branşında; temel altyapı eğitiminden profesyonel performans antrenmanlarına kadar, birebir ve grup dersleri verilmektedir." },
-       { id:3, name: "Dövüş Sporları", icon: "boxing-glove", desc: "Dövüş sporlarında; kondisyon artırıcı birebir teknik antrenmanlar, savunma ve refleks geliştirici özel yetişkin dersleri mevcuttur." }
-    ],
-    gallery: siteData?.gallery || [],
-    testimonials: siteData?.testimonials || [],
-    faqs: (siteData?.faqs && siteData.faqs.length > 0) ? siteData.faqs : defaultFaqs,
+    branches: siteData?.branches || [ { id:1, name: "Yüzme", icon: "waves", desc: "Yüzme branşında her seviyeye uygun; birebir özel ders, VIP grup dersleri, çocuk ve yetişkin gruplarına özel eğitimler sunulmaktadır." }, { id:2, name: "Basketbol", icon: "basketball", desc: "Basketbol branşında; temel altyapı eğitiminden profesyonel performans antrenmanlarına kadar, birebir ve grup dersleri verilmektedir." }, { id:3, name: "Dövüş Sporları", icon: "boxing-glove", desc: "Dövüş sporlarında; kondisyon artırıcı birebir teknik antrenmanlar, savunma ve refleks geliştirici özel yetişkin dersleri mevcuttur." } ],
+    gallery: siteData?.gallery || [], testimonials: siteData?.testimonials || [], faqs: (siteData?.faqs && siteData.faqs.length > 0) ? siteData.faqs : defaultFaqs,
     contact: siteData?.contact || { phone: "+90 500 000 00 00", email: "bilgi@siteniz.com", whatsappNum: "905000000000", whatsappMsg: "Merhaba, bilgi almak istiyorum.", instagramUrl: "" }
   };
-
   const safeBranches = safeArr(s.branches); const safeGallery = safeArr(s.gallery); const safeTesti = safeArr(s.testimonials); const safeFaq = safeArr(s.faqs);
   const [aboutForm, setAboutForm] = useState(s.about); const [contactForm, setContactForm] = useState(s.contact);
   useEffect(() => { setAboutForm(s.about); setContactForm(s.contact); }, [siteData]);
-
   const saveSection = (sectionKey, formData) => { let n = {...s, [sectionKey]: formData}; setSiteData(n); DB.set("siteData", n); alert("Başarıyla kaydedildi!"); }
-
-  const saveModal = () => {
-    let n = {...s};
-    if(tab===1) n.branches = f.id ? safeBranches.map(x=>x.id===f.id?f:x) : [...safeBranches, {...f, id:Date.now()}];
-    if(tab===3) n.testimonials = f.id ? safeTesti.map(x=>x.id===f.id?f:x) : [...safeTesti, {...f, id:Date.now()}];
-    if(tab===4) n.faqs = f.id ? safeFaq.map(x=>x.id===f.id?f:x) : [...safeFaq, {...f, id:Date.now()}];
-    setSiteData(n); DB.set("siteData", n); setShow(false); setF({});
-  };
-
-  const del = (id) => {
-    if(!confirm("Silmek istediğinize emin misiniz?")) return;
-    let n = {...s};
-    if(tab===1) n.branches = safeBranches.filter(x=>x.id!==id);
-    if(tab===2) n.gallery = safeGallery.filter(x=>x.id!==id);
-    if(tab===3) n.testimonials = safeTesti.filter(x=>x.id!==id);
-    if(tab===4) n.faqs = safeFaq.filter(x=>x.id!==id);
-    setSiteData(n); DB.set("siteData", n);
-  };
-
-  const generateRandomTestimonials = () => {
-    if(!confirm("30 adet rastgele yorum üretilip sisteme eklenecek. Onaylıyor musunuz?")) return;
-    const firsts = ["Ali","Ayşe","Mehmet","Fatma","Can","Zeynep","Burak","Elif","Emre","Ceren","Kaan","Büşra","Deniz","Eda","Oğuz","Selin","Murat","Merve"]; const lasts = ["Y.","K.","D.","Ç.","Ş.","Yıldız","Ö.","A.","Özdemir","Arslan"]; const roles = ["Yüzme · Veli","Basketbol","Dövüş Sporları","Yüzme · Yetişkin","VIP Grup Dersi","Birebir Eğitim"]; const quotes = ["Harika bir eğitmen, çok memnun kaldık.","Kısa sürede büyük ilerleme kaydettik.","Çocuğumun su korkusunu yenmesine yardımcı oldu.","Antrenmanlar çok verimli geçiyor.","Disiplinli ve profesyonel bir yaklaşımı var.","Performansım gözle görülür şekilde arttı.","Kendimi çok daha güvende hissediyorum.","Eğlenceli ve öğretici dersler."];
-    let res = []; for(let i=0; i<30; i++) { res.push({ id: Date.now() + i, name: firsts[Math.floor(Math.random()*firsts.length)] + " " + lasts[Math.floor(Math.random()*lasts.length)], role: roles[Math.floor(Math.random()*roles.length)], quote: quotes[Math.floor(Math.random()*quotes.length)] }); }
-    let n = {...s, testimonials: [...safeTesti, ...res]}; setSiteData(n); DB.set("siteData", n); alert("30 yorum başarıyla üretildi!");
-  }
-
+  const saveModal = () => { let n = {...s}; if(tab===1) n.branches = f.id ? safeBranches.map(x=>x.id===f.id?f:x) : [...safeBranches, {...f, id:Date.now()}]; if(tab===3) n.testimonials = f.id ? safeTesti.map(x=>x.id===f.id?f:x) : [...safeTesti, {...f, id:Date.now()}]; if(tab===4) n.faqs = f.id ? safeFaq.map(x=>x.id===f.id?f:x) : [...safeFaq, {...f, id:Date.now()}]; setSiteData(n); DB.set("siteData", n); setShow(false); setF({}); };
+  const del = (id) => { if(!confirm("Silmek istediğinize emin misiniz?")) return; let n = {...s}; if(tab===1) n.branches = safeBranches.filter(x=>x.id!==id); if(tab===2) n.gallery = safeGallery.filter(x=>x.id!==id); if(tab===3) n.testimonials = safeTesti.filter(x=>x.id!==id); if(tab===4) n.faqs = safeFaq.filter(x=>x.id!==id); setSiteData(n); DB.set("siteData", n); };
+  const generateRandomTestimonials = () => { if(!confirm("30 adet rastgele yorum üretilip sisteme eklenecek. Onaylıyor musunuz?")) return; const firsts = ["Ali","Ayşe","Mehmet","Fatma","Can","Zeynep","Burak","Elif","Emre","Ceren","Kaan","Büşra","Deniz","Eda","Oğuz","Selin","Murat","Merve"]; const lasts = ["Y.","K.","D.","Ç.","Ş.","Yıldız","Ö.","A.","Özdemir","Arslan"]; const roles = ["Yüzme · Veli","Basketbol","Dövüş Sporları","Yüzme · Yetişkin","VIP Grup Dersi","Birebir Eğitim"]; const quotes = ["Harika bir eğitmen, çok memnun kaldık.","Kısa sürede büyük ilerleme kaydettik.","Çocuğumun su korkusunu yenmesine yardımcı oldu.","Antrenmanlar çok verimli geçiyor.","Disiplinli ve profesyonel bir yaklaşımı var.","Performansım gözle görülür şekilde arttı.","Kendimi çok daha güvende hissediyorum.","Eğlenceli ve öğretici dersler."]; let res = []; for(let i=0; i<30; i++) { res.push({ id: Date.now() + i, name: firsts[Math.floor(Math.random()*firsts.length)] + " " + lasts[Math.floor(Math.random()*lasts.length)], role: roles[Math.floor(Math.random()*roles.length)], quote: quotes[Math.floor(Math.random()*quotes.length)] }); } let n = {...s, testimonials: [...safeTesti, ...res]}; setSiteData(n); DB.set("siteData", n); alert("30 yorum başarıyla üretildi!"); }
+  
   const handleGalleryAdd = () => {
      if(!galForm.url) return;
-     let n = {...s, gallery: [...safeGallery, {id: Date.now(), ...galForm}]};
+     let finalUrl = galForm.url;
+     if(galForm.type === 'youtube') {
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|shorts\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = finalUrl.match(regExp);
+        if(match && match[2].length === 11) {
+           finalUrl = "https://www.youtube.com/embed/" + match[2] + "?rel=0&showinfo=0";
+        } else {
+           alert("Geçerli bir YouTube linki girmediniz!"); return;
+        }
+     }
+     let n = {...s, gallery: [...safeGallery, {id: Date.now(), url: finalUrl, type: galForm.type}]};
      setSiteData(n); DB.set("siteData", n); 
      setShowGal(false); setGalForm({url:"", type:"image"});
   };
@@ -364,108 +335,27 @@ function WebsitePage({siteData, setSiteData}){
   return <div className="main-content" style={{padding:24, maxWidth:1000, margin:"0 auto"}}>
     <SectionTitle action={showAddBtn && <Btn onClick={()=>{setF({});setShow(true);}}>+ Yeni Ekle</Btn>}>Tanıtım Sitesi Yönetimi</SectionTitle>
     <TabBar tabs={["Hakkımda", "Branşlar", "Medya / Galeri", "Öğrenci Yorumları", "S.S.S.", "İletişim"]} active={tab} onChange={setTab}/>
-    
-    {tab===0 && <Card>
-      <div style={{marginBottom:16, fontSize:14, fontWeight:800}}>Hakkımda Bölümü</div>
-      <Inp label="Görünen İsim" value={aboutForm.name} onChange={v=>setAboutForm({...aboutForm, name:v})} />
-      <div style={{marginBottom: 16, background: "var(--bg-color)", padding:"16px", borderRadius:"8px", border:"1px solid var(--border)"}}>
-         <div style={{fontSize:11.5, color:"var(--text-main)", marginBottom:10, fontWeight:800, textTransform:"uppercase"}}>Profil Fotoğrafı Ekle (URL)</div>
-         <div style={{display:"flex", alignItems:"center", gap: 12, marginBottom:10}}>
-            {aboutForm.photoUrl ? <img src={aboutForm.photoUrl} style={{width: 60, height: 60, borderRadius: 8, objectFit:"cover"}} /> : <div style={{width:60, height:60, borderRadius:8, background:"var(--border)"}}></div>}
-            <input className="corp-inp" style={{flex:1}} value={aboutForm.photoUrl} onChange={e=>setAboutForm({...aboutForm, photoUrl:e.target.value})} placeholder="https://i.hizliresim.com/resimadiniz.jpg"/>
-         </div>
-         <div style={{fontSize:11, color:"var(--danger)", fontWeight:700}}>⚠️ ÖNEMLİ NOT: HızlıResim veya ImgBB kullanıyorsanız; lütfen size verdikleri sayfa linkini değil, resmin kendisinin direkt linkini kopyalayın! Linkin sonu mutlaka <b>.jpg</b> veya <b>.png</b> ile bitmelidir.</div>
-      </div>
-      <Inp label="Kısa Özgeçmiş" value={aboutForm.text} onChange={v=>setAboutForm({...aboutForm, text:v})} rows={3} />
-      <Inp label="Felsefem (Tırnak İçi Yazı)" value={aboutForm.philosophy} onChange={v=>setAboutForm({...aboutForm, philosophy:v})} rows={2} />
-      <Inp label="Sertifikalar (Her satıra bir tane yazın)" value={aboutForm.certs} onChange={v=>setAboutForm({...aboutForm, certs:v})} rows={5} />
-      <Btn onClick={()=>saveSection('about', aboutForm)} style={{marginTop: 10, padding: 12}}>Hakkımda Bilgilerini Kaydet</Btn>
-    </Card>}
-
-    {tab===1 && <Card>
-      {safeBranches.length===0?<div style={{textAlign:"center",padding:40,color:"var(--text-sub)",fontWeight:700}}>Eklenmiş branş bulunmuyor.</div>:
-      safeBranches.map(x=><div key={x.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"14px 0",borderBottom:"1px solid var(--border)"}}>
-        <div><div style={{fontWeight:800,fontSize:14, color:"var(--text-main)"}}>{x.name}</div><div style={{fontSize:11.5,color:"var(--text-sub)",fontWeight:600,marginTop:6, maxWidth:400}}>{x.desc?.slice(0,60)}...</div></div>
-        <div style={{display:"flex",gap:8}}><Btn sm variant="secondary" onClick={()=>{setF(x);setShow(true);}}>Düzenle</Btn><Btn sm variant="danger" onClick={()=>del(x.id)}>Sil</Btn></div>
-      </div>)}
-    </Card>}
-
-    {tab===2 && <Card>
-      <div style={{display:"flex", justifyContent:"space-between", marginBottom:20, flexWrap:"wrap", gap:10}}>
-         <span style={{fontSize:14, fontWeight:800}}>Derslerden Görüntüler ({safeGallery.length})</span>
-         <Btn variant="primary" onClick={()=>setShowGal(true)}>+ URL ile Medya Ekle</Btn>
-      </div>
-      {safeGallery.length===0 ? <div style={{textAlign:"center",padding:40,color:"var(--text-sub)",fontWeight:700}}>Galeriye henüz medya eklenmemiş.</div> :
-      <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(160px, 1fr))", gap:16}}>
-        {safeGallery.slice().reverse().map(m => (
-           <div key={m.id} style={{position:"relative", borderRadius:8, overflow:"hidden", border:"1px solid var(--border)", background:"var(--surface-2)"}}>
-             {m.type === 'video' ? <video src={m.url} style={{width:"100%", height:120, objectFit:"cover"}} controls/> : <img src={m.url} style={{width:"100%", height:120, objectFit:"cover"} }/>}
-             <button onClick={()=>del(m.id)} style={{position:"absolute", top:6, right:6, background:"var(--danger)", color:"#fff", border:"none", borderRadius:6, cursor:"pointer", padding:"6px 10px", fontWeight:"bold"}}>X</button>
-           </div>
-        ))}
-      </div>}
-    </Card>}
-
-    {tab===3 && <Card>
-      <div style={{display:"flex", justifyContent:"space-between", marginBottom:20}}>
-         <span style={{fontSize:14, fontWeight:800}}>Kayıtlı Yorumlar ({safeTesti.length})</span>
-         <Btn variant="success" onClick={generateRandomTestimonials}>🚀 Otomatik 30 Yorum Üret</Btn>
-      </div>
-      {safeTesti.length===0?<div style={{textAlign:"center",padding:40,color:"var(--text-sub)",fontWeight:700}}>Yorum bulunmuyor.</div>:
-      <div style={{maxHeight:400, overflowY:"auto"}}>
-        {safeTesti.slice().reverse().map(x=><div key={x.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"14px 0",borderBottom:"1px solid var(--border)"}}>
-          <div><div style={{fontWeight:800,fontSize:13, color:"var(--text-main)", fontStyle:"italic"}}>"{x.quote?.slice(0,60)}..."</div><div style={{fontSize:11.5,color:"var(--accent)",fontWeight:800,marginTop:6}}>{x.name} <span style={{color:"var(--text-sub)"}}>— {x.role}</span></div></div>
-          <div style={{display:"flex",gap:8}}><Btn sm variant="secondary" onClick={()=>{setF(x);setShow(true);}}>Düzenle</Btn><Btn sm variant="danger" onClick={()=>del(x.id)}>Sil</Btn></div>
-        </div>)}
-      </div>}
-    </Card>}
-
-    {tab===4 && <Card>
-      {safeFaq.length===0?<div style={{textAlign:"center",padding:40,color:"var(--text-sub)",fontWeight:700}}>Sıkça sorulan soru bulunmuyor.</div>:
-      safeFaq.map(x=><div key={x.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"14px 0",borderBottom:"1px solid var(--border)"}}>
-        <div><div style={{fontWeight:800,fontSize:14, color:"var(--text-main)"}}>{x.q}</div><div style={{fontSize:11.5,color:"var(--text-sub)",marginTop:6,maxWidth:500}}>{x.a?.slice(0,80)}...</div></div>
-        <div style={{display:"flex",gap:8}}><Btn sm variant="secondary" onClick={()=>{setF(x);setShow(true);}}>Düzenle</Btn><Btn sm variant="danger" onClick={()=>del(x.id)}>Sil</Btn></div>
-      </div>)}
-    </Card>}
-
-    {tab===5 && <Card>
-       <div style={{marginBottom:16, fontSize:14, fontWeight:800}}>Sitedeki İletişim Bilgileri</div>
-       <div style={{display:"flex", gap:16, flexWrap:"wrap"}}>
-         <div style={{flex:1, minWidth:250}}><Inp label="Telefon Numarası" value={contactForm.phone} onChange={v=>setContactForm({...contactForm, phone:v})} placeholder="+90 5XX XXX XX XX" /></div>
-         <div style={{flex:1, minWidth:250}}><Inp label="E-Posta Adresi" value={contactForm.email} onChange={v=>setContactForm({...contactForm, email:v})} placeholder="bilgi@site.com" /></div>
-       </div>
-       <div style={{display:"flex", gap:16, flexWrap:"wrap"}}>
-         <div style={{flex:1, minWidth:250}}><Inp label="WhatsApp Numarası (Sadece Rakam)" value={contactForm.whatsappNum} onChange={v=>setContactForm({...contactForm, whatsappNum:v.replace(/\D/g,'')})} placeholder="905XXXXXXXXX" /></div>
-         <div style={{flex:1, minWidth:250}}><Inp label="WhatsApp Hazır Mesajı" value={contactForm.whatsappMsg} onChange={v=>setContactForm({...contactForm, whatsappMsg:v})} placeholder="Merhaba, bilgi almak istiyorum." /></div>
-       </div>
-       <div style={{background:"rgba(14,165,233,0.1)", padding:"16px", borderRadius:"8px", marginTop:"16px"}}>
-         <Inp label="Instagram Profil Linki (Buton İçin)" value={contactForm.instagramUrl} onChange={v=>setContactForm({...contactForm, instagramUrl:v})} placeholder="https://instagram.com/kullaniciadi" />
-       </div>
-       <Btn onClick={()=>saveSection('contact', contactForm)} style={{marginTop: 16, padding: 12}}>İletişim Bilgilerini Kaydet</Btn>
-    </Card>}
+    {tab===0 && <Card><div style={{marginBottom:16, fontSize:14, fontWeight:800}}>Hakkımda Bölümü</div><Inp label="Görünen İsim" value={aboutForm.name} onChange={v=>setAboutForm({...aboutForm, name:v})} /><div style={{marginBottom: 16, background: "var(--bg-color)", padding:"16px", borderRadius:"8px", border:"1px solid var(--border)"}}><div style={{fontSize:11.5, color:"var(--text-main)", marginBottom:10, fontWeight:800, textTransform:"uppercase"}}>Profil Fotoğrafı Ekle (URL)</div><div style={{display:"flex", alignItems:"center", gap: 12, marginBottom:10}}>{aboutForm.photoUrl ? <img src={aboutForm.photoUrl} style={{width: 60, height: 60, borderRadius: 8, objectFit:"cover"}} /> : <div style={{width:60, height:60, borderRadius:8, background:"var(--border)"}}></div>}<input className="corp-inp" style={{flex:1}} value={aboutForm.photoUrl} onChange={e=>setAboutForm({...aboutForm, photoUrl:e.target.value})} placeholder="https://i.hizliresim.com/resimadiniz.jpg"/></div><div style={{fontSize:11, color:"var(--danger)", fontWeight:700}}>⚠️ ÖNEMLİ NOT: HızlıResim veya ImgBB kullanıyorsanız; lütfen size verdikleri sayfa linkini değil, resmin kendisinin direkt linkini kopyalayın! Linkin sonu mutlaka <b>.jpg</b> veya <b>.png</b> ile bitmelidir.</div></div><Inp label="Kısa Özgeçmiş" value={aboutForm.text} onChange={v=>setAboutForm({...aboutForm, text:v})} rows={3} /><Inp label="Felsefem (Tırnak İçi Yazı)" value={aboutForm.philosophy} onChange={v=>setAboutForm({...aboutForm, philosophy:v})} rows={2} /><Inp label="Sertifikalar (Her satıra bir tane yazın)" value={aboutForm.certs} onChange={v=>setAboutForm({...aboutForm, certs:v})} rows={5} /><Btn onClick={()=>saveSection('about', aboutForm)} style={{marginTop: 10, padding: 12}}>Hakkımda Bilgilerini Kaydet</Btn></Card>}
+    {tab===1 && <Card>{safeBranches.length===0?<div style={{textAlign:"center",padding:40,color:"var(--text-sub)",fontWeight:700}}>Eklenmiş branş bulunmuyor.</div>:safeBranches.map(x=><div key={x.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"14px 0",borderBottom:"1px solid var(--border)"}}><div><div style={{fontWeight:800,fontSize:14, color:"var(--text-main)"}}>{x.name}</div><div style={{fontSize:11.5,color:"var(--text-sub)",fontWeight:600,marginTop:6, maxWidth:400}}>{x.desc?.slice(0,60)}...</div></div><div style={{display:"flex",gap:8}}><Btn sm variant="secondary" onClick={()=>{setF(x);setShow(true);}}>Düzenle</Btn><Btn sm variant="danger" onClick={()=>del(x.id)}>Sil</Btn></div></div>)}</Card>}
+    {tab===2 && <Card><div style={{display:"flex", justifyContent:"space-between", marginBottom:20, flexWrap:"wrap", gap:10}}><span style={{fontSize:14, fontWeight:800}}>Derslerden Görüntüler ({safeGallery.length})</span><Btn variant="primary" onClick={()=>setShowGal(true)}>+ URL ile Medya Ekle</Btn></div>{safeGallery.length===0 ? <div style={{textAlign:"center",padding:40,color:"var(--text-sub)",fontWeight:700}}>Galeriye henüz medya eklenmemiş.</div> : <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(140px, 1fr))", gap:16}}>{safeGallery.slice().reverse().map(m => (<div key={m.id} style={{position:"relative", borderRadius:8, overflow:"hidden", border:"1px solid var(--border)", background:"var(--surface-2)", aspectRatio:"9/16"}}>{m.type === 'video' ? <video src={m.url} style={{width:"100%", height:"100%", objectFit:"cover"}} controls/> : m.type === 'youtube' ? <iframe src={m.url} style={{width:"100%", height:"100%", border:"none", objectFit:"cover"}}></iframe> : <img src={m.url} style={{width:"100%", height:"100%", objectFit:"cover"} />}<button onClick={()=>del(m.id)} style={{position:"absolute", top:6, right:6, background:"var(--danger)", color:"#fff", border:"none", borderRadius:6, cursor:"pointer", padding:"6px 10px", fontWeight:"bold", zIndex:10}}>X</button></div>))}</div>}</Card>}
+    {tab===3 && <Card><div style={{display:"flex", justifyContent:"space-between", marginBottom:20}}><span style={{fontSize:14, fontWeight:800}}>Kayıtlı Yorumlar ({safeTesti.length})</span><Btn variant="success" onClick={generateRandomTestimonials}>🚀 Otomatik 30 Yorum Üret</Btn></div>{safeTesti.length===0?<div style={{textAlign:"center",padding:40,color:"var(--text-sub)",fontWeight:700}}>Yorum bulunmuyor.</div>:<div style={{maxHeight:400, overflowY:"auto"}}>{safeTesti.slice().reverse().map(x=><div key={x.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"14px 0",borderBottom:"1px solid var(--border)"}}><div><div style={{fontWeight:800,fontSize:13, color:"var(--text-main)", fontStyle:"italic"}}>"{x.quote?.slice(0,60)}..."</div><div style={{fontSize:11.5,color:"var(--accent)",fontWeight:800,marginTop:6}}>{x.name} <span style={{color:"var(--text-sub)"}}>— {x.role}</span></div></div><div style={{display:"flex",gap:8}}><Btn sm variant="secondary" onClick={()=>{setF(x);setShow(true);}}>Düzenle</Btn><Btn sm variant="danger" onClick={()=>del(x.id)}>Sil</Btn></div></div>)}</div>}</Card>}
+    {tab===4 && <Card>{safeFaq.length===0?<div style={{textAlign:"center",padding:40,color:"var(--text-sub)",fontWeight:700}}>Sıkça sorulan soru bulunmuyor.</div>:safeFaq.map(x=><div key={x.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"14px 0",borderBottom:"1px solid var(--border)"}}><div><div style={{fontWeight:800,fontSize:14, color:"var(--text-main)"}}>{x.q}</div><div style={{fontSize:11.5,color:"var(--text-sub)",marginTop:6,maxWidth:500}}>{x.a?.slice(0,80)}...</div></div><div style={{display:"flex",gap:8}}><Btn sm variant="secondary" onClick={()=>{setF(x);setShow(true);}}>Düzenle</Btn><Btn sm variant="danger" onClick={()=>del(x.id)}>Sil</Btn></div></div>)}</Card>}
+    {tab===5 && <Card><div style={{marginBottom:16, fontSize:14, fontWeight:800}}>Sitedeki İletişim Bilgileri</div><div style={{display:"flex", gap:16, flexWrap:"wrap"}}><div style={{flex:1, minWidth:250}}><Inp label="Telefon Numarası" value={contactForm.phone} onChange={v=>setContactForm({...contactForm, phone:v})} placeholder="+90 5XX XXX XX XX" /></div><div style={{flex:1, minWidth:250}}><Inp label="E-Posta Adresi" value={contactForm.email} onChange={v=>setContactForm({...contactForm, email:v})} placeholder="bilgi@site.com" /></div></div><div style={{display:"flex", gap:16, flexWrap:"wrap"}}><div style={{flex:1, minWidth:250}}><Inp label="WhatsApp Numarası (Sadece Rakam)" value={contactForm.whatsappNum} onChange={v=>setContactForm({...contactForm, whatsappNum:v.replace(/\D/g,'')})} placeholder="905XXXXXXXXX" /></div><div style={{flex:1, minWidth:250}}><Inp label="WhatsApp Hazır Mesajı" value={contactForm.whatsappMsg} onChange={v=>setContactForm({...contactForm, whatsappMsg:v})} placeholder="Merhaba, bilgi almak istiyorum." /></div></div><div style={{background:"rgba(14,165,233,0.1)", padding:"16px", borderRadius:"8px", marginTop:"16px"}}><Inp label="Instagram Profil Linki (Buton İçin)" value={contactForm.instagramUrl} onChange={v=>setContactForm({...contactForm, instagramUrl:v})} placeholder="https://instagram.com/kullaniciadi" /></div><Btn onClick={()=>saveSection('contact', contactForm)} style={{marginTop: 16, padding: 12}}>İletişim Bilgilerini Kaydet</Btn></Card>}
 
     <Modal show={showGal} onClose={()=>setShowGal(false)} title="Galeriye Medya Ekle">
-      <Sel label="Medya Türü" value={galForm.type} onChange={v=>setGalForm({...galForm, type:v})} options={[{value:"image",label:"Fotoğraf (JPG/PNG)"},{value:"video",label:"Video (MP4)"}]} />
-      <Inp label="Medya Linki (URL)" value={galForm.url} onChange={v=>setGalForm({...galForm, url:v})} placeholder="https://i.hizliresim.com/..." />
-      <div style={{fontSize:10.5, color:"var(--danger)", fontWeight:700, marginBottom:16}}>⚠️ Linkin sonu mutlaka .jpg, .png veya .mp4 ile bitmelidir. Sayfa linki kopyalamayınız.</div>
+      <Sel label="Medya Türü" value={galForm.type} onChange={v=>setGalForm({...galForm, type:v})} options={[{value:"image",label:"Fotoğraf (JPG/PNG)"},{value:"video",label:"Direkt Video (MP4)"}, {value:"youtube",label:"YouTube Video / Shorts"}]} />
+      <Inp label="Medya Linki (URL)" value={galForm.url} onChange={v=>setGalForm({...galForm, url:v})} placeholder="Link buraya..." />
+      {galForm.type === 'youtube' ? 
+         <div style={{fontSize:10.5, color:"var(--accent)", fontWeight:700, marginBottom:16}}>ℹ️ YouTube üzerinden aldığınız linki (youtube.com/watch?v=... veya youtube.com/shorts/...) yapıştırmanız yeterlidir. Sistem onu otomatik oynatıcıya çevirecektir.</div> :
+         <div style={{fontSize:10.5, color:"var(--danger)", fontWeight:700, marginBottom:16}}>⚠️ Linkin sonu mutlaka .jpg, .png veya .mp4 ile bitmelidir. Sayfa linki kopyalamayınız.</div>
+      }
       <Btn full onClick={handleGalleryAdd} style={{padding:12}}>Galeriye Ekle</Btn>
     </Modal>
 
     <Modal show={show} onClose={()=>setShow(false)} title="Site İçeriği Düzenle">
-      {tab===1 && <>
-        <Inp label="Branş Adı *" value={f.name} onChange={v=>setF({...f,name:v})}/>
-        <Sel label="İkon (Phosphor Icon)" value={f.icon} onChange={v=>setF({...f,icon:v})} options={[{value:"waves",label:"Yüzme"},{value:"basketball",label:"Basketbol"},{value:"boxing-glove",label:"Dövüş"},{value:"person-simple-run",label:"Koşu/Atletizm"},{value:"barbell",label:"Ağırlık/Fitness"},{value:"person-simple-yoga",label:"Yoga/Pilates"},{value:"tennis-ball",label:"Tenis"},{value:"volleyball",label:"Voleybol"}]}/>
-        <Inp label="Branş Açıklaması (VIP, Birebir vb. detaylar) *" value={f.desc} onChange={v=>setF({...f,desc:v})} rows={4}/>
-      </>}
-      {tab===3 && <>
-        <Inp label="İsim Soyisim *" value={f.name} onChange={v=>setF({...f,name:v})}/>
-        <Inp label="Rol / Eğitim (Örn: Yüzme · Veli)" value={f.role} onChange={v=>setF({...f,role:v})}/>
-        <Inp label="Yorum Metni *" value={f.quote} onChange={v=>setF({...f,quote:v})} rows={3}/>
-      </>}
-      {tab===4 && <>
-        <Inp label="Soru *" value={f.q} onChange={v=>setF({...f,q:v})}/>
-        <Inp label="Cevap *" value={f.a} onChange={v=>setF({...f,a:v})} rows={3}/>
-      </>}
+      {tab===1 && <><Inp label="Branş Adı *" value={f.name} onChange={v=>setF({...f,name:v})}/><Sel label="İkon (Phosphor Icon)" value={f.icon} onChange={v=>setF({...f,icon:v})} options={[{value:"waves",label:"Yüzme"},{value:"basketball",label:"Basketbol"},{value:"boxing-glove",label:"Dövüş"},{value:"person-simple-run",label:"Koşu/Atletizm"},{value:"barbell",label:"Ağırlık/Fitness"},{value:"person-simple-yoga",label:"Yoga/Pilates"},{value:"tennis-ball",label:"Tenis"},{value:"volleyball",label:"Voleybol"}]}/><Inp label="Branş Açıklaması (VIP, Birebir vb. detaylar) *" value={f.desc} onChange={v=>setF({...f,desc:v})} rows={4}/></>}
+      {tab===3 && <><Inp label="İsim Soyisim *" value={f.name} onChange={v=>setF({...f,name:v})}/><Inp label="Rol / Eğitim (Örn: Yüzme · Veli)" value={f.role} onChange={v=>setF({...f,role:v})}/><Inp label="Yorum Metni *" value={f.quote} onChange={v=>setF({...f,quote:v})} rows={3}/></>}
+      {tab===4 && <><Inp label="Soru *" value={f.q} onChange={v=>setF({...f,q:v})}/><Inp label="Cevap *" value={f.a} onChange={v=>setF({...f,a:v})} rows={3}/></>}
       <Btn full onClick={saveModal} style={{marginTop:20, padding:12}}>Sisteme Kaydet</Btn>
     </Modal>
   </div>
@@ -474,26 +364,15 @@ function WebsitePage({siteData, setSiteData}){
 function SettingsPage({navItems, clubName, appUsers}){
   const [tab, setTab] = useState(0); const [nameVal, setNameVal] = useState(clubName);
   const [showUserModal, setShowUserModal] = useState(false); const [uForm, setUForm] = useState({ id:null, username:"", password:"", role:"staff", allowedTabs:[] });
-  
   function toggleMenuAccess(menuId) { const tabs = uForm.allowedTabs || []; if(tabs.includes(menuId)) setUForm({...uForm, allowedTabs: tabs.filter(t=>t!==menuId)}); else setUForm({...uForm, allowedTabs: [...tabs, menuId]}); }
   function saveUser() { if(!uForm.username||!uForm.password)return; let n = safeArr(appUsers); if(uForm.id) n = n.map(u => u.id === uForm.id ? {...uForm} : u); else n = [...n, {...uForm, id:Date.now()}]; DB.set("appUsers", n); setShowUserModal(false); }
   function deleteUser(id) { if(id === "admin") { alert("Ana yönetici hesabı silinemez."); return; } if(confirm("Hesabı silmek istediğinize emin misiniz?")) { DB.set("appUsers", safeArr(appUsers).filter(x=>x.id!==id)); } }
 
-  return<div className="main-content" style={{padding:24, maxWidth:800, margin:"0 auto"}}>
-    <TabBar tabs={["Kurum Ayarları", "Personel Yetkileri"]} active={tab} onChange={setTab}/>
-    {tab === 0 && (
-      <div><Card style={{padding:"30px"}}><Inp label="Kulüp/Kurum Adı" value={nameVal} onChange={setNameVal}/></Card><Btn full onClick={()=>{DB.set("clubName",nameVal); alert("Kaydedildi.");}} style={{padding:"14px"}}>Sisteme Kaydet</Btn></div>
-    )}
-    {tab===1&&<div>
-      <SectionTitle action={<Btn onClick={()=>{setUForm({id:null,username:"",password:"",role:"staff",allowedTabs:["dashboard","students","attendance"]});setShowUserModal(true);}}>+ Yeni Personel</Btn>}>Yetkiler</SectionTitle>
-      {safeArr(appUsers).map(u=><Card key={u.id} style={{padding:"20px 24px"}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}><div><div style={{fontWeight:800,fontSize:15,color:"var(--text-main)"}}>{u.username}</div><div style={{fontSize:11,color:u.role==='admin'?"var(--success)":"var(--text-sub)",fontWeight:800,textTransform:"uppercase",marginTop:6}}>{u.role==='admin'?'Yönetici':'Çalışan'}</div></div><div style={{display:"flex",gap:12}}><Btn variant="secondary" onClick={()=>{setUForm(u);setShowUserModal(true);}}>Düzenle</Btn>{u.role !== 'admin' && <Btn variant="danger" onClick={()=>deleteUser(u.id)}>Kaldır</Btn>}</div></div></Card>)}
-      <Modal show={showUserModal} onClose={()=>setShowUserModal(false)} title="Personel Hesabı"><Inp label="Kullanıcı Adı" value={uForm.username} onChange={v=>setUForm({...uForm,username:v})} autoFocus/><Inp label="Şifre" value={uForm.password} onChange={v=>setUForm({...uForm,password:v})}/>{uForm.id !== "admin" && (<div style={{marginTop: 24}}><div style={{fontSize:12, fontWeight:800, marginBottom:16, color:"var(--text-main)", textTransform:"uppercase"}}>Erişim İzinleri</div><div style={{display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(140px, 1fr))", gap:12}}>{navItems.map(nav => nav.id !== "settings" && (<label key={nav.id} style={{display:"flex", alignItems:"center", gap:10, padding:"14px", background:"var(--bg-color)", borderRadius:8, cursor:"pointer", border:`1px solid ${(uForm.allowedTabs||[]).includes(nav.id)?"var(--accent)":"var(--border)"}`, transition:"all 0.2s"}}><input type="checkbox" checked={(uForm.allowedTabs||[]).includes(nav.id)} onChange={() => toggleMenuAccess(nav.id)} style={{width:18,height:18,accentColor:"var(--accent)"}}/><span style={{fontSize:13, fontWeight:700, color:"var(--text-main)"}}>{nav.label}</span></label>))}</div></div>)}<Btn full onClick={saveUser} style={{marginTop:30, padding:"12px"}}>Kaydet</Btn></Modal>
-    </div>}
-  </div>
+  return<div className="main-content" style={{padding:24, maxWidth:800, margin:"0 auto"}}><TabBar tabs={["Kurum Ayarları", "Personel Yetkileri"]} active={tab} onChange={setTab}/>{tab === 0 && (<div><Card style={{padding:"30px"}}><Inp label="Kulüp/Kurum Adı" value={nameVal} onChange={setNameVal}/></Card><Btn full onClick={()=>{DB.set("clubName",nameVal); alert("Kaydedildi.");}} style={{padding:"14px"}}>Sisteme Kaydet</Btn></div>)}{tab===1&&<div><SectionTitle action={<Btn onClick={()=>{setUForm({id:null,username:"",password:"",role:"staff",allowedTabs:["dashboard","students","attendance"]});setShowUserModal(true);}}>+ Yeni Personel</Btn>}>Yetkiler</SectionTitle>{safeArr(appUsers).map(u=><Card key={u.id} style={{padding:"20px 24px"}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}><div><div style={{fontWeight:800,fontSize:15,color:"var(--text-main)"}}>{u.username}</div><div style={{fontSize:11,color:u.role==='admin'?"var(--success)":"var(--text-sub)",fontWeight:800,textTransform:"uppercase",marginTop:6}}>{u.role==='admin'?'Yönetici':'Çalışan'}</div></div><div style={{display:"flex",gap:12}}><Btn variant="secondary" onClick={()=>{setUForm(u);setShowUserModal(true);}}>Düzenle</Btn>{u.role !== 'admin' && <Btn variant="danger" onClick={()=>deleteUser(u.id)}>Kaldır</Btn>}</div></div></Card>)}<Modal show={showUserModal} onClose={()=>setShowUserModal(false)} title="Personel Hesabı"><Inp label="Kullanıcı Adı" value={uForm.username} onChange={v=>setUForm({...uForm,username:v})} autoFocus/><Inp label="Şifre" value={uForm.password} onChange={v=>setUForm({...uForm,password:v})}/>{uForm.id !== "admin" && (<div style={{marginTop: 24}}><div style={{fontSize:12, fontWeight:800, marginBottom:16, color:"var(--text-main)", textTransform:"uppercase"}}>Erişim İzinleri</div><div style={{display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(140px, 1fr))", gap:12}}>{navItems.map(nav => nav.id !== "settings" && (<label key={nav.id} style={{display:"flex", alignItems:"center", gap:10, padding:"14px", background:"var(--bg-color)", borderRadius:8, cursor:"pointer", border:`1px solid ${(uForm.allowedTabs||[]).includes(nav.id)?"var(--accent)":"var(--border)"}`, transition:"all 0.2s"}}><input type="checkbox" checked={(uForm.allowedTabs||[]).includes(nav.id)} onChange={() => toggleMenuAccess(nav.id)} style={{width:18,height:18,accentColor:"var(--accent)"}}/><span style={{fontSize:13, fontWeight:700, color:"var(--text-main)"}}>{nav.label}</span></label>))}</div></div>)}<Btn full onClick={saveUser} style={{marginTop:30, padding:"12px"}}>Kaydet</Btn></Modal></div>}</div>
 }
 
 function App(){
-  const [currentUser, setCurrentUser] = useState(() => { try { return JSON.parse(sessionStorage.getItem("aqua_user")); } catch { return null; } });
+  const [currentUser, setCurrentUser] = useState(() => { try { return JSON.parse(sessionStorage.getItem("nht_user")); } catch { return null; } });
   const [isDbLoaded, setIsDbLoaded] = useState(false);
   const [students,setStudents]=useState([]); const [expenses,setExpenses]=useState([]); const [staff,setStaff]=useState([]); const [stockItems,setStockItems]=useState([]);
   const [routes,setRoutes]=useState([]); const [waLinks,setWaLinks]=useState([]); const [appUsers, setAppUsers]=useState([]); const [clubName,setClubName]=useState("NHT CANLI"); const [oldPinCode, setOldPinCode]=useState("0309");
@@ -531,9 +410,9 @@ function App(){
 
   if (!currentUser) {
     return <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",height:"100vh",background:"var(--bg-color)"}}>
-      <form onSubmit={(e)=>{ e.preventDefault(); const pwd = document.getElementById("pw").value; if(pwd==="0309" || pwd===oldPinCode){ setCurrentUser({role:"admin"}); sessionStorage.setItem("aqua_user", JSON.stringify({role:"admin"})); } else { alert("Şifre Hatalı"); } }} style={{background:"var(--card-bg)",padding:"40px 32px",borderRadius:16,textAlign:"center",width:"100%",maxWidth:360}}>
+      <form onSubmit={(e)=>{ e.preventDefault(); const pwd = document.getElementById("pw").value; if(pwd==="0309" || pwd===oldPinCode){ setCurrentUser({role:"admin"}); sessionStorage.setItem("nht_user", JSON.stringify({role:"admin"})); } else { alert("Şifre Hatalı"); } }} style={{background:"var(--card-bg)",padding:"40px 32px",borderRadius:16,textAlign:"center",width:"100%",maxWidth:360}}>
         <div style={{fontSize:18,fontWeight:800,marginBottom:24}}>Kurumsal Giriş</div>
-        <input id="pw" type="password" placeholder="Yönetici Şifrenizi Girin" style={{width:"100%", padding:"10px", textAlign:"center", marginBottom:16, border:"1px solid var(--border)", borderRadius:"6px", fontSize:"14px"}} />
+        <input id="pw" type="password" style={{width:"100%", padding:"10px", textAlign:"center", marginBottom:16, border:"1px solid var(--border)", borderRadius:"6px", fontSize:"24px", letterSpacing:"4px"}} />
         <Btn full type="submit">Giriş Yap</Btn>
       </form>
     </div>;
@@ -568,7 +447,7 @@ function App(){
            return <button key={item.id} type="button" onClick={()=>handleNav(item.id)} className={`nav-parent ${activeTab===item.id?'active':''}`} style={{marginBottom:6}}><Icon name={item.icon} size={18}/> <span style={{marginLeft:12}}>{item.label}</span></button>
         })}
       </div>
-      <div style={{padding:"20px"}}><button type="button" onClick={()=>{sessionStorage.removeItem("aqua_user"); window.location.reload();}} style={{width:"100%", padding:"14px", background:"rgba(220, 38, 38, 0.1)", border:"1px solid rgba(220, 38, 38, 0.2)", borderRadius:8, color:"#FCA5A5", fontWeight:800, cursor:"pointer", transition:"all 0.2s"}}>Güvenli Çıkış</button></div>
+      <div style={{padding:"20px"}}><button type="button" onClick={()=>{sessionStorage.removeItem("nht_user"); window.location.reload();}} style={{width:"100%", padding:"14px", background:"rgba(220, 38, 38, 0.1)", border:"1px solid rgba(220, 38, 38, 0.2)", borderRadius:8, color:"#FCA5A5", fontWeight:800, cursor:"pointer", transition:"all 0.2s"}}>Güvenli Çıkış</button></div>
     </div>
     
     <div style={{flex:1, display:"flex", flexDirection:"column", overflow:"hidden", position:"relative"}}>
