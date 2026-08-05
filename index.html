@@ -28,25 +28,6 @@
   h2.section-title{ font-size:clamp(2rem, 4.2vw, 3.2rem); margin-bottom:18px; }
   .section-lead{ color:var(--text-muted); max-width:620px; font-size:1.05rem; }
 
-  #preloader{ position:fixed; inset:0; z-index:9999; background:var(--bg); display:flex; align-items:center; justify-content:center; overflow:hidden; }
-  .pre-lane{ position:absolute; top:0; bottom:0; width:33.3334%; display:flex; align-items:center; justify-content:center; transform:translateY(0); }
-  .pre-lane.l1{ left:0; background:var(--swim-dim); }
-  .pre-lane.l2{ left:33.3334%; background:var(--basketball-dim); }
-  .pre-lane.l3{ left:66.6668%; background:var(--combat-dim); }
-  .pre-lane span{ font-family:'Montserrat', sans-serif; font-weight:900; font-size:clamp(1.2rem,3vw,2rem); color:rgba(255,255,255,0.95); text-transform:uppercase; opacity:0; transform:translateY(16px); letter-spacing: 2px;}
-  #preloader.animate .pre-lane{ animation: laneIn .7s cubic-bezier(.7,0,.2,1) forwards; }
-  #preloader.animate .pre-lane.l1{ animation-delay:.05s; }
-  #preloader.animate .pre-lane.l2{ animation-delay:.18s; }
-  #preloader.animate .pre-lane.l3{ animation-delay:.31s; }
-  #preloader.animate .pre-lane span{ animation: wordIn .5s ease forwards; }
-  #preloader.animate .pre-lane.l1 span{ animation-delay:.5s; }
-  #preloader.animate .pre-lane.l2 span{ animation-delay:.62s; }
-  #preloader.animate .pre-lane.l3 span{ animation-delay:.74s; }
-  #preloader.leave{ animation: preOut .7s cubic-bezier(.7,0,.2,1) forwards; animation-delay:1.5s; }
-  @keyframes laneIn{ from{ clip-path: inset(0 100% 0 0);} to{ clip-path: inset(0 0 0 0);} }
-  @keyframes wordIn{ to{ opacity:1; transform:translateY(0);} }
-  @keyframes preOut{ to{ transform:translateY(-100%); } }
-
   header{ position:fixed; top:0; left:0; right:0; z-index:500; padding:22px 0; transition:padding .35s ease, background .35s ease, border-color .35s ease; border-bottom:1px solid transparent; }
   header.scrolled{ padding:14px 0; background:rgba(14,17,22,0.86); backdrop-filter:blur(10px); border-color:var(--line); }
   nav{ display:flex; align-items:center; justify-content:space-between; width:min(1140px,92%); margin:0 auto; }
@@ -80,10 +61,7 @@
   .signature{ position:relative; aspect-ratio:1/1; }
   .lanes{ position:absolute; inset:0; }
   .lane-row{ position:absolute; left:0; right:0; height:24%; border-top:2px dashed var(--line); display:flex; align-items:center; }
-  .lane-row:nth-child(1){ top:0%; }
-  .lane-row:nth-child(2){ top:25%; }
-  .lane-row:nth-child(3){ top:50%; }
-  .lane-row:nth-child(4){ top:75%; border-bottom:2px dashed var(--line); }
+  .lane-row:nth-child(1){ top:0%; } .lane-row:nth-child(2){ top:25%; } .lane-row:nth-child(3){ top:50%; } .lane-row:nth-child(4){ top:75%; border-bottom:2px dashed var(--line); }
   .lane-marker{ width:14%; height:6px; border-radius:3px; }
   .lane-row:nth-child(1) .lane-marker{ background:var(--swim); margin-left:8%; }
   .lane-row:nth-child(2) .lane-marker{ background:var(--basketball); margin-left:32%; }
@@ -92,14 +70,16 @@
   .signature-badge{ position:absolute; bottom:16px; right:16px; background:var(--surface); border:1px solid var(--line); padding:18px 22px; border-radius:var(--radius); max-width:240px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
   .signature-badge b{ display:block; font-family:'Montserrat',sans-serif; font-weight:800; font-size:1rem; color:var(--accent); transition:color .35s; margin-bottom:6px; text-transform: uppercase;}
   .signature-badge span{ font-size:0.85rem; color:var(--text-muted); line-height: 1.4; display: block; }
-
   @media (max-width: 880px){ .hero-grid{ grid-template-columns:1fr; } .signature{ order:-1; max-width:340px; margin:0 auto 20px; } }
 
-  .sport-tabs{ display:inline-flex; gap:6px; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:6px; margin-bottom:44px; }
+  .sport-tabs{ display:inline-flex; flex-wrap:wrap; gap:6px; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:6px; margin-bottom:24px; }
   .tab-btn{ background:transparent; border:none; color:var(--text-muted); font-weight:600; font-size:0.9rem; padding:12px 22px; border-radius:4px; cursor:pointer; transition:all .3s ease; font-family:'Inter',sans-serif; display: inline-flex; align-items: center; gap: 8px; }
   .tab-btn i { font-size: 1.2rem; }
   .tab-btn.active{ background:var(--accent); color:#0E1116; }
   .tab-btn:not(.active):hover{ color:var(--text); }
+  
+  .branch-desc { color:var(--text); font-size:1.05rem; padding:20px 24px; background:var(--surface-2); border-left:3px solid var(--accent); border-radius:var(--radius); margin-bottom:34px; line-height:1.7; transition:border-color .35s; }
+
   #hakkimda{ background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
   .about-grid{ display:grid; grid-template-columns:0.8fr 1.2fr; gap:70px; align-items:start; }
   .avatar{ width:100%; aspect-ratio:4/5; border-radius:var(--radius); background:linear-gradient(160deg, var(--surface-2), var(--bg)); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
@@ -110,30 +90,31 @@
   .cert-list li i{ color:var(--accent); font-size: 1.2rem; flex-shrink:0; transition:color .35s; margin-top: 2px; }
   .philosophy{ margin-top:30px; padding:26px 28px; background:var(--surface-2); border-left:3px solid var(--accent); border-radius:var(--radius); font-style:italic; color:var(--text); transition:border-color .35s; font-size: 1.05rem;}
   .about-copy p{ color:var(--text-muted); margin-bottom:16px; font-size: 1.05rem; }
-  .cards-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:22px; }
+  
+  .cards-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:22px; }
   .service-card{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:32px; transition:transform .3s ease, border-color .3s ease; }
   .service-card:hover{ transform:translateY(-6px); border-color:var(--accent); }
   .service-card .lvl{ font-family:'JetBrains Mono',monospace; font-size:0.75rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.12em; transition:color .35s; }
   .service-card h3{ font-family:'Montserrat',sans-serif; font-weight:700; text-transform:none; font-size:1.2rem; margin:12px 0 10px; letter-spacing:0; }
   .service-card p{ color:var(--text-muted); font-size:0.95rem; }
+  
   .sport-panel{ display:none; }
   body[data-sport="swim"] .sport-panel.swim, body[data-sport="basketball"] .sport-panel.basketball, body[data-sport="combat"] .sport-panel.combat{ display:block; animation:fadeIn .45s ease; }
   @keyframes fadeIn{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
-  .practical{ margin-top:60px; display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
-  .practical-item{ background:var(--surface-2); padding:28px; border-radius:var(--radius); border:1px solid var(--line); }
-  .practical-item .mono{ color:var(--accent); font-size:0.8rem; font-weight:700; transition:color .35s; display: flex; align-items: center; gap: 8px; }
-  .practical-item h4{ font-family:'Montserrat',sans-serif; font-weight:700; margin:10px 0; font-size:1.1rem; text-transform: none; letter-spacing: 0; }
-  .practical-item p{ color:var(--text-muted); font-size:0.9rem; }
-  @media (max-width: 720px){ .cards-grid, .practical, .about-grid{ grid-template-columns:1fr; } }
-  #yorumlar{ background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
-  .testi-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:22px; }
-  .testi-card{ background:var(--surface-2); border:1px solid var(--line); padding:32px; border-radius:var(--radius); position:relative; }
+
+  /* YATAY KAYAN YORUMLAR (MARQUEE) CSS'i */
+  #yorumlar{ background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line); overflow: hidden; }
+  .marquee-container { width: 100%; position: relative; padding: 10px 0; }
+  .marquee-track { display: flex; width: max-content; gap: 24px; animation: scrollMarquee 40s linear infinite; }
+  .marquee-container:hover .marquee-track { animation-play-state: paused; }
+  .testi-card { width: 340px; flex-shrink: 0; background:var(--surface-2); border:1px solid var(--line); padding:32px; border-radius:var(--radius); position:relative; white-space: normal; }
   .testi-card i.quote-icon{ font-size:3rem; color:var(--accent); opacity:0.2; position:absolute; top:20px; left:24px; transition:color .35s; }
   .testi-card p.quote{ margin-top:16px; color:var(--text); font-size:1rem; position: relative; z-index: 2; font-style: italic;}
   .testi-meta{ margin-top:24px; display:flex; justify-content:space-between; align-items:center; }
   .testi-meta b{ font-size:0.95rem; font-weight: 600; }
   .testi-meta span{ font-size:0.8rem; color:var(--accent); font-family:'JetBrains Mono',monospace; font-weight: 700; text-transform:uppercase; transition:color .35s; }
-  @media (max-width:720px){ .testi-grid{ grid-template-columns:1fr; } }
+  @keyframes scrollMarquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
   .faq-item{ border-bottom:1px solid var(--line); }
   .faq-q{ width:100%; text-align:left; background:none; border:none; color:var(--text); padding:24px 0; font-size:1.05rem; font-weight:600; cursor:pointer; display:flex; justify-content:space-between; align-items:center; font-family:'Inter',sans-serif; transition: color 0.3s; }
   .faq-q:hover { color: var(--accent); }
@@ -141,64 +122,40 @@
   .faq-item.open .faq-q i{ transform:rotate(180deg); }
   .faq-a{ max-height:0; overflow:hidden; transition:max-height .35s ease; }
   .faq-a p{ color:var(--text-muted); padding-bottom:24px; max-width:640px; font-size:0.95rem; }
-  #iletisim{ background:var(--surface); border-top:1px solid var(--line); }
-  .contact-grid{ display:grid; grid-template-columns:0.8fr 1.2fr; gap:60px; }
-  .contact-info li{ display:flex; gap:16px; align-items:center; padding:18px 0; border-bottom:1px solid var(--line); }
-  .contact-info li b{ display:block; font-size:1rem; font-weight: 600; }
-  .contact-info li span{ font-size:0.85rem; color:var(--text-muted); }
-  .icon-box{ width:44px; height:44px; border-radius:var(--radius); background:var(--surface-2); border: 1px solid var(--line); color:var(--accent); display:flex; align-items:center; justify-content:center; font-size: 1.4rem; flex-shrink:0; transition:all .35s; }
-  .contact-info li:hover .icon-box { background: var(--accent); color: #0E1116; border-color: var(--accent); }
-  .booking-box{ background:var(--surface-2); border:1px solid var(--line); border-radius:var(--radius); padding:36px; }
-  .booking-box h3{ font-family:'Montserrat',sans-serif; font-weight:700; text-transform:none; font-size:1.3rem; letter-spacing:0; margin-bottom:8px; }
-  .booking-box > p{ color:var(--text-muted); font-size:0.9rem; margin-bottom:26px; }
-  .field-label{ font-family:'JetBrains Mono',monospace; font-weight:700; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-muted); margin-bottom:12px; display:block; }
-  .date-chips{ display:flex; gap:10px; overflow-x:auto; padding-bottom:12px; margin-bottom:26px; scrollbar-width: none; }
-  .date-chips::-webkit-scrollbar { display: none; }
-  .date-chip{ flex:0 0 auto; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:14px 18px; text-align:center; cursor:pointer; transition:all .25s ease; min-width:72px; }
-  .date-chip .d{ font-family:'JetBrains Mono',monospace; font-weight:500; font-size:0.7rem; color:var(--text-muted); text-transform:uppercase; }
-  .date-chip .n{ font-family:'Montserrat',sans-serif; font-weight:700; font-size:1.4rem; margin-top:2px; }
-  .date-chip:hover{ border-color:var(--accent); }
-  .date-chip.selected{ background:var(--accent); border-color:var(--accent); }
-  .date-chip.selected .d, .date-chip.selected .n{ color:#0E1116; }
-  .slot-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:30px; }
-  .slot{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:12px 6px; text-align:center; font-family:'JetBrains Mono',monospace; font-weight:500; font-size:0.9rem; cursor:pointer; transition:all .25s ease; }
-  .slot:hover{ border-color:var(--accent); }
-  .slot.selected{ background:var(--accent); border-color:var(--accent); color:#0E1116; font-weight:700; }
-  .booking-summary{ background:var(--surface); border:1px dashed var(--line); border-radius:var(--radius); padding:18px 20px; font-size:0.9rem; color:var(--text-muted); margin-bottom:24px; display: flex; gap: 12px; align-items: flex-start; }
-  .booking-summary i { font-size: 1.4rem; color: var(--accent); }
-  .booking-summary b{ color:var(--text); font-weight: 600; }
-  #confirmBtn{ width:100%; justify-content:center; opacity:0.5; pointer-events:none; padding: 16px; font-size: 1rem; }
-  #confirmBtn.ready{ opacity:1; pointer-events:auto; }
-  @media (max-width:880px){ .contact-grid{ grid-template-columns:1fr; } .slot-grid{ grid-template-columns:repeat(3,1fr); } }
+
+  /* İLETİŞİM KARTLARI */
+  #iletisim{ background:var(--bg); border-top:1px solid var(--line); }
+  .contact-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 40px; }
+  .contact-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 40px 24px; text-align: center; transition: transform .3s, border-color .3s; }
+  .contact-card:hover { transform: translateY(-6px); border-color: var(--accent); }
+  .contact-card .icon-box { margin: 0 auto 24px; width: 64px; height: 64px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; color: var(--accent); transition: background .35s, color .35s; }
+  .contact-card:hover .icon-box { background: var(--accent); color: #0E1116; border-color: var(--accent); }
+  .contact-card b { display: block; font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px; }
+  .contact-card span { font-size: 0.95rem; color: var(--text-muted); }
+
   .wa-float{ position:fixed; bottom:26px; right:26px; z-index:400; width:60px; height:60px; border-radius:50%; background:#25D366; color: white; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 24px rgba(37, 211, 102, 0.4); transition:transform .25s ease; font-size: 2rem; }
   .wa-float:hover{ transform:scale(1.08); color: white; }
   .wa-float::before{ content:''; position:absolute; inset:-6px; border-radius:50%; border:2px solid #25D366; opacity:0.6; animation:pulse 2.2s ease-out infinite; }
   @keyframes pulse{ 0%{ transform:scale(1); opacity:0.6; } 100%{ transform:scale(1.5); opacity:0; } }
-  footer{ padding:50px 0; border-top:1px solid var(--line); text-align:center; }
-  footer p{ color:var(--text-muted); font-size:0.9rem; }
+  
+  footer{ padding:40px 0; border-top:1px solid var(--line); text-align:center; background: var(--surface); }
+  footer p{ color:var(--text-muted); font-size:0.9rem; font-weight:500; }
   .reveal{ opacity:0; transform:translateY(26px); transition:opacity .7s ease, transform .7s ease; }
   .reveal.in-view{ opacity:1; transform:translateY(0); }
 </style>
 </head>
 <body data-sport="swim">
 
-<div id="preloader">
-  <div class="pre-lane l1"><span>YÜZME</span></div>
-  <div class="pre-lane l2"><span>BASKETBOL</span></div>
-  <div class="pre-lane l3"><span>DÖVÜŞ</span></div>
-</div>
-
 <header id="siteHeader">
   <nav>
-    <a href="#anasayfa" class="logo"><span class="dot"></span><span id="headerClubName">KAAN YILDIRIM</span></a>
+    <a href="#anasayfa" class="logo"><span class="dot"></span><span id="headerClubName">YÜKLENİYOR...</span></a>
     <div class="nav-links" id="navLinks">
       <a href="#anasayfa">Anasayfa</a>
       <a href="#hakkimda">Hakkımda</a>
       <a href="#hizmetler">Hizmetler</a>
       <a href="#yorumlar">Yorumlar</a>
       <a href="#sss">SSS</a>
-      <a href="#iletisim">İletişim</a>
-      <a href="#iletisim" class="nav-cta">Randevu Al</a>
+      <a href="#iletisim" class="nav-cta">Bilgi Al</a>
     </div>
     <button class="burger" id="burger" aria-label="Menüyü aç"><span></span><span></span><span></span></button>
   </nav>
@@ -212,7 +169,7 @@
         <h1>Havuzda, Sahada <br> ve <span class="line-accent">Ringde</span> <br> Disiplin Öğretiyorum</h1>
         <p class="lead">Yüzme, basketbol ve dövüş sporlarında kişiye özel programlarla; su korkusundan performans antrenmanına kadar her seviyeye güvenli, planlı ve ölçülebilir bir yol haritası sunuyorum.</p>
         <div class="hero-ctas">
-          <a href="#iletisim" class="btn btn-primary"><i class="ph ph-calendar-plus"></i> Randevu Oluştur</a>
+          <a href="#hizmetler" class="btn btn-primary"><i class="ph ph-info"></i> Bilgi Al</a>
           <a href="#" target="_blank" class="btn btn-ghost c-wa-link"><i class="ph ph-whatsapp-logo"></i> İletişime Geç</a>
         </div>
         <div class="hero-stats">
@@ -239,23 +196,17 @@
   <section id="hakkimda">
     <div class="container about-grid">
       <div class="reveal">
-        <div class="avatar"><span id="avatarInitials">KY</span></div>
+        <div class="avatar"><span id="avatarInitials">..</span></div>
       </div>
       <div>
         <div class="eyebrow reveal">Eğitmen Profili</div>
-        <h2 class="section-title reveal" id="aboutName">Kaan Yıldırım</h2>
-        <div class="about-copy reveal">
-          <p>2016'dan bu yana yüzme, basketbol ve dövüş sporlarında birebir özel ders veriyorum. Amacım her öğrencime, kendi hızında ve kendi hedefine uygun; güvenli, sabırlı ve sonuç odaklı bir eğitim sunmak.</p>
-        </div>
-        <ul class="cert-list reveal">
-          <li><i class="ph ph-check-circle"></i> Cankurtaranlık Sertifikası (Türkiye Yüzme Federasyonu)</li>
-          <li><i class="ph ph-check-circle"></i> Yüzme Antrenörlüğü Belgesi – Kademe 2</li>
-          <li><i class="ph ph-check-circle"></i> Basketbol Antrenörlüğü Sertifikası</li>
-          <li><i class="ph ph-check-circle"></i> Boks & Kickbox Antrenörlük Belgesi</li>
-          <li><i class="ph ph-check-circle"></i> Su Güvenliği ve İlk Yardım Sertifikası</li>
+        <h2 class="section-title reveal" id="aboutName">Yükleniyor...</h2>
+        <div class="about-copy reveal"><p id="aboutText">Biyografi bilgileri yükleniyor...</p></div>
+        <ul class="cert-list reveal" id="aboutCerts">
+          <li>Yükleniyor...</li>
         </ul>
-        <div class="philosophy reveal">
-          "Her öğrenci farklı bir hızda öğrenir. Benim işim, o hıza saygı duyup güveni önce inşa etmek; teknik ve performans bu güvenin üzerine kendiliğinden gelir."
+        <div class="philosophy reveal" id="aboutPhilosophy">
+          "Felsefe yükleniyor..."
         </div>
       </div>
     </div>
@@ -274,19 +225,16 @@
       </div>
 
       <div class="sport-panel swim reveal">
-        <div class="cards-grid" id="swimGrid">Yükleniyor...</div>
+        <div id="desc-swim" class="branch-desc">Yükleniyor...</div>
+        <div class="cards-grid" id="swimGrid"></div>
       </div>
       <div class="sport-panel basketball">
-        <div class="cards-grid" id="basketGrid">Yükleniyor...</div>
+        <div id="desc-basketball" class="branch-desc">Yükleniyor...</div>
+        <div class="cards-grid" id="basketGrid"></div>
       </div>
       <div class="sport-panel combat">
-        <div class="cards-grid" id="combatGrid">Yükleniyor...</div>
-      </div>
-
-      <div class="practical">
-        <div class="practical-item reveal"><span class="mono"><i class="ph ph-clock"></i> SÜRE</span><h4>45–90 Dakika</h4><p>Branşa ve seviyeye göre ders süresi belirlenir, ilk görüşmede netleştirilir.</p></div>
-        <div class="practical-item reveal"><span class="mono"><i class="ph ph-map-pin"></i> KONUM</span><h4>Anlaşmalı Tesisler</h4><p>Yüzme dersleri anlaşmalı özel havuzda, basketbol kapalı/açık sahada, dövüş sporları anlaşmalı salonda yapılır.</p></div>
-        <div class="practical-item reveal"><span class="mono"><i class="ph ph-bag"></i> EKİPMAN</span><h4>İhtiyaca Göre Temin</h4><p>Yüzme için bone ve gözlük ilk derste hediye edilir; dövüş sporlarında eldiven kiralık temin edilir.</p></div>
+        <div id="desc-combat" class="branch-desc">Yükleniyor...</div>
+        <div class="cards-grid" id="combatGrid"></div>
       </div>
     </div>
   </section>
@@ -295,7 +243,9 @@
     <div class="container">
       <div class="eyebrow reveal">Sosyal Kanıt</div>
       <h2 class="section-title reveal" style="margin-bottom:40px;">Öğrenci Yorumları</h2>
-      <div class="testi-grid" id="testiGrid">Yükleniyor...</div>
+    </div>
+    <div class="marquee-container reveal">
+       <div class="marquee-track" id="testiGrid">Yükleniyor...</div>
     </div>
   </section>
 
@@ -307,37 +257,31 @@
     </div>
   </section>
 
+  <!-- İLETİŞİM BÖLÜMÜ (RANDEVU KISMI KALDIRILDI) -->
   <section id="iletisim">
-    <div class="container contact-grid">
-      <div class="reveal">
-        <div class="eyebrow">İletişim ve Rezervasyon</div>
-        <h2 class="section-title">Hemen Kayıt Ol</h2>
-        <p class="section-lead" style="margin-bottom:30px;">Sorularınız için doğrudan ulaşabilir ya da aşağıdaki takvimden uygun saatinizi seçerek randevu talebi oluşturabilirsiniz.</p>
-        <ul class="contact-info">
-          <li><div class="icon-box"><i class="ph ph-phone"></i></div><div><b class="c-phone-text">+90 500 000 00 00</b><span>Her gün 09:00–20:00</span></div></li>
-          <li><div class="icon-box"><i class="ph ph-envelope-simple"></i></div><div><b class="c-email-text">iletisim@site.com</b><span>24 saat içinde dönüş</span></div></li>
-          <li><div class="icon-box"><i class="ph ph-whatsapp-logo"></i></div><div><b>WhatsApp Hattı</b><span>Tek tıkla hızlı iletişim</span></div></li>
-        </ul>
+    <div class="container">
+      <div class="reveal" style="text-align: center; max-width: 600px; margin: 0 auto 40px;">
+        <div class="eyebrow" style="justify-content: center;">İletişim</div>
+        <h2 class="section-title">Hemen Bilgi Al</h2>
+        <p class="section-lead" style="margin: 0 auto;">Ders paketleri, ücretler ve uygunluk durumu hakkında detaylı bilgi almak için dilediğiniz kanaldan anında ulaşabilirsiniz.</p>
       </div>
-
-      <div class="booking-box reveal">
-        <h3>Randevu Oluştur</h3>
-        <p>Branşını, tarihi ve saati seç; talebini WhatsApp üzerinden anında iletelim.</p>
-        <span class="field-label">Branş</span>
-        <div class="sport-tabs" role="tablist" style="margin-bottom:26px;">
-          <button class="tab-btn active" data-sport="swim"><i class="ph ph-waves"></i> Yüzme</button>
-          <button class="tab-btn" data-sport="basketball"><i class="ph ph-basketball"></i> Basketbol</button>
-          <button class="tab-btn" data-sport="combat"><i class="ph ph-boxing-glove"></i> Dövüş</button>
-        </div>
-        <span class="field-label">Tarih Seç</span>
-        <div class="date-chips" id="dateChips"></div>
-        <span class="field-label">Saat Seç</span>
-        <div class="slot-grid" id="slotGrid"></div>
-        <div class="booking-summary" id="bookingSummary">
-          <i class="ph ph-info"></i>
-          <div>Branş, tarih ve saat seçtiğinde randevu özeti burada görünecek.</div>
-        </div>
-        <a href="#" id="confirmBtn" class="btn btn-primary" target="_blank"><i class="ph ph-paper-plane-tilt"></i> WhatsApp ile Randevu İste</a>
+      
+      <div class="contact-cards reveal">
+         <a href="#" class="contact-card c-phone-link">
+            <div class="icon-box"><i class="ph ph-phone"></i></div>
+            <b class="c-phone-text">Yükleniyor...</b>
+            <span>Her gün 09:00 - 20:00</span>
+         </a>
+         <a href="#" class="contact-card c-email-link">
+            <div class="icon-box"><i class="ph ph-envelope-simple"></i></div>
+            <b class="c-email-text">Yükleniyor...</b>
+            <span>E-Posta gönderin</span>
+         </a>
+         <a href="#" target="_blank" class="contact-card c-wa-link">
+            <div class="icon-box"><i class="ph ph-whatsapp-logo"></i></div>
+            <b>WhatsApp Hattı</b>
+            <span>Tek tıkla hızlı iletişim</span>
+         </a>
       </div>
     </div>
   </section>
@@ -350,7 +294,7 @@
 
 <footer>
   <div class="container">
-    <p id="footerCopy">© 2026 Kaan Yıldırım — Yüzme · Basketbol · Dövüş Sporları Özel Ders. Tüm hakları saklıdır.</p>
+    <p>© 2026 BYD Media tarafından hazırlanmıştır. Tüm hakları saklıdır.</p>
   </div>
 </footer>
 
@@ -368,38 +312,45 @@
   if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
   const db = firebase.firestore();
 
-  window.siteWaNum = "905000000000";
-
+  // Veri Dinleyici
   db.collection("appData").doc("main").onSnapshot((doc) => {
     if (doc.exists) {
       const data = doc.data();
+      
+      // Üst Başlık & Avatar
       if(data.clubName) {
         document.getElementById('headerClubName').textContent = data.clubName;
-        document.getElementById('aboutName').textContent = data.clubName;
-        document.getElementById('footerCopy').textContent = `© 2026 ${data.clubName} — Yüzme · Basketbol · Dövüş Sporları Özel Ders. Tüm hakları saklıdır.`;
         const words = data.clubName.split(" ");
         let initials = words[0].charAt(0);
         if(words.length > 1) initials += words[1].charAt(0);
         document.getElementById('avatarInitials').textContent = initials.toUpperCase();
       }
 
-      if (data.siteData) {
-        renderSiteData(data.siteData);
-      } else {
-        document.getElementById('swimGrid').innerHTML = '<p style="color:var(--text-sub)">Ders paketi eklenmemiş.</p>';
-        document.getElementById('basketGrid').innerHTML = '<p style="color:var(--text-sub)">Ders paketi eklenmemiş.</p>';
-        document.getElementById('combatGrid').innerHTML = '<p style="color:var(--text-sub)">Ders paketi eklenmemiş.</p>';
-        document.getElementById('testiGrid').innerHTML = '<p style="color:var(--text-sub)">Yorum eklenmemiş.</p>';
-        document.getElementById('faqList').innerHTML = '<p style="color:var(--text-sub)">SSS eklenmemiş.</p>';
-      }
+      if (data.siteData) { renderSiteData(data.siteData); } 
     }
   });
 
   function renderSiteData(site) {
-    // Hizmetler
-    const swimGrid = document.getElementById('swimGrid');
-    const basketGrid = document.getElementById('basketGrid');
-    const combatGrid = document.getElementById('combatGrid');
+    // 1. HAKKIMDA 
+    if(site.about) {
+       document.getElementById('aboutName').textContent = site.about.name;
+       document.getElementById('aboutText').textContent = site.about.text;
+       document.getElementById('aboutPhilosophy').textContent = '"' + site.about.philosophy + '"';
+       
+       // Sertifikaları (Her satırı ayırıp <li> yapar)
+       const certsArray = site.about.certs.split('\n').filter(c => c.trim() !== '');
+       document.getElementById('aboutCerts').innerHTML = certsArray.map(c => `<li><i class="ph ph-check-circle"></i> ${c}</li>`).join('');
+    }
+
+    // 2. BRANŞ AÇIKLAMALARI
+    if(site.branchDetails) {
+       document.getElementById('desc-swim').innerHTML = site.branchDetails.swim;
+       document.getElementById('desc-basketball').innerHTML = site.branchDetails.basketball;
+       document.getElementById('desc-combat').innerHTML = site.branchDetails.combat;
+    }
+
+    // 3. DERS PAKETLERİ (Hizmetler)
+    const swimGrid = document.getElementById('swimGrid'); const basketGrid = document.getElementById('basketGrid'); const combatGrid = document.getElementById('combatGrid');
     swimGrid.innerHTML = ''; basketGrid.innerHTML = ''; combatGrid.innerHTML = '';
     (site.services || []).forEach(s => {
        const cardHTML = `<div class="service-card reveal"><span class="lvl">Seviye · ${s.level}</span><h3>${s.title}</h3><p>${s.desc}</p></div>`;
@@ -407,45 +358,52 @@
        if(s.sport === 'basketball') basketGrid.innerHTML += cardHTML;
        if(s.sport === 'combat') combatGrid.innerHTML += cardHTML;
     });
-    if(swimGrid.innerHTML==='') swimGrid.innerHTML = '<p style="color:var(--text-sub)">Ders paketi eklenmemiş.</p>';
-    if(basketGrid.innerHTML==='') basketGrid.innerHTML = '<p style="color:var(--text-sub)">Ders paketi eklenmemiş.</p>';
-    if(combatGrid.innerHTML==='') combatGrid.innerHTML = '<p style="color:var(--text-sub)">Ders paketi eklenmemiş.</p>';
+    if(swimGrid.innerHTML==='') swimGrid.innerHTML = '<p style="color:var(--text-sub)">Ders paketi bulunmuyor.</p>';
+    if(basketGrid.innerHTML==='') basketGrid.innerHTML = '<p style="color:var(--text-sub)">Ders paketi bulunmuyor.</p>';
+    if(combatGrid.innerHTML==='') combatGrid.innerHTML = '<p style="color:var(--text-sub)">Ders paketi bulunmuyor.</p>';
 
-    // Yorumlar
+    // 4. MARQUEE YORUMLAR (Yatay Kayan Yorumlar)
     const testiGrid = document.getElementById('testiGrid');
     if(site.testimonials && site.testimonials.length > 0) {
-      testiGrid.innerHTML = site.testimonials.map(t => `<div class="testi-card reveal"><i class="ph-fill ph-quotes quote-icon"></i><p class="quote">${t.quote}</p><div class="testi-meta"><b>${t.name}</b><span>${t.role}</span></div></div>`).join('');
-    } else { testiGrid.innerHTML = '<p style="color:var(--text-sub)">Henüz yorum eklenmemiş.</p>'; }
+      // Yorumları HTML'e dönüştür
+      const itemsHTML = site.testimonials.map(t => `<div class="testi-card"><i class="ph-fill ph-quotes quote-icon"></i><p class="quote">"${t.quote}"</p><div class="testi-meta"><b>${t.name}</b><span>${t.role}</span></div></div>`).join('');
+      // Sonsuz dönmesi için divleri 2 kere kopyalayarak yanyana ekliyoruz
+      testiGrid.innerHTML = itemsHTML + itemsHTML; 
+    } else { testiGrid.innerHTML = '<p style="color:var(--text-sub); margin-left:20px;">Henüz yorum eklenmemiş.</p>'; }
 
-    // SSS
+    // 5. SSS
     const faqList = document.getElementById('faqList');
     if(site.faqs && site.faqs.length > 0) {
       faqList.innerHTML = site.faqs.map(f => `<div class="faq-item reveal"><button class="faq-q">${f.q} <i class="ph ph-caret-down"></i></button><div class="faq-a"><p>${f.a}</p></div></div>`).join('');
       attachFaqListeners(); 
     } else { faqList.innerHTML = '<p style="color:var(--text-sub)">Henüz soru eklenmemiş.</p>'; }
 
-    // İletişim Bilgileri
+    // 6. İLETİŞİM BİLGİLERİ (Randevu Yok, Kartlar Var)
     if(site.contact) {
       const c = site.contact;
-      if(c.phone) { document.querySelectorAll('.c-phone-text').forEach(e => e.textContent = c.phone); }
-      if(c.email) { document.querySelectorAll('.c-email-text').forEach(e => e.textContent = c.email); }
+      if(c.phone) { 
+         document.querySelectorAll('.c-phone-text').forEach(e => e.textContent = c.phone); 
+         document.querySelectorAll('.c-phone-link').forEach(e => e.href = "tel:" + c.phone.replace(/\s+/g, ''));
+      }
+      if(c.email) { 
+         document.querySelectorAll('.c-email-text').forEach(e => e.textContent = c.email); 
+         document.querySelectorAll('.c-email-link').forEach(e => e.href = "mailto:" + c.email);
+      }
       if(c.whatsappNum) {
-        window.siteWaNum = c.whatsappNum;
         const msg = c.whatsappMsg ? encodeURIComponent(c.whatsappMsg) : "";
         document.querySelectorAll('.c-wa-link').forEach(e => e.href = `https://wa.me/${c.whatsappNum}?text=${msg}`);
       }
     }
 
     document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
-    updateSummary(); 
   }
 
-  const pre = document.getElementById('preloader');
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(reduced){ pre.remove(); } else { requestAnimationFrame(()=> pre.classList.add('animate')); setTimeout(()=> pre.classList.add('leave'), 10); setTimeout(()=> pre.remove(), 2300); }
+  // Animasyonlar ve Etkileşimler
   const header = document.getElementById('siteHeader'); window.addEventListener('scroll', ()=> header.classList.toggle('scrolled', window.scrollY > 40));
   const burger = document.getElementById('burger'); const navLinks = document.getElementById('navLinks'); burger.addEventListener('click', ()=> navLinks.classList.toggle('open')); navLinks.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> navLinks.classList.remove('open')));
-  const allTabBtns = document.querySelectorAll('.tab-btn'); function setSport(sport){ document.body.dataset.sport = sport; allTabBtns.forEach(b=> b.classList.toggle('active', b.dataset.sport === sport)); updateSummary(); }
+  
+  const allTabBtns = document.querySelectorAll('.tab-btn'); 
+  function setSport(sport){ document.body.dataset.sport = sport; allTabBtns.forEach(b=> b.classList.toggle('active', b.dataset.sport === sport)); }
   allTabBtns.forEach(btn=> btn.addEventListener('click', ()=> setSport(btn.dataset.sport)));
 
   function attachFaqListeners() {
@@ -460,36 +418,6 @@
   }
 
   const io = new IntersectionObserver((entries)=>{ entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); } }); }, { threshold: 0.15 });
-
-  const dateChips = document.getElementById('dateChips'); const slotGrid = document.getElementById('slotGrid'); const bookingSummary = document.getElementById('bookingSummary'); const confirmBtn = document.getElementById('confirmBtn');
-  const dayNames = ['Paz','Pzt','Sal','Çar','Per','Cum','Cmt']; const sportLabels = { swim:'Yüzme', basketball:'Basketbol', combat:'Dövüş Sporları' };
-  let selectedDate = null; let selectedTime = null;
-
-  const today = new Date();
-  for(let i=0;i<14;i++){
-    const d = new Date(today); d.setDate(today.getDate()+i);
-    const chip = document.createElement('div'); chip.className = 'date-chip'; chip.innerHTML = `<div class="d">${dayNames[d.getDay()]}</div><div class="n">${d.getDate()}</div>`;
-    const label = `${d.getDate()} ${d.toLocaleDateString('tr-TR',{month:'long'})}`;
-    chip.addEventListener('click', ()=>{ document.querySelectorAll('.date-chip').forEach(c=> c.classList.remove('selected')); chip.classList.add('selected'); selectedDate = label; updateSummary(); }); dateChips.appendChild(chip);
-  }
-
-  for(let h=9; h<=20; h++){
-    const slot = document.createElement('div'); slot.className = 'slot'; const t = `${String(h).padStart(2,'0')}:00`; slot.textContent = t;
-    slot.addEventListener('click', ()=>{ document.querySelectorAll('.slot').forEach(s=> s.classList.remove('selected')); slot.classList.add('selected'); selectedTime = t; updateSummary(); }); slotGrid.appendChild(slot);
-  }
-
-  function updateSummary(){
-    const sport = sportLabels[document.body.dataset.sport];
-    if(selectedDate && selectedTime){
-      bookingSummary.innerHTML = `<i class="ph-fill ph-check-circle"></i> <div><b>${sport}</b> dersi için <b>${selectedDate}</b>, saat <b>${selectedTime}</b> — talebini WhatsApp'tan gönderebilirsin.</div>`;
-      const msg = encodeURIComponent(`Merhaba, ${sport} dersi için ${selectedDate} tarihinde saat ${selectedTime} randevu almak istiyorum.`);
-      confirmBtn.href = `https://wa.me/${window.siteWaNum}?text=${msg}`;
-      confirmBtn.classList.add('ready');
-    } else {
-      bookingSummary.innerHTML = `<i class="ph ph-info"></i> <div>Branş, tarih ve saat seçtiğinde randevu özeti burada görünecek.</div>`;
-      confirmBtn.classList.remove('ready');
-    }
-  }
 </script>
 </body>
 </html>
