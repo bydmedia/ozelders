@@ -4,130 +4,131 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nihat Canlı Özel Spor Okulu</title>
-<!-- Şimşek Favicon -->
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='1em' font-size='80'>⚡</text></svg>">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/@phosphor-icons/web"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 <style>
-  /* CANLI VE AÇIK RENK TEMASI */
-  :root{ 
-    --bg: #F0F4F8; 
-    --surface: #FFFFFF; 
-    --surface-2: #F8FAFC; 
-    --line: #E2E8F0; 
-    --text: #0F172A; 
-    --text-muted: #475569; 
-    --accent: #2563EB; /* Canlı Mavi */
-    --accent-hover: #1D4ED8;
+  /* KOYU VE KURUMSAL TEMA (DARK CORPORATE) */
+  :root { 
+    --bg: #090e17; /* Gece Mavisi Arkaplan */
+    --surface: #111827; 
+    --surface-2: #1f2937; 
+    --line: #374151; 
+    --text: #f9fafb; 
+    --text-muted: #9ca3af; 
+    --accent: #0ea5e9; /* Sky Blue - Premium Spor Rengi */
+    --accent-hover: #0284c7;
     --radius: 8px; 
   }
   *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
   html{ scroll-behavior:smooth; }
-  body{ background:var(--bg); color:var(--text); font-family:'Inter', sans-serif; line-height:1.6; overflow-x:hidden; }
+  body{ background:var(--bg); color:var(--text); font-family:'DM Sans', sans-serif; line-height:1.6; overflow-x:hidden; }
 
-  /* HAREKETLİ VE GÖZ YORMAYAN SPOR ARKA PLAN */
-  .bg-animation { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: linear-gradient(120deg, #F0F4F8, #E2E8F0, #FFFFFF); background-size: 200% 200%; animation: gradientMove 15s ease infinite; }
-  .bg-pattern { position: fixed; inset: 0; z-index: -1; opacity: 0.3; background-image: radial-gradient(var(--text-muted) 1px, transparent 1px); background-size: 30px 30px; }
-  @keyframes gradientMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+  /* HAREKETLİ GLOWING ORB ARKA PLAN */
+  .bg-animation { position: fixed; inset: 0; z-index: -1; background: var(--bg); overflow: hidden; }
+  .bg-orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.15; animation: float 25s infinite ease-in-out alternate; }
+  .orb-1 { width: 600px; height: 600px; background: #0ea5e9; top: -10%; left: -10%; animation-delay: 0s; }
+  .orb-2 { width: 500px; height: 500px; background: #6366f1; bottom: -20%; right: -10%; animation-delay: -5s; }
+  .orb-3 { width: 400px; height: 400px; background: #14b8a6; top: 40%; left: 60%; animation-delay: -10s; }
+  @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(150px, 100px) scale(1.2); } }
 
-  h1,h2,h3,.display{ font-family:'Montserrat', sans-serif; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; line-height:1.1; color: #0F172A;}
-  .mono{ font-family:'JetBrains Mono', monospace; letter-spacing:0.03em; }
+  h1,h2,h3,.display{ font-family:'Space Grotesk', sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; line-height:1.1; color: var(--text);}
+  .mono{ font-family:'DM Sans', monospace; letter-spacing:0.03em; }
   a{ color:inherit; text-decoration:none; }
   ul{ list-style:none; }
   img{ max-width:100%; display:block; }
   section{ padding:110px 0; position:relative; }
   .container{ width:min(1140px, 92%); margin:0 auto; }
-  .eyebrow{ font-family:'JetBrains Mono', monospace; font-size:0.85rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--accent); margin-bottom:16px; display:flex; align-items:center; gap:10px; font-weight: 700; }
+  .eyebrow{ font-family:'Space Grotesk', sans-serif; font-size:0.9rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--accent); margin-bottom:16px; display:flex; align-items:center; gap:10px; font-weight: 700; }
   .eyebrow::before{ content:''; width:28px; height:2px; background:var(--accent); }
   h2.section-title{ font-size:clamp(2rem, 4.2vw, 3.2rem); margin-bottom:18px; }
   .section-lead{ color:var(--text-muted); max-width:620px; font-size:1.05rem; }
 
-  /* YENİ AÇILIŞ ANİMASYONU */
-  #preloader{ position:fixed; inset:0; z-index:9999; background:#FFFFFF; display:flex; flex-direction:column; align-items:center; justify-content:center; overflow:hidden; transition: opacity 0.6s ease; }
-  .loader-logo { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 3rem; color: var(--accent); letter-spacing: 2px; display:flex; align-items:center; gap:10px; opacity:0; transform: scale(0.8); animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-  .loader-bar { width: 200px; height: 4px; background: var(--line); border-radius: 2px; margin-top: 20px; overflow: hidden; position: relative; opacity:0; animation: fade 0.5s ease 0.3s forwards;}
-  .loader-progress { width: 0%; height: 100%; background: var(--accent); animation: loadBar 1.2s ease-in-out 0.4s forwards; }
-  @keyframes popIn { to { opacity:1; transform: scale(1); } }
-  @keyframes loadBar { 50% { width: 70%; } 100% { width: 100%; } }
-  @keyframes fade { to { opacity:1; } }
+  /* YENİ KURUMSAL AÇILIŞ ANİMASYONU (PRELOADER) */
+  #preloader { position:fixed; inset:0; z-index:9999; background:var(--bg); display:flex; align-items:center; justify-content:center; flex-direction: column; transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1); }
+  #preloader.leave { transform: translateY(-100%); }
+  .loader-logo { display:flex; flex-direction:column; align-items:center; line-height: 1; opacity: 0; animation: fadeUp 0.8s ease forwards; }
+  .loader-logo .nht { font-family: 'Space Grotesk', sans-serif; font-size: 5rem; font-weight: 700; color: var(--accent); letter-spacing: 4px; }
+  .loader-logo .canli { font-family: 'DM Sans', sans-serif; font-size: 1.5rem; font-weight: 500; color: var(--text); letter-spacing: 12px; margin-top: 4px; margin-right:-12px;}
+  @keyframes fadeUp { 0% { opacity:0; transform:translateY(20px); } 100% { opacity:1; transform:translateY(0); } }
 
-  /* HEADER & LOGO */
+  /* HEADER & KURUMSAL LOGO */
   header{ position:fixed; top:0; left:0; right:0; z-index:500; padding:22px 0; transition:padding .35s ease, background .35s ease, border-color .35s ease; border-bottom:1px solid transparent; }
-  header.scrolled{ padding:14px 0; background:rgba(255,255,255,0.92); backdrop-filter:blur(10px); border-color:var(--line); box-shadow: 0 4px 20px rgba(0,0,0,0.03);}
+  header.scrolled{ padding:14px 0; background:rgba(9, 14, 23, 0.95); backdrop-filter:blur(10px); border-color:var(--line); box-shadow: 0 4px 20px rgba(0,0,0,0.5);}
   nav{ display:flex; align-items:center; justify-content:space-between; width:min(1140px,92%); margin:0 auto; }
   
-  .logo{ font-family:'Montserrat', sans-serif; font-weight:900; font-size:1.3rem; text-transform:uppercase; letter-spacing:1px; display:flex; align-items:center; gap:8px; color: var(--text); }
-  .logo svg { stroke: var(--accent); transition: transform 0.3s; }
-  .logo:hover svg { transform: scale(1.1) rotate(5deg); }
-  .logo .thin { font-weight:400; color:var(--text-muted); }
+  /* NHT CANLI LOGOSU */
+  .logo { display:flex; flex-direction:column; line-height:1; align-items:flex-start; transition: transform 0.3s;}
+  .logo:hover { transform: scale(1.05); }
+  .logo .nht { font-family:'Space Grotesk', sans-serif; font-size:1.8rem; font-weight:700; color:var(--text); letter-spacing:2px; }
+  .logo .canli { font-family:'DM Sans', sans-serif; font-size:0.75rem; font-weight:500; color:var(--accent); letter-spacing:4px; margin-top:2px; }
   
   .nav-links{ display:flex; align-items:center; gap:34px; }
   .nav-links a{ font-size:0.95rem; font-weight:600; color:var(--text-muted); transition:color .25s; position:relative; }
   .nav-links a:hover{ color:var(--accent); }
-  .nav-cta{ background:var(--accent); color:#FFFFFF !important; padding:10px 24px; border-radius:var(--radius); font-weight:700; font-size:0.9rem; transition:background .35s, transform .2s; box-shadow: 0 4px 10px rgba(37,99,235,0.2); }
-  .nav-cta:hover{ transform:translateY(-2px); background: var(--accent-hover); }
+  .nav-cta{ background:var(--accent); color:#000 !important; padding:10px 24px; border-radius:var(--radius); font-weight:700; font-size:0.9rem; transition:background .35s, transform .2s; }
+  .nav-cta:hover{ transform:translateY(-2px); background: var(--accent-hover); color:#fff !important;}
   .burger{ display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:8px; }
   .burger span{ width:24px; height:2px; background:var(--text); }
-  @media (max-width: 880px){ .nav-links{ position:fixed; top:0; right:-100%; height:100vh; width:min(320px,80%); background:var(--surface); flex-direction:column; justify-content:center; align-items:flex-start; padding:40px; gap:26px; transition:right .4s ease; border-left:1px solid var(--line); box-shadow: -10px 0 30px rgba(0,0,0,0.1);} .nav-links.open{ right:0; } .burger{ display:flex; } .nav-links a.nav-cta{ margin-top:10px; } }
+  @media (max-width: 880px){ .nav-links{ position:fixed; top:0; right:-100%; height:100vh; width:min(320px,80%); background:var(--surface); flex-direction:column; justify-content:center; align-items:flex-start; padding:40px; gap:26px; transition:right .4s ease; border-left:1px solid var(--line); box-shadow: -10px 0 30px rgba(0,0,0,0.5);} .nav-links.open{ right:0; } .burger{ display:flex; } .nav-links a.nav-cta{ margin-top:10px; } }
 
   #anasayfa{ padding-top:180px; padding-bottom:100px; min-height:100vh; display:flex; align-items:center; }
   .hero-grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:60px; align-items:center; }
   .hero h1{ font-size:clamp(2.4rem, 5.5vw, 4.4rem); margin-bottom:22px; }
   .hero h1 .line-accent{ color:var(--accent); }
-  .hero p.lead{ color:var(--text-muted); font-size:1.15rem; max-width:520px; margin-bottom:38px; line-height: 1.7; font-weight: 500;}
+  .hero p.lead{ color:var(--text-muted); font-size:1.15rem; max-width:520px; margin-bottom:38px; line-height: 1.7; font-weight: 400;}
   .hero-ctas{ display:flex; gap:16px; flex-wrap:wrap; margin-bottom:44px; }
   .btn{ display:inline-flex; align-items:center; gap:10px; padding:15px 28px; border-radius:var(--radius); font-weight:700; font-size:0.95rem; cursor:pointer; border:2px solid transparent; transition:all .3s ease; }
-  .btn-primary{ background:var(--accent); color:#FFFFFF; box-shadow: 0 8px 20px -6px var(--accent); }
-  .btn-primary:hover{ transform:translateY(-3px); box-shadow: 0 12px 26px -8px var(--accent); }
+  .btn-primary{ background:var(--accent); color:#000; box-shadow: 0 8px 20px -6px var(--accent); }
+  .btn-primary:hover{ transform:translateY(-3px); box-shadow: 0 12px 26px -8px var(--accent); background: var(--accent-hover); color:#fff;}
   .btn-ghost{ background:transparent; color:var(--text); border-color:var(--line); }
   .btn-ghost:hover{ border-color:var(--accent); color:var(--accent); background: var(--surface); }
   .hero-stats{ display:flex; gap:36px; }
   .hero-stats div{ border-left:3px solid var(--accent); padding-left:14px; }
-  .hero-stats b{ font-family:'JetBrains Mono',monospace; font-weight:800; font-size:1.6rem; display:block; color:var(--text); }
-  .hero-stats span{ font-size:0.85rem; color:var(--text-muted); font-weight: 600;}
+  .hero-stats b{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.6rem; display:block; color:var(--text); }
+  .hero-stats span{ font-size:0.85rem; color:var(--text-muted); font-weight: 500;}
 
   .signature{ position:relative; aspect-ratio:1/1; }
-  .lanes{ position:absolute; inset:0; border: 2px solid var(--line); border-radius: 12px; background: rgba(255,255,255,0.5); backdrop-filter: blur(5px);}
+  .lanes{ position:absolute; inset:0; border: 2px solid var(--line); border-radius: 12px; background: rgba(17,24,39,0.5); backdrop-filter: blur(5px);}
   .lane-row{ position:absolute; left:0; right:0; height:24%; border-top:2px dashed var(--line); display:flex; align-items:center; }
   .lane-row:nth-child(1){ top:0%; border-top: none;} .lane-row:nth-child(2){ top:25%; } .lane-row:nth-child(3){ top:50%; } .lane-row:nth-child(4){ top:75%; }
   .lane-marker{ width:14%; height:8px; border-radius:4px; }
-  .lane-row:nth-child(1) .lane-marker{ background:#3FA7A0; margin-left:8%; }
-  .lane-row:nth-child(2) .lane-marker{ background:#E08829; margin-left:32%; }
-  .lane-row:nth-child(3) .lane-marker{ background:#C13B3B; margin-left:14%; }
+  .lane-row:nth-child(1) .lane-marker{ background:#0ea5e9; margin-left:8%; }
+  .lane-row:nth-child(2) .lane-marker{ background:#6366f1; margin-left:32%; }
+  .lane-row:nth-child(3) .lane-marker{ background:#14b8a6; margin-left:14%; }
   .lane-row:nth-child(4) .lane-marker{ background:var(--accent); margin-left:52%; }
-  .signature-badge{ position:absolute; bottom:-16px; right:-16px; background:var(--surface); border:1px solid var(--line); padding:20px 24px; border-radius:var(--radius); max-width:260px; box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
-  .signature-badge b{ display:block; font-family:'Montserrat',sans-serif; font-weight:800; font-size:1.1rem; color:var(--accent); margin-bottom:8px; text-transform: uppercase;}
-  .signature-badge span{ font-size:0.9rem; color:var(--text-muted); line-height: 1.5; display: block; font-weight: 500;}
+  .signature-badge{ position:absolute; bottom:-16px; right:-16px; background:var(--surface); border:1px solid var(--line); padding:20px 24px; border-radius:var(--radius); max-width:260px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+  .signature-badge b{ display:block; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.1rem; color:var(--accent); margin-bottom:8px; text-transform: uppercase;}
+  .signature-badge span{ font-size:0.9rem; color:var(--text-muted); line-height: 1.5; display: block; font-weight: 400;}
   @media (max-width: 880px){ .hero-grid{ grid-template-columns:1fr; } .signature{ order:-1; max-width:340px; margin:0 auto 40px; } }
 
   /* ABOUT */
   #hakkimda{ background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
   .about-grid{ display:grid; grid-template-columns:0.8fr 1.2fr; gap:70px; align-items:start; }
-  .avatar{ width:100%; aspect-ratio:4/5; border-radius:12px; background:linear-gradient(160deg, #E2E8F0, #F8FAFC); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.05);}
+  .avatar{ width:100%; aspect-ratio:4/5; border-radius:12px; background:linear-gradient(160deg, #1f2937, #111827); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.3);}
   .avatar img{ width:100%; height:100%; object-fit:cover; position:absolute; inset:0; opacity: 0; transition: opacity 0.5s; z-index: 2;}
-  .avatar span{ font-family:'Montserrat',sans-serif; font-weight:900; font-size:5rem; color:var(--text-muted); opacity:0.3; }
+  .avatar span{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:5rem; color:var(--text-muted); opacity:0.3; }
   .cert-list{ margin-top:24px; display:flex; flex-direction:column; gap:12px; }
   .cert-list li{ display:flex; gap:12px; align-items:flex-start; font-size:1rem; color:var(--text-muted); font-weight: 500;}
   .cert-list li i{ color:var(--accent); font-size: 1.3rem; flex-shrink:0; margin-top: 2px; }
-  .philosophy{ margin-top:30px; padding:26px 28px; background:var(--bg); border-left:4px solid var(--accent); border-radius:var(--radius); font-style:italic; color:var(--text); font-size: 1.1rem; font-weight: 600;}
+  .philosophy{ margin-top:30px; padding:26px 28px; background:var(--bg); border-left:4px solid var(--accent); border-radius:var(--radius); font-style:italic; color:var(--text); font-size: 1.1rem; font-weight: 400;}
   .about-copy p{ color:var(--text-muted); margin-bottom:16px; font-size: 1.1rem; line-height: 1.8;}
 
   /* SERVICES (BRANŞLAR) */
-  .sport-tabs{ display:inline-flex; flex-wrap:wrap; gap:8px; background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:8px; margin-bottom:30px; box-shadow: 0 10px 20px rgba(0,0,0,0.02);}
-  .tab-btn{ background:transparent; border:none; color:var(--text-muted); font-weight:700; font-size:0.95rem; padding:12px 24px; border-radius:6px; cursor:pointer; transition:all .3s ease; font-family:'Inter',sans-serif; display: inline-flex; align-items: center; gap: 8px; }
+  .sport-tabs{ display:inline-flex; flex-wrap:wrap; gap:8px; background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:8px; margin-bottom:30px; box-shadow: 0 10px 20px rgba(0,0,0,0.2);}
+  .tab-btn{ background:transparent; border:none; color:var(--text-muted); font-weight:700; font-size:0.95rem; padding:12px 24px; border-radius:6px; cursor:pointer; transition:all .3s ease; font-family:'DM Sans',sans-serif; display: inline-flex; align-items: center; gap: 8px; }
   .tab-btn i { font-size: 1.3rem; }
-  .tab-btn.active{ background:var(--accent); color:#FFFFFF; box-shadow: 0 4px 10px rgba(37,99,235,0.2);}
+  .tab-btn.active{ background:var(--accent); color:#000; box-shadow: 0 4px 10px rgba(14,165,233,0.2);}
   .tab-btn:not(.active):hover{ color:var(--text); background: var(--bg); }
   
-  .branch-desc { color:var(--text); font-size:1.1rem; padding:24px 28px; background:var(--surface); border:1px solid var(--line); border-radius:10px; margin-bottom:34px; line-height:1.7; font-weight: 500; box-shadow: 0 4px 15px rgba(0,0,0,0.02);}
+  .branch-desc { color:var(--text); font-size:1.1rem; padding:24px 28px; background:var(--surface); border:1px solid var(--line); border-radius:10px; margin-bottom:34px; line-height:1.7; font-weight: 400; box-shadow: 0 4px 15px rgba(0,0,0,0.2);}
   
   .cards-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:22px; }
   .service-card{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:32px; transition:transform .3s ease, border-color .3s ease, box-shadow .3s ease; }
-  .service-card:hover{ transform:translateY(-6px); border-color:var(--accent); box-shadow: 0 15px 30px rgba(0,0,0,0.05);}
-  .service-card .lvl{ font-family:'JetBrains Mono',monospace; font-size:0.8rem; font-weight:800; color:var(--accent); text-transform:uppercase; letter-spacing:0.12em; }
-  .service-card h3{ font-family:'Montserrat',sans-serif; font-weight:800; text-transform:none; font-size:1.25rem; margin:12px 0 10px; letter-spacing:0; color: var(--text);}
+  .service-card:hover{ transform:translateY(-6px); border-color:var(--accent); box-shadow: 0 15px 30px rgba(0,0,0,0.5);}
+  .service-card .lvl{ font-family:'Space Grotesk',monospace; font-size:0.8rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.12em; }
+  .service-card h3{ font-family:'Space Grotesk',sans-serif; font-weight:700; text-transform:none; font-size:1.25rem; margin:12px 0 10px; letter-spacing:0; color: var(--text);}
   .service-card p{ color:var(--text-muted); font-size:1rem; line-height: 1.6;}
   
   .sport-panel{ display:none; animation:fadeIn .4s ease; }
@@ -135,10 +136,10 @@
   @keyframes fadeIn{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
 
   .practical{ margin-top:60px; display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
-  .practical-item{ background:var(--surface); padding:32px; border-radius:10px; border:1px solid var(--line); text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.02);}
+  .practical-item{ background:var(--surface); padding:32px; border-radius:10px; border:1px solid var(--line); text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2);}
   .practical-item .mono{ color:var(--accent); font-size:0.85rem; font-weight:800; display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 12px;}
   .practical-item .mono i { font-size: 2rem; }
-  .practical-item h4{ font-family:'Montserrat',sans-serif; font-weight:800; margin:10px 0; font-size:1.15rem; text-transform: none; letter-spacing: 0; }
+  .practical-item h4{ font-family:'Space Grotesk',sans-serif; font-weight:700; margin:10px 0; font-size:1.15rem; text-transform: none; letter-spacing: 0; }
   .practical-item p{ color:var(--text-muted); font-size:0.95rem; }
   @media (max-width: 720px){ .cards-grid, .practical, .about-grid{ grid-template-columns:1fr; } }
 
@@ -148,17 +149,17 @@
   .marquee-track { display: flex; width: max-content; gap: 24px; animation: scrollMarquee 45s linear infinite; }
   .marquee-container:hover .marquee-track { animation-play-state: paused; }
   .testi-card { width: 360px; flex-shrink: 0; background:var(--bg); border:1px solid var(--line); padding:36px; border-radius:12px; position:relative; white-space: normal; transition: transform 0.3s;}
-  .testi-card:hover { transform: translateY(-5px); background: #FFFFFF; box-shadow: 0 10px 30px rgba(0,0,0,0.05);}
+  .testi-card:hover { transform: translateY(-5px); background: var(--surface-2); box-shadow: 0 10px 30px rgba(0,0,0,0.4);}
   .testi-card i.quote-icon{ font-size:3rem; color:var(--accent); opacity:0.1; position:absolute; top:24px; left:24px; }
-  .testi-card p.quote{ margin-top:20px; color:var(--text); font-size:1.05rem; position: relative; z-index: 2; font-style: italic; font-weight: 500;}
+  .testi-card p.quote{ margin-top:20px; color:var(--text); font-size:1.05rem; position: relative; z-index: 2; font-style: italic; font-weight: 400;}
   .testi-meta{ margin-top:24px; display:flex; justify-content:space-between; align-items:center; }
   .testi-meta b{ font-size:1rem; font-weight: 700; color: var(--text);}
-  .testi-meta span{ font-size:0.8rem; color:var(--accent); font-family:'JetBrains Mono',monospace; font-weight: 700; text-transform:uppercase; }
+  .testi-meta span{ font-size:0.8rem; color:var(--accent); font-family:'DM Sans',monospace; font-weight: 700; text-transform:uppercase; }
   @keyframes scrollMarquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
   /* FAQ */
   .faq-item{ border-bottom:1px solid var(--line); }
-  .faq-q{ width:100%; text-align:left; background:none; border:none; color:var(--text); padding:26px 0; font-size:1.1rem; font-weight:700; cursor:pointer; display:flex; justify-content:space-between; align-items:center; font-family:'Inter',sans-serif; transition: color 0.3s; }
+  .faq-q{ width:100%; text-align:left; background:none; border:none; color:var(--text); padding:26px 0; font-size:1.1rem; font-weight:700; cursor:pointer; display:flex; justify-content:space-between; align-items:center; font-family:'DM Sans',sans-serif; transition: color 0.3s; }
   .faq-q:hover { color: var(--accent); }
   .faq-q i{ color:var(--accent); font-size:1.4rem; transition:transform .3s ease; }
   .faq-item.open .faq-q i{ transform:rotate(180deg); }
@@ -167,48 +168,46 @@
 
   /* İLETİŞİM KARTLARI */
   .contact-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 50px; }
-  .contact-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 40px 24px; text-align: center; transition: all .3s; box-shadow: 0 4px 20px rgba(0,0,0,0.02);}
-  .contact-card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 15px 30px rgba(37,99,235,0.1);}
+  .contact-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 40px 24px; text-align: center; transition: all .3s; box-shadow: 0 4px 20px rgba(0,0,0,0.2);}
+  .contact-card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 15px 30px rgba(14,165,233,0.15);}
   .contact-card .icon-box { margin: 0 auto 24px; width: 70px; height: 70px; background: var(--bg); border: 1px solid var(--line); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; color: var(--accent); transition: all .35s; }
-  .contact-card:hover .icon-box { background: var(--accent); color: #FFFFFF; border-color: var(--accent); }
-  .contact-card b { display: block; font-size: 1.2rem; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+  .contact-card:hover .icon-box { background: var(--accent); color: #000; border-color: var(--accent); }
+  .contact-card b { display: block; font-family:'Space Grotesk',sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
   .contact-card span { font-size: 1rem; color: var(--text-muted); font-weight: 500;}
 
-  .wa-float{ position:fixed; bottom:30px; right:30px; z-index:400; width:64px; height:64px; border-radius:50%; background:#25D366; color: white; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 30px rgba(37, 211, 102, 0.4); transition:transform .25s ease; font-size: 2.2rem; }
+  .wa-float{ position:fixed; bottom:30px; right:30px; z-index:400; width:64px; height:64px; border-radius:50%; background:#25D366; color: white; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 30px rgba(37, 211, 102, 0.2); transition:transform .25s ease; font-size: 2.2rem; }
   .wa-float:hover{ transform:scale(1.1); color: white; }
   .wa-float::before{ content:''; position:absolute; inset:-6px; border-radius:50%; border:2px solid #25D366; opacity:0.6; animation:pulse 2.2s ease-out infinite; }
   @keyframes pulse{ 0%{ transform:scale(1); opacity:0.6; } 100%{ transform:scale(1.5); opacity:0; } }
   
   footer{ padding:40px 0; text-align:center; background: var(--surface); border-top:1px solid var(--line); }
-  footer p{ color:var(--text-muted); font-size:0.95rem; font-weight:600; }
+  footer p{ color:var(--text-muted); font-size:0.95rem; font-weight:500; }
   .reveal{ opacity:0; transform:translateY(30px); transition:opacity .8s ease, transform .8s ease; }
   .reveal.in-view{ opacity:1; transform:translateY(0); }
 </style>
 </head>
 <body>
 
-<!-- ARKA PLAN ANİMASYONLARI -->
-<div class="bg-animation"></div>
-<div class="bg-pattern"></div>
+<!-- HAREKETLİ ORB ANİMASYONLARI -->
+<div class="bg-animation">
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <div class="bg-orb orb-3"></div>
+</div>
 
 <!-- YENİ AÇILIŞ ANİMASYONU -->
 <div id="preloader">
   <div class="loader-logo">
-    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="currentColor"/>
-    </svg>
-    <span>NHT <span style="font-weight:300;">CANLI</span></span>
+    <span class="nht">NHT</span>
+    <span class="canli">CANLI</span>
   </div>
-  <div class="loader-bar"><div class="loader-progress"></div></div>
 </div>
 
 <header id="siteHeader">
   <nav>
     <a href="#anasayfa" class="logo">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="currentColor"/>
-      </svg>
-      <span>NHT <span class="thin">CANLI</span></span>
+      <span class="nht">NHT</span>
+      <span class="canli">CANLI</span>
     </a>
     <div class="nav-links" id="navLinks">
       <a href="#anasayfa">Anasayfa</a>
@@ -226,7 +225,7 @@
   <section id="anasayfa">
     <div class="container hero-grid">
       <div class="hero">
-        <div class="eyebrow">Nihat Canlı Özel Spor Okulu</div>
+        <div class="eyebrow" id="headerClubName">Nihat Canlı Özel Spor Okulu</div>
         <h1 id="heroTitle">Havuzda, Sahada <br> ve <span class="line-accent">Ringde</span> <br> Disiplin Öğretiyorum</h1>
         <p class="lead">Kişiye özel programlarla; spora ilk adımdan performans antrenmanına kadar her seviyeye güvenli, planlı ve ölçülebilir bir yol haritası sunuyorum.</p>
         <div class="hero-ctas">
@@ -357,16 +356,19 @@
 
 <footer>
   <div class="container">
-    <p>© 2026 BYD Media tarafından hazırlanmıştır. Tüm hakları saklıdır.</p>
+    <p id="footerCopy">© 2026 BYD Media tarafından hazırlanmıştır. Tüm hakları saklıdır.</p>
   </div>
 </footer>
 
 <script>
-  // AÇILIŞ EKRANINI KALDIRAN KOD (Zamanlayıcı güncellendi)
+  // AÇILIŞ EKRANINI (PRELOADER) KALDIRAN KOD
   const pre = document.getElementById('preloader');
-  setTimeout(()=> { pre.style.opacity = '0'; setTimeout(()=> pre.remove(), 600); }, 1800); 
+  setTimeout(()=> { 
+    pre.classList.add('leave'); 
+    setTimeout(()=> pre.remove(), 800); 
+  }, 1800); 
 
-  // LÜTFEN KENDİ FIREBASE AYARLARINI BURAYA YAPIŞTIR!
+  // SENİN YENİ FIREBASE ŞİFRELERİN
   const firebaseConfig = {
     apiKey: "AIzaSyD_kv7CgD7V7x-yyOggRPyZygJdXgirD78",
     authDomain: "ozelderss-f48f3.firebaseapp.com",
@@ -382,6 +384,7 @@
   db.collection("appData").doc("main").onSnapshot((doc) => {
     if (doc.exists) {
       const data = doc.data();
+      if(data.clubName) document.getElementById('headerClubName').textContent = data.clubName;
       renderSiteData(data.siteData || {});
     }
   });
@@ -438,7 +441,7 @@
          panel.id = `panel-${safeId}`;
          panel.className = `sport-panel ${isActive ? 'active' : ''}`;
          
-         // İlgili paketi bul (Site services içinden bu branşa ait olanlar)
+         // İlgili paketi bul
          const relatedServices = (site.services || []).filter(s => s.sport === b.name);
          let servicesHTML = '';
          if(relatedServices.length > 0) {
@@ -462,7 +465,6 @@
            panelsContainer.querySelectorAll('.sport-panel').forEach(p => p.classList.remove('active'));
            btn.classList.add('active');
            document.getElementById(btn.getAttribute('data-target')).classList.add('active');
-           // Re-trigger scroll reveal for new visible items
            document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
          });
        });
@@ -471,29 +473,26 @@
        tabsContainer.innerHTML = '<p style="color:var(--text-sub)">Branşlar yükleniyor...</p>';
     }
 
-    // 4. MARQUEE YORUMLAR
+    // 3. MARQUEE YORUMLAR
     const testiGrid = document.getElementById('testiGrid');
     if(site.testimonials && site.testimonials.length > 0) {
       const itemsHTML = site.testimonials.map(t => `<div class="testi-card"><i class="ph-fill ph-quotes quote-icon"></i><p class="quote">"${t.quote}"</p><div class="testi-meta"><b>${t.name}</b><span>${t.role}</span></div></div>`).join('');
-      testiGrid.innerHTML = itemsHTML + itemsHTML; // Sonsuz döngü için 2 kez eklendi
+      testiGrid.innerHTML = itemsHTML + itemsHTML; 
     } else { testiGrid.innerHTML = '<p style="color:var(--text-sub); margin-left:20px;">Henüz yorum eklenmemiş.</p>'; }
 
-    // 5. SSS
+    // 4. SSS
     const faqList = document.getElementById('faqList');
     if(site.faqs && site.faqs.length > 0) {
       faqList.innerHTML = site.faqs.map(f => `<div class="faq-item reveal"><button class="faq-q">${f.q} <i class="ph ph-caret-down"></i></button><div class="faq-a"><p>${f.a}</p></div></div>`).join('');
       attachFaqListeners(); 
     } else { faqList.innerHTML = '<p style="color:var(--text-sub)">Henüz soru eklenmemiş.</p>'; }
 
-    // 6. İLETİŞİM BİLGİLERİ 
+    // 5. İLETİŞİM BİLGİLERİ 
     const c = site.contact || { phone: "+90 500 000 00 00", email: "bilgi@siteniz.com", whatsappNum: "905000000000", whatsappMsg: "Merhaba, dersler hakkında bilgi almak istiyorum." };
-    
     document.querySelectorAll('.c-phone-text').forEach(e => e.textContent = c.phone); 
     document.querySelectorAll('.c-phone-link').forEach(e => e.href = "tel:" + c.phone.replace(/\s+/g, ''));
-    
     document.querySelectorAll('.c-email-text').forEach(e => e.textContent = c.email); 
     document.querySelectorAll('.c-email-link').forEach(e => e.href = "mailto:" + c.email);
-    
     const msg = c.whatsappMsg ? encodeURIComponent(c.whatsappMsg) : "";
     document.querySelectorAll('.c-wa-link').forEach(e => e.href = `https://wa.me/${c.whatsappNum}?text=${msg}`);
 
@@ -514,7 +513,6 @@
       });
     });
   }
-
   const io = new IntersectionObserver((entries)=>{ entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); } }); }, { threshold: 0.15 });
 </script>
 </body>
