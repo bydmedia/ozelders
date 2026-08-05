@@ -4,42 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kaan Yıldırım | Yüzme · Basketbol · Dövüş Sporları Özel Ders</title>
-<meta name="description" content="Yüzme, basketbol ve dövüş sporlarında birebir özel ders. Su korkusundan performans antrenmanına, sıfırdan yarış hazırlığına kadar profesyonel eğitim.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/@phosphor-icons/web"></script>
-<!-- Firebase Kütüphaneleri Ekleniyor -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 <style>
-  :root{
-    --bg: #0E1116;
-    --surface: #151A21;
-    --surface-2: #1C232C;
-    --line: #2A323D;
-    --text: #EDEFF2;
-    --text-muted: #96A1AF;
-    --swim: #3FA7A0;
-    --swim-dim: #2A6E69;
-    --basketball: #E08829;
-    --basketball-dim: #9C5E1D;
-    --combat: #C13B3B;
-    --combat-dim: #832727;
-    --accent: var(--swim);
-    --accent-dim: var(--swim-dim);
-    --radius: 6px;
-  }
+  :root{ --bg: #0E1116; --surface: #151A21; --surface-2: #1C232C; --line: #2A323D; --text: #EDEFF2; --text-muted: #96A1AF; --swim: #3FA7A0; --swim-dim: #2A6E69; --basketball: #E08829; --basketball-dim: #9C5E1D; --combat: #C13B3B; --combat-dim: #832727; --accent: var(--swim); --accent-dim: var(--swim-dim); --radius: 6px; }
   *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
   html{ scroll-behavior:smooth; }
-  body{
-    background:var(--bg); color:var(--text); font-family:'Inter', sans-serif;
-    line-height:1.6; overflow-x:hidden; transition: --accent 0.4s;
-  }
+  body{ background:var(--bg); color:var(--text); font-family:'Inter', sans-serif; line-height:1.6; overflow-x:hidden; transition: --accent 0.4s; }
   body[data-sport="swim"]{ --accent:var(--swim); --accent-dim:var(--swim-dim); }
   body[data-sport="basketball"]{ --accent:var(--basketball); --accent-dim:var(--basketball-dim); }
   body[data-sport="combat"]{ --accent:var(--combat); --accent-dim:var(--combat-dim); }
-
   h1,h2,h3,.display{ font-family:'Montserrat', sans-serif; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; line-height:1.1; }
   .mono{ font-family:'JetBrains Mono', monospace; letter-spacing:0.03em; }
   a{ color:inherit; text-decoration:none; }
@@ -52,7 +28,6 @@
   h2.section-title{ font-size:clamp(2rem, 4.2vw, 3.2rem); margin-bottom:18px; }
   .section-lead{ color:var(--text-muted); max-width:620px; font-size:1.05rem; }
 
-  /* PRELOADER */
   #preloader{ position:fixed; inset:0; z-index:9999; background:var(--bg); display:flex; align-items:center; justify-content:center; overflow:hidden; }
   .pre-lane{ position:absolute; top:0; bottom:0; width:33.3334%; display:flex; align-items:center; justify-content:center; transform:translateY(0); }
   .pre-lane.l1{ left:0; background:var(--swim-dim); }
@@ -72,7 +47,6 @@
   @keyframes wordIn{ to{ opacity:1; transform:translateY(0);} }
   @keyframes preOut{ to{ transform:translateY(-100%); } }
 
-  /* NAV */
   header{ position:fixed; top:0; left:0; right:0; z-index:500; padding:22px 0; transition:padding .35s ease, background .35s ease, border-color .35s ease; border-bottom:1px solid transparent; }
   header.scrolled{ padding:14px 0; background:rgba(14,17,22,0.86); backdrop-filter:blur(10px); border-color:var(--line); }
   nav{ display:flex; align-items:center; justify-content:space-between; width:min(1140px,92%); margin:0 auto; }
@@ -85,14 +59,8 @@
   .nav-cta:hover{ transform:translateY(-2px); }
   .burger{ display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:8px; }
   .burger span{ width:24px; height:2px; background:var(--text); }
-  @media (max-width: 880px){
-    .nav-links{ position:fixed; top:0; right:-100%; height:100vh; width:min(320px,80%); background:var(--surface); flex-direction:column; justify-content:center; align-items:flex-start; padding:40px; gap:26px; transition:right .4s ease; border-left:1px solid var(--line); }
-    .nav-links.open{ right:0; }
-    .burger{ display:flex; }
-    .nav-links a.nav-cta{ margin-top:10px; }
-  }
+  @media (max-width: 880px){ .nav-links{ position:fixed; top:0; right:-100%; height:100vh; width:min(320px,80%); background:var(--surface); flex-direction:column; justify-content:center; align-items:flex-start; padding:40px; gap:26px; transition:right .4s ease; border-left:1px solid var(--line); } .nav-links.open{ right:0; } .burger{ display:flex; } .nav-links a.nav-cta{ margin-top:10px; } }
 
-  /* HERO */
   #anasayfa{ padding-top:180px; padding-bottom:100px; min-height:100vh; display:flex; align-items:center; }
   .hero-grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:60px; align-items:center; }
   .hero h1{ font-size:clamp(2.2rem, 5.5vw, 4rem); margin-bottom:22px; }
@@ -125,19 +93,13 @@
   .signature-badge b{ display:block; font-family:'Montserrat',sans-serif; font-weight:800; font-size:1rem; color:var(--accent); transition:color .35s; margin-bottom:6px; text-transform: uppercase;}
   .signature-badge span{ font-size:0.85rem; color:var(--text-muted); line-height: 1.4; display: block; }
 
-  @media (max-width: 880px){
-    .hero-grid{ grid-template-columns:1fr; }
-    .signature{ order:-1; max-width:340px; margin:0 auto 20px; }
-  }
+  @media (max-width: 880px){ .hero-grid{ grid-template-columns:1fr; } .signature{ order:-1; max-width:340px; margin:0 auto 20px; } }
 
-  /* TABS */
   .sport-tabs{ display:inline-flex; gap:6px; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:6px; margin-bottom:44px; }
   .tab-btn{ background:transparent; border:none; color:var(--text-muted); font-weight:600; font-size:0.9rem; padding:12px 22px; border-radius:4px; cursor:pointer; transition:all .3s ease; font-family:'Inter',sans-serif; display: inline-flex; align-items: center; gap: 8px; }
   .tab-btn i { font-size: 1.2rem; }
   .tab-btn.active{ background:var(--accent); color:#0E1116; }
   .tab-btn:not(.active):hover{ color:var(--text); }
-
-  /* ABOUT */
   #hakkimda{ background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
   .about-grid{ display:grid; grid-template-columns:0.8fr 1.2fr; gap:70px; align-items:start; }
   .avatar{ width:100%; aspect-ratio:4/5; border-radius:var(--radius); background:linear-gradient(160deg, var(--surface-2), var(--bg)); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
@@ -148,30 +110,21 @@
   .cert-list li i{ color:var(--accent); font-size: 1.2rem; flex-shrink:0; transition:color .35s; margin-top: 2px; }
   .philosophy{ margin-top:30px; padding:26px 28px; background:var(--surface-2); border-left:3px solid var(--accent); border-radius:var(--radius); font-style:italic; color:var(--text); transition:border-color .35s; font-size: 1.05rem;}
   .about-copy p{ color:var(--text-muted); margin-bottom:16px; font-size: 1.05rem; }
-
-  /* SERVICES */
   .cards-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:22px; }
   .service-card{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:32px; transition:transform .3s ease, border-color .3s ease; }
   .service-card:hover{ transform:translateY(-6px); border-color:var(--accent); }
   .service-card .lvl{ font-family:'JetBrains Mono',monospace; font-size:0.75rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.12em; transition:color .35s; }
   .service-card h3{ font-family:'Montserrat',sans-serif; font-weight:700; text-transform:none; font-size:1.2rem; margin:12px 0 10px; letter-spacing:0; }
   .service-card p{ color:var(--text-muted); font-size:0.95rem; }
-  
   .sport-panel{ display:none; }
-  body[data-sport="swim"] .sport-panel.swim,
-  body[data-sport="basketball"] .sport-panel.basketball,
-  body[data-sport="combat"] .sport-panel.combat{ display:block; animation:fadeIn .45s ease; }
+  body[data-sport="swim"] .sport-panel.swim, body[data-sport="basketball"] .sport-panel.basketball, body[data-sport="combat"] .sport-panel.combat{ display:block; animation:fadeIn .45s ease; }
   @keyframes fadeIn{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
-
   .practical{ margin-top:60px; display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
   .practical-item{ background:var(--surface-2); padding:28px; border-radius:var(--radius); border:1px solid var(--line); }
   .practical-item .mono{ color:var(--accent); font-size:0.8rem; font-weight:700; transition:color .35s; display: flex; align-items: center; gap: 8px; }
   .practical-item h4{ font-family:'Montserrat',sans-serif; font-weight:700; margin:10px 0; font-size:1.1rem; text-transform: none; letter-spacing: 0; }
   .practical-item p{ color:var(--text-muted); font-size:0.9rem; }
-
   @media (max-width: 720px){ .cards-grid, .practical, .about-grid{ grid-template-columns:1fr; } }
-
-  /* TESTIMONIALS */
   #yorumlar{ background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
   .testi-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:22px; }
   .testi-card{ background:var(--surface-2); border:1px solid var(--line); padding:32px; border-radius:var(--radius); position:relative; }
@@ -181,8 +134,6 @@
   .testi-meta b{ font-size:0.95rem; font-weight: 600; }
   .testi-meta span{ font-size:0.8rem; color:var(--accent); font-family:'JetBrains Mono',monospace; font-weight: 700; text-transform:uppercase; transition:color .35s; }
   @media (max-width:720px){ .testi-grid{ grid-template-columns:1fr; } }
-
-  /* FAQ */
   .faq-item{ border-bottom:1px solid var(--line); }
   .faq-q{ width:100%; text-align:left; background:none; border:none; color:var(--text); padding:24px 0; font-size:1.05rem; font-weight:600; cursor:pointer; display:flex; justify-content:space-between; align-items:center; font-family:'Inter',sans-serif; transition: color 0.3s; }
   .faq-q:hover { color: var(--accent); }
@@ -190,8 +141,6 @@
   .faq-item.open .faq-q i{ transform:rotate(180deg); }
   .faq-a{ max-height:0; overflow:hidden; transition:max-height .35s ease; }
   .faq-a p{ color:var(--text-muted); padding-bottom:24px; max-width:640px; font-size:0.95rem; }
-
-  /* CONTACT */
   #iletisim{ background:var(--surface); border-top:1px solid var(--line); }
   .contact-grid{ display:grid; grid-template-columns:0.8fr 1.2fr; gap:60px; }
   .contact-info li{ display:flex; gap:16px; align-items:center; padding:18px 0; border-bottom:1px solid var(--line); }
@@ -199,12 +148,10 @@
   .contact-info li span{ font-size:0.85rem; color:var(--text-muted); }
   .icon-box{ width:44px; height:44px; border-radius:var(--radius); background:var(--surface-2); border: 1px solid var(--line); color:var(--accent); display:flex; align-items:center; justify-content:center; font-size: 1.4rem; flex-shrink:0; transition:all .35s; }
   .contact-info li:hover .icon-box { background: var(--accent); color: #0E1116; border-color: var(--accent); }
-
   .booking-box{ background:var(--surface-2); border:1px solid var(--line); border-radius:var(--radius); padding:36px; }
   .booking-box h3{ font-family:'Montserrat',sans-serif; font-weight:700; text-transform:none; font-size:1.3rem; letter-spacing:0; margin-bottom:8px; }
   .booking-box > p{ color:var(--text-muted); font-size:0.9rem; margin-bottom:26px; }
   .field-label{ font-family:'JetBrains Mono',monospace; font-weight:700; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-muted); margin-bottom:12px; display:block; }
-  
   .date-chips{ display:flex; gap:10px; overflow-x:auto; padding-bottom:12px; margin-bottom:26px; scrollbar-width: none; }
   .date-chips::-webkit-scrollbar { display: none; }
   .date-chip{ flex:0 0 auto; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:14px 18px; text-align:center; cursor:pointer; transition:all .25s ease; min-width:72px; }
@@ -213,28 +160,22 @@
   .date-chip:hover{ border-color:var(--accent); }
   .date-chip.selected{ background:var(--accent); border-color:var(--accent); }
   .date-chip.selected .d, .date-chip.selected .n{ color:#0E1116; }
-
   .slot-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:30px; }
   .slot{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:12px 6px; text-align:center; font-family:'JetBrains Mono',monospace; font-weight:500; font-size:0.9rem; cursor:pointer; transition:all .25s ease; }
   .slot:hover{ border-color:var(--accent); }
   .slot.selected{ background:var(--accent); border-color:var(--accent); color:#0E1116; font-weight:700; }
-
   .booking-summary{ background:var(--surface); border:1px dashed var(--line); border-radius:var(--radius); padding:18px 20px; font-size:0.9rem; color:var(--text-muted); margin-bottom:24px; display: flex; gap: 12px; align-items: flex-start; }
   .booking-summary i { font-size: 1.4rem; color: var(--accent); }
   .booking-summary b{ color:var(--text); font-weight: 600; }
   #confirmBtn{ width:100%; justify-content:center; opacity:0.5; pointer-events:none; padding: 16px; font-size: 1rem; }
   #confirmBtn.ready{ opacity:1; pointer-events:auto; }
-
   @media (max-width:880px){ .contact-grid{ grid-template-columns:1fr; } .slot-grid{ grid-template-columns:repeat(3,1fr); } }
-
   .wa-float{ position:fixed; bottom:26px; right:26px; z-index:400; width:60px; height:60px; border-radius:50%; background:#25D366; color: white; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 24px rgba(37, 211, 102, 0.4); transition:transform .25s ease; font-size: 2rem; }
   .wa-float:hover{ transform:scale(1.08); color: white; }
   .wa-float::before{ content:''; position:absolute; inset:-6px; border-radius:50%; border:2px solid #25D366; opacity:0.6; animation:pulse 2.2s ease-out infinite; }
   @keyframes pulse{ 0%{ transform:scale(1); opacity:0.6; } 100%{ transform:scale(1.5); opacity:0; } }
-
   footer{ padding:50px 0; border-top:1px solid var(--line); text-align:center; }
   footer p{ color:var(--text-muted); font-size:0.9rem; }
-
   .reveal{ opacity:0; transform:translateY(26px); transition:opacity .7s ease, transform .7s ease; }
   .reveal.in-view{ opacity:1; transform:translateY(0); }
 </style>
@@ -264,7 +205,6 @@
 </header>
 
 <main>
-  <!-- HERO -->
   <section id="anasayfa">
     <div class="container hero-grid">
       <div class="hero">
@@ -273,7 +213,7 @@
         <p class="lead">Yüzme, basketbol ve dövüş sporlarında kişiye özel programlarla; su korkusundan performans antrenmanına kadar her seviyeye güvenli, planlı ve ölçülebilir bir yol haritası sunuyorum.</p>
         <div class="hero-ctas">
           <a href="#iletisim" class="btn btn-primary"><i class="ph ph-calendar-plus"></i> Randevu Oluştur</a>
-          <a href="https://wa.me/905000000000" target="_blank" class="btn btn-ghost"><i class="ph ph-whatsapp-logo"></i> İletişime Geç</a>
+          <a href="#" target="_blank" class="btn btn-ghost c-wa-link"><i class="ph ph-whatsapp-logo"></i> İletişime Geç</a>
         </div>
         <div class="hero-stats">
           <div><b>8+</b><span>Yıl Deneyim</span></div>
@@ -296,7 +236,6 @@
     </div>
   </section>
 
-  <!-- ABOUT -->
   <section id="hakkimda">
     <div class="container about-grid">
       <div class="reveal">
@@ -322,14 +261,13 @@
     </div>
   </section>
 
-  <!-- SERVICES (DİNAMİK) -->
   <section id="hizmetler">
     <div class="container">
       <div class="eyebrow reveal">Hizmetler ve Ders İçerikleri</div>
       <h2 class="section-title reveal">Branşını Seç, Programını Gör</h2>
       <p class="section-lead reveal" style="margin-bottom:36px;">Yüzme, basketbol ve dövüş sporlarında seviyene uygun ders paketleri. Aşağıdan branş seçerek detayları incele.</p>
 
-      <div class="sport-tabs reveal" role="tablist" aria-label="Branş seçimi">
+      <div class="sport-tabs reveal" role="tablist">
         <button class="tab-btn active" data-sport="swim"><i class="ph ph-waves"></i> Yüzme</button>
         <button class="tab-btn" data-sport="basketball"><i class="ph ph-basketball"></i> Basketbol</button>
         <button class="tab-btn" data-sport="combat"><i class="ph ph-boxing-glove"></i> Dövüş Sporları</button>
@@ -353,29 +291,22 @@
     </div>
   </section>
 
-  <!-- TESTIMONIALS (DİNAMİK) -->
   <section id="yorumlar">
     <div class="container">
       <div class="eyebrow reveal">Sosyal Kanıt</div>
       <h2 class="section-title reveal" style="margin-bottom:40px;">Öğrenci Yorumları</h2>
-      <div class="testi-grid" id="testiGrid">
-        Yükleniyor...
-      </div>
+      <div class="testi-grid" id="testiGrid">Yükleniyor...</div>
     </div>
   </section>
 
-  <!-- FAQ (DİNAMİK) -->
   <section id="sss">
     <div class="container" style="max-width:760px;">
       <div class="eyebrow reveal">Sıkça Sorulan Sorular</div>
       <h2 class="section-title reveal" style="margin-bottom:30px;">Aklınıza Takılanlar</h2>
-      <div class="faq-list reveal" id="faqList">
-        Yükleniyor...
-      </div>
+      <div class="faq-list reveal" id="faqList">Yükleniyor...</div>
     </div>
   </section>
 
-  <!-- CONTACT / BOOKING -->
   <section id="iletisim">
     <div class="container contact-grid">
       <div class="reveal">
@@ -383,8 +314,8 @@
         <h2 class="section-title">Hemen Kayıt Ol</h2>
         <p class="section-lead" style="margin-bottom:30px;">Sorularınız için doğrudan ulaşabilir ya da aşağıdaki takvimden uygun saatinizi seçerek randevu talebi oluşturabilirsiniz.</p>
         <ul class="contact-info">
-          <li><div class="icon-box"><i class="ph ph-phone"></i></div><div><b>+90 500 000 00 00</b><span>Her gün 09:00–20:00</span></div></li>
-          <li><div class="icon-box"><i class="ph ph-envelope-simple"></i></div><div><b>bilgi@kaanyildirim.com</b><span>24 saat içinde dönüş</span></div></li>
+          <li><div class="icon-box"><i class="ph ph-phone"></i></div><div><b class="c-phone-text">+90 500 000 00 00</b><span>Her gün 09:00–20:00</span></div></li>
+          <li><div class="icon-box"><i class="ph ph-envelope-simple"></i></div><div><b class="c-email-text">iletisim@site.com</b><span>24 saat içinde dönüş</span></div></li>
           <li><div class="icon-box"><i class="ph ph-whatsapp-logo"></i></div><div><b>WhatsApp Hattı</b><span>Tek tıkla hızlı iletişim</span></div></li>
         </ul>
       </div>
@@ -393,7 +324,7 @@
         <h3>Randevu Oluştur</h3>
         <p>Branşını, tarihi ve saati seç; talebini WhatsApp üzerinden anında iletelim.</p>
         <span class="field-label">Branş</span>
-        <div class="sport-tabs" role="tablist" aria-label="Randevu branş seçimi" style="margin-bottom:26px;">
+        <div class="sport-tabs" role="tablist" style="margin-bottom:26px;">
           <button class="tab-btn active" data-sport="swim"><i class="ph ph-waves"></i> Yüzme</button>
           <button class="tab-btn" data-sport="basketball"><i class="ph ph-basketball"></i> Basketbol</button>
           <button class="tab-btn" data-sport="combat"><i class="ph ph-boxing-glove"></i> Dövüş</button>
@@ -413,7 +344,7 @@
 
 </main>
 
-<a href="https://wa.me/905000000000" target="_blank" class="wa-float" aria-label="WhatsApp'tan yaz">
+<a href="#" target="_blank" class="wa-float c-wa-link" aria-label="WhatsApp'tan yaz">
   <i class="ph-fill ph-whatsapp-logo"></i>
 </a>
 
@@ -424,9 +355,7 @@
 </footer>
 
 <script>
-  // ----------------------------------------------------
-  // FİREBASE ENTEGRASYONU (YÖNETİM PANELİNDEN VERİ ÇEKME)
-  // ----------------------------------------------------
+  // LÜTFEN KENDİ FIREBASE AYARLARINI BURAYA YAPIŞTIR!
   const firebaseConfig = { 
     apiKey: "AIzaSyA6d55XjKFlj4-eZPCYrfTl1451f-IKdq0", 
     authDomain: "aquaclub44.firebaseapp.com", 
@@ -439,29 +368,24 @@
   if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
   const db = firebase.firestore();
 
-  // Gerçek zamanlı veri dinleyici (Panelden bir şey değiştiğinde anında siteye yansır)
+  window.siteWaNum = "905000000000";
+
   db.collection("appData").doc("main").onSnapshot((doc) => {
     if (doc.exists) {
       const data = doc.data();
-      
-      // Kulüp adını Header ve Footer'a yansıt
       if(data.clubName) {
         document.getElementById('headerClubName').textContent = data.clubName;
         document.getElementById('aboutName').textContent = data.clubName;
         document.getElementById('footerCopy').textContent = `© 2026 ${data.clubName} — Yüzme · Basketbol · Dövüş Sporları Özel Ders. Tüm hakları saklıdır.`;
-        
-        // İsmin baş harflerini Avatar'a yaz
         const words = data.clubName.split(" ");
         let initials = words[0].charAt(0);
         if(words.length > 1) initials += words[1].charAt(0);
         document.getElementById('avatarInitials').textContent = initials.toUpperCase();
       }
 
-      // Site İçeriklerini Ekrana Çiz
       if (data.siteData) {
         renderSiteData(data.siteData);
       } else {
-        // Eğer veritabanında veri yoksa boş göründüğünü belirtelim
         document.getElementById('swimGrid').innerHTML = '<p style="color:var(--text-sub)">Ders paketi eklenmemiş.</p>';
         document.getElementById('basketGrid').innerHTML = '<p style="color:var(--text-sub)">Ders paketi eklenmemiş.</p>';
         document.getElementById('combatGrid').innerHTML = '<p style="color:var(--text-sub)">Ders paketi eklenmemiş.</p>';
@@ -472,94 +396,61 @@
   });
 
   function renderSiteData(site) {
-    // 1. DERS PAKETLERİ (Hizmetler)
+    // Hizmetler
     const swimGrid = document.getElementById('swimGrid');
     const basketGrid = document.getElementById('basketGrid');
     const combatGrid = document.getElementById('combatGrid');
-    
     swimGrid.innerHTML = ''; basketGrid.innerHTML = ''; combatGrid.innerHTML = '';
-    
     (site.services || []).forEach(s => {
-       const cardHTML = `
-          <div class="service-card reveal">
-            <span class="lvl">Seviye · ${s.level}</span>
-            <h3>${s.title}</h3>
-            <p>${s.desc}</p>
-          </div>`;
+       const cardHTML = `<div class="service-card reveal"><span class="lvl">Seviye · ${s.level}</span><h3>${s.title}</h3><p>${s.desc}</p></div>`;
        if(s.sport === 'swim') swimGrid.innerHTML += cardHTML;
        if(s.sport === 'basketball') basketGrid.innerHTML += cardHTML;
        if(s.sport === 'combat') combatGrid.innerHTML += cardHTML;
     });
+    if(swimGrid.innerHTML==='') swimGrid.innerHTML = '<p style="color:var(--text-sub)">Ders paketi eklenmemiş.</p>';
+    if(basketGrid.innerHTML==='') basketGrid.innerHTML = '<p style="color:var(--text-sub)">Ders paketi eklenmemiş.</p>';
+    if(combatGrid.innerHTML==='') combatGrid.innerHTML = '<p style="color:var(--text-sub)">Ders paketi eklenmemiş.</p>';
 
-    if(swimGrid.innerHTML==='') swimGrid.innerHTML = '<p style="color:var(--text-sub)">Bu branş için ders paketi bulunmuyor.</p>';
-    if(basketGrid.innerHTML==='') basketGrid.innerHTML = '<p style="color:var(--text-sub)">Bu branş için ders paketi bulunmuyor.</p>';
-    if(combatGrid.innerHTML==='') combatGrid.innerHTML = '<p style="color:var(--text-sub)">Bu branş için ders paketi bulunmuyor.</p>';
-
-    // 2. YORUMLAR (Testimonials)
+    // Yorumlar
     const testiGrid = document.getElementById('testiGrid');
     if(site.testimonials && site.testimonials.length > 0) {
-      testiGrid.innerHTML = site.testimonials.map(t => `
-        <div class="testi-card reveal">
-          <i class="ph-fill ph-quotes quote-icon"></i>
-          <p class="quote">${t.quote}</p>
-          <div class="testi-meta"><b>${t.name}</b><span>${t.role}</span></div>
-        </div>
-      `).join('');
-    } else {
-      testiGrid.innerHTML = '<p style="color:var(--text-sub)">Henüz yorum eklenmemiş.</p>';
-    }
+      testiGrid.innerHTML = site.testimonials.map(t => `<div class="testi-card reveal"><i class="ph-fill ph-quotes quote-icon"></i><p class="quote">${t.quote}</p><div class="testi-meta"><b>${t.name}</b><span>${t.role}</span></div></div>`).join('');
+    } else { testiGrid.innerHTML = '<p style="color:var(--text-sub)">Henüz yorum eklenmemiş.</p>'; }
 
-    // 3. SSS (Sıkça Sorulan Sorular)
+    // SSS
     const faqList = document.getElementById('faqList');
     if(site.faqs && site.faqs.length > 0) {
-      faqList.innerHTML = site.faqs.map(f => `
-        <div class="faq-item reveal">
-          <button class="faq-q">${f.q} <i class="ph ph-caret-down"></i></button>
-          <div class="faq-a"><p>${f.a}</p></div>
-        </div>
-      `).join('');
-      attachFaqListeners(); // HTML oluştuktan sonra tıklama olaylarını bağla
-    } else {
-      faqList.innerHTML = '<p style="color:var(--text-sub)">Henüz soru eklenmemiş.</p>';
+      faqList.innerHTML = site.faqs.map(f => `<div class="faq-item reveal"><button class="faq-q">${f.q} <i class="ph ph-caret-down"></i></button><div class="faq-a"><p>${f.a}</p></div></div>`).join('');
+      attachFaqListeners(); 
+    } else { faqList.innerHTML = '<p style="color:var(--text-sub)">Henüz soru eklenmemiş.</p>'; }
+
+    // İletişim Bilgileri
+    if(site.contact) {
+      const c = site.contact;
+      if(c.phone) { document.querySelectorAll('.c-phone-text').forEach(e => e.textContent = c.phone); }
+      if(c.email) { document.querySelectorAll('.c-email-text').forEach(e => e.textContent = c.email); }
+      if(c.whatsappNum) {
+        window.siteWaNum = c.whatsappNum;
+        const msg = c.whatsappMsg ? encodeURIComponent(c.whatsappMsg) : "";
+        document.querySelectorAll('.c-wa-link').forEach(e => e.href = `https://wa.me/${c.whatsappNum}?text=${msg}`);
+      }
     }
 
-    // Yeni eklenen HTML öğeleri için Scroll Reveal özelliğini tekrar tetikle
     document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
+    updateSummary(); 
   }
 
-
-  // ----------------------------------------------------
-  // GÖRSEL EFEKTLER VE ETKİLEŞİMLER
-  // ----------------------------------------------------
   const pre = document.getElementById('preloader');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(reduced){ pre.remove(); } else {
-    requestAnimationFrame(()=> pre.classList.add('animate'));
-    setTimeout(()=> pre.classList.add('leave'), 10);
-    setTimeout(()=> pre.remove(), 2300);
-  }
-
-  const header = document.getElementById('siteHeader');
-  window.addEventListener('scroll', ()=> header.classList.toggle('scrolled', window.scrollY > 40));
-
-  const burger = document.getElementById('burger');
-  const navLinks = document.getElementById('navLinks');
-  burger.addEventListener('click', ()=> navLinks.classList.toggle('open'));
-  navLinks.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> navLinks.classList.remove('open')));
-
-  const allTabBtns = document.querySelectorAll('.tab-btn');
-  function setSport(sport){
-    document.body.dataset.sport = sport;
-    allTabBtns.forEach(b=> b.classList.toggle('active', b.dataset.sport === sport));
-    updateSummary();
-  }
+  if(reduced){ pre.remove(); } else { requestAnimationFrame(()=> pre.classList.add('animate')); setTimeout(()=> pre.classList.add('leave'), 10); setTimeout(()=> pre.remove(), 2300); }
+  const header = document.getElementById('siteHeader'); window.addEventListener('scroll', ()=> header.classList.toggle('scrolled', window.scrollY > 40));
+  const burger = document.getElementById('burger'); const navLinks = document.getElementById('navLinks'); burger.addEventListener('click', ()=> navLinks.classList.toggle('open')); navLinks.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> navLinks.classList.remove('open')));
+  const allTabBtns = document.querySelectorAll('.tab-btn'); function setSport(sport){ document.body.dataset.sport = sport; allTabBtns.forEach(b=> b.classList.toggle('active', b.dataset.sport === sport)); updateSummary(); }
   allTabBtns.forEach(btn=> btn.addEventListener('click', ()=> setSport(btn.dataset.sport)));
 
-  // SSS Açılır Kapanır Menü Dinleyicisi
   function attachFaqListeners() {
     document.querySelectorAll('.faq-item').forEach(item=>{
-      const q = item.querySelector('.faq-q');
-      const a = item.querySelector('.faq-a');
+      const q = item.querySelector('.faq-q'); const a = item.querySelector('.faq-a');
       q.addEventListener('click', ()=>{
         const isOpen = item.classList.contains('open');
         document.querySelectorAll('.faq-item.open').forEach(o=>{ o.classList.remove('open'); o.querySelector('.faq-a').style.maxHeight = null; });
@@ -568,49 +459,23 @@
     });
   }
 
-  // Scroll ile elementlerin belirginleşmesi (Reveal)
-  const io = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); } });
-  }, { threshold: 0.15 });
-  document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
+  const io = new IntersectionObserver((entries)=>{ entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); } }); }, { threshold: 0.15 });
 
-
-  // ----------------------------------------------------
-  // REZERVASYON TAKVİMİ
-  // ----------------------------------------------------
-  const dateChips = document.getElementById('dateChips');
-  const slotGrid = document.getElementById('slotGrid');
-  const bookingSummary = document.getElementById('bookingSummary');
-  const confirmBtn = document.getElementById('confirmBtn');
-
-  const dayNames = ['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'];
-  const sportLabels = { swim:'Yüzme', basketball:'Basketbol', combat:'Dövüş Sporları' };
+  const dateChips = document.getElementById('dateChips'); const slotGrid = document.getElementById('slotGrid'); const bookingSummary = document.getElementById('bookingSummary'); const confirmBtn = document.getElementById('confirmBtn');
+  const dayNames = ['Paz','Pzt','Sal','Çar','Per','Cum','Cmt']; const sportLabels = { swim:'Yüzme', basketball:'Basketbol', combat:'Dövüş Sporları' };
   let selectedDate = null; let selectedTime = null;
 
   const today = new Date();
   for(let i=0;i<14;i++){
     const d = new Date(today); d.setDate(today.getDate()+i);
-    const chip = document.createElement('div');
-    chip.className = 'date-chip';
-    chip.innerHTML = `<div class="d">${dayNames[d.getDay()]}</div><div class="n">${d.getDate()}</div>`;
+    const chip = document.createElement('div'); chip.className = 'date-chip'; chip.innerHTML = `<div class="d">${dayNames[d.getDay()]}</div><div class="n">${d.getDate()}</div>`;
     const label = `${d.getDate()} ${d.toLocaleDateString('tr-TR',{month:'long'})}`;
-    chip.addEventListener('click', ()=>{
-      document.querySelectorAll('.date-chip').forEach(c=> c.classList.remove('selected'));
-      chip.classList.add('selected'); selectedDate = label; updateSummary();
-    });
-    dateChips.appendChild(chip);
+    chip.addEventListener('click', ()=>{ document.querySelectorAll('.date-chip').forEach(c=> c.classList.remove('selected')); chip.classList.add('selected'); selectedDate = label; updateSummary(); }); dateChips.appendChild(chip);
   }
 
   for(let h=9; h<=20; h++){
-    const slot = document.createElement('div');
-    slot.className = 'slot';
-    const t = `${String(h).padStart(2,'0')}:00`;
-    slot.textContent = t;
-    slot.addEventListener('click', ()=>{
-      document.querySelectorAll('.slot').forEach(s=> s.classList.remove('selected'));
-      slot.classList.add('selected'); selectedTime = t; updateSummary();
-    });
-    slotGrid.appendChild(slot);
+    const slot = document.createElement('div'); slot.className = 'slot'; const t = `${String(h).padStart(2,'0')}:00`; slot.textContent = t;
+    slot.addEventListener('click', ()=>{ document.querySelectorAll('.slot').forEach(s=> s.classList.remove('selected')); slot.classList.add('selected'); selectedTime = t; updateSummary(); }); slotGrid.appendChild(slot);
   }
 
   function updateSummary(){
@@ -618,7 +483,7 @@
     if(selectedDate && selectedTime){
       bookingSummary.innerHTML = `<i class="ph-fill ph-check-circle"></i> <div><b>${sport}</b> dersi için <b>${selectedDate}</b>, saat <b>${selectedTime}</b> — talebini WhatsApp'tan gönderebilirsin.</div>`;
       const msg = encodeURIComponent(`Merhaba, ${sport} dersi için ${selectedDate} tarihinde saat ${selectedTime} randevu almak istiyorum.`);
-      confirmBtn.href = `https://wa.me/905000000000?text=${msg}`;
+      confirmBtn.href = `https://wa.me/${window.siteWaNum}?text=${msg}`;
       confirmBtn.classList.add('ready');
     } else {
       bookingSummary.innerHTML = `<i class="ph ph-info"></i> <div>Branş, tarih ve saat seçtiğinde randevu özeti burada görünecek.</div>`;
