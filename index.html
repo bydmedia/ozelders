@@ -3,176 +3,213 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kaan Yıldırım | Yüzme · Basketbol · Dövüş Sporları Özel Ders</title>
+<title>Nihat Canlı Özel Spor Okulu</title>
+<!-- Şimşek Favicon -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='1em' font-size='80'>⚡</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/@phosphor-icons/web"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 <style>
-  :root{ --bg: #0E1116; --surface: #151A21; --surface-2: #1C232C; --line: #2A323D; --text: #EDEFF2; --text-muted: #96A1AF; --swim: #3FA7A0; --swim-dim: #2A6E69; --basketball: #E08829; --basketball-dim: #9C5E1D; --combat: #C13B3B; --combat-dim: #832727; --accent: var(--swim); --accent-dim: var(--swim-dim); --radius: 6px; }
+  /* CANLI VE AÇIK RENK TEMASI */
+  :root{ 
+    --bg: #F0F4F8; 
+    --surface: #FFFFFF; 
+    --surface-2: #F8FAFC; 
+    --line: #E2E8F0; 
+    --text: #0F172A; 
+    --text-muted: #475569; 
+    --accent: #2563EB; /* Canlı Mavi */
+    --accent-hover: #1D4ED8;
+    --radius: 8px; 
+  }
   *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
   html{ scroll-behavior:smooth; }
-  body{ background:var(--bg); color:var(--text); font-family:'Inter', sans-serif; line-height:1.6; overflow-x:hidden; transition: --accent 0.4s; }
-  body[data-sport="swim"]{ --accent:var(--swim); --accent-dim:var(--swim-dim); }
-  body[data-sport="basketball"]{ --accent:var(--basketball); --accent-dim:var(--basketball-dim); }
-  body[data-sport="combat"]{ --accent:var(--combat); --accent-dim:var(--combat-dim); }
-  h1,h2,h3,.display{ font-family:'Montserrat', sans-serif; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; line-height:1.1; }
+  body{ background:var(--bg); color:var(--text); font-family:'Inter', sans-serif; line-height:1.6; overflow-x:hidden; }
+
+  /* HAREKETLİ VE GÖZ YORMAYAN SPOR ARKA PLAN */
+  .bg-animation { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: linear-gradient(120deg, #F0F4F8, #E2E8F0, #FFFFFF); background-size: 200% 200%; animation: gradientMove 15s ease infinite; }
+  .bg-pattern { position: fixed; inset: 0; z-index: -1; opacity: 0.3; background-image: radial-gradient(var(--text-muted) 1px, transparent 1px); background-size: 30px 30px; }
+  @keyframes gradientMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+  h1,h2,h3,.display{ font-family:'Montserrat', sans-serif; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; line-height:1.1; color: #0F172A;}
   .mono{ font-family:'JetBrains Mono', monospace; letter-spacing:0.03em; }
   a{ color:inherit; text-decoration:none; }
   ul{ list-style:none; }
   img{ max-width:100%; display:block; }
   section{ padding:110px 0; position:relative; }
   .container{ width:min(1140px, 92%); margin:0 auto; }
-  .eyebrow{ font-family:'JetBrains Mono', monospace; font-size:0.78rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--accent); margin-bottom:16px; display:flex; align-items:center; gap:10px; transition:color .35s; font-weight: 700; }
-  .eyebrow::before{ content:''; width:28px; height:2px; background:var(--accent); transition:background .35s; }
+  .eyebrow{ font-family:'JetBrains Mono', monospace; font-size:0.85rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--accent); margin-bottom:16px; display:flex; align-items:center; gap:10px; font-weight: 700; }
+  .eyebrow::before{ content:''; width:28px; height:2px; background:var(--accent); }
   h2.section-title{ font-size:clamp(2rem, 4.2vw, 3.2rem); margin-bottom:18px; }
   .section-lead{ color:var(--text-muted); max-width:620px; font-size:1.05rem; }
 
+  /* YENİ AÇILIŞ ANİMASYONU */
+  #preloader{ position:fixed; inset:0; z-index:9999; background:#FFFFFF; display:flex; flex-direction:column; align-items:center; justify-content:center; overflow:hidden; transition: opacity 0.6s ease; }
+  .loader-logo { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 3rem; color: var(--accent); letter-spacing: 2px; display:flex; align-items:center; gap:10px; opacity:0; transform: scale(0.8); animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+  .loader-bar { width: 200px; height: 4px; background: var(--line); border-radius: 2px; margin-top: 20px; overflow: hidden; position: relative; opacity:0; animation: fade 0.5s ease 0.3s forwards;}
+  .loader-progress { width: 0%; height: 100%; background: var(--accent); animation: loadBar 1.2s ease-in-out 0.4s forwards; }
+  @keyframes popIn { to { opacity:1; transform: scale(1); } }
+  @keyframes loadBar { 50% { width: 70%; } 100% { width: 100%; } }
+  @keyframes fade { to { opacity:1; } }
+
+  /* HEADER & LOGO */
   header{ position:fixed; top:0; left:0; right:0; z-index:500; padding:22px 0; transition:padding .35s ease, background .35s ease, border-color .35s ease; border-bottom:1px solid transparent; }
-  header.scrolled{ padding:14px 0; background:rgba(14,17,22,0.86); backdrop-filter:blur(10px); border-color:var(--line); }
+  header.scrolled{ padding:14px 0; background:rgba(255,255,255,0.92); backdrop-filter:blur(10px); border-color:var(--line); box-shadow: 0 4px 20px rgba(0,0,0,0.03);}
   nav{ display:flex; align-items:center; justify-content:space-between; width:min(1140px,92%); margin:0 auto; }
-  .logo{ font-family:'Montserrat', sans-serif; font-weight:800; font-size:1.15rem; text-transform:uppercase; letter-spacing:1px; display:flex; align-items:center; gap:10px; }
-  .logo .dot{ width:8px; height:8px; background:var(--accent); border-radius:50%; transition:background .35s; }
+  
+  .logo{ font-family:'Montserrat', sans-serif; font-weight:900; font-size:1.3rem; text-transform:uppercase; letter-spacing:1px; display:flex; align-items:center; gap:8px; color: var(--text); }
+  .logo svg { stroke: var(--accent); transition: transform 0.3s; }
+  .logo:hover svg { transform: scale(1.1) rotate(5deg); }
+  .logo .thin { font-weight:400; color:var(--text-muted); }
+  
   .nav-links{ display:flex; align-items:center; gap:34px; }
-  .nav-links a{ font-size:0.92rem; font-weight:500; color:var(--text-muted); transition:color .25s; position:relative; }
-  .nav-links a:hover{ color:var(--text); }
-  .nav-cta{ background:var(--accent); color:#0E1116 !important; padding:10px 24px; border-radius:var(--radius); font-weight:600; font-size:0.88rem; transition:background .35s, transform .2s; }
-  .nav-cta:hover{ transform:translateY(-2px); }
+  .nav-links a{ font-size:0.95rem; font-weight:600; color:var(--text-muted); transition:color .25s; position:relative; }
+  .nav-links a:hover{ color:var(--accent); }
+  .nav-cta{ background:var(--accent); color:#FFFFFF !important; padding:10px 24px; border-radius:var(--radius); font-weight:700; font-size:0.9rem; transition:background .35s, transform .2s; box-shadow: 0 4px 10px rgba(37,99,235,0.2); }
+  .nav-cta:hover{ transform:translateY(-2px); background: var(--accent-hover); }
   .burger{ display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:8px; }
   .burger span{ width:24px; height:2px; background:var(--text); }
-  @media (max-width: 880px){ .nav-links{ position:fixed; top:0; right:-100%; height:100vh; width:min(320px,80%); background:var(--surface); flex-direction:column; justify-content:center; align-items:flex-start; padding:40px; gap:26px; transition:right .4s ease; border-left:1px solid var(--line); } .nav-links.open{ right:0; } .burger{ display:flex; } .nav-links a.nav-cta{ margin-top:10px; } }
+  @media (max-width: 880px){ .nav-links{ position:fixed; top:0; right:-100%; height:100vh; width:min(320px,80%); background:var(--surface); flex-direction:column; justify-content:center; align-items:flex-start; padding:40px; gap:26px; transition:right .4s ease; border-left:1px solid var(--line); box-shadow: -10px 0 30px rgba(0,0,0,0.1);} .nav-links.open{ right:0; } .burger{ display:flex; } .nav-links a.nav-cta{ margin-top:10px; } }
 
   #anasayfa{ padding-top:180px; padding-bottom:100px; min-height:100vh; display:flex; align-items:center; }
   .hero-grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:60px; align-items:center; }
-  .hero h1{ font-size:clamp(2.2rem, 5.5vw, 4rem); margin-bottom:22px; }
-  .hero h1 .line-accent{ color:var(--accent); transition:color .35s; }
-  .hero p.lead{ color:var(--text-muted); font-size:1.12rem; max-width:520px; margin-bottom:38px; line-height: 1.7; }
+  .hero h1{ font-size:clamp(2.4rem, 5.5vw, 4.4rem); margin-bottom:22px; }
+  .hero h1 .line-accent{ color:var(--accent); }
+  .hero p.lead{ color:var(--text-muted); font-size:1.15rem; max-width:520px; margin-bottom:38px; line-height: 1.7; font-weight: 500;}
   .hero-ctas{ display:flex; gap:16px; flex-wrap:wrap; margin-bottom:44px; }
-  .btn{ display:inline-flex; align-items:center; gap:10px; padding:15px 28px; border-radius:var(--radius); font-weight:600; font-size:0.92rem; cursor:pointer; border:1px solid transparent; transition:all .3s ease; }
-  .btn-primary{ background:var(--accent); color:#0E1116; }
-  .btn-primary:hover{ transform:translateY(-3px); box-shadow:0 12px 26px -10px var(--accent); }
+  .btn{ display:inline-flex; align-items:center; gap:10px; padding:15px 28px; border-radius:var(--radius); font-weight:700; font-size:0.95rem; cursor:pointer; border:2px solid transparent; transition:all .3s ease; }
+  .btn-primary{ background:var(--accent); color:#FFFFFF; box-shadow: 0 8px 20px -6px var(--accent); }
+  .btn-primary:hover{ transform:translateY(-3px); box-shadow: 0 12px 26px -8px var(--accent); }
   .btn-ghost{ background:transparent; color:var(--text); border-color:var(--line); }
-  .btn-ghost:hover{ border-color:var(--accent); color:var(--accent); }
+  .btn-ghost:hover{ border-color:var(--accent); color:var(--accent); background: var(--surface); }
   .hero-stats{ display:flex; gap:36px; }
-  .hero-stats div{ border-left:2px solid var(--line); padding-left:14px; }
-  .hero-stats b{ font-family:'JetBrains Mono',monospace; font-weight:700; font-size:1.5rem; display:block; color:var(--text); }
-  .hero-stats span{ font-size:0.8rem; color:var(--text-muted); }
+  .hero-stats div{ border-left:3px solid var(--accent); padding-left:14px; }
+  .hero-stats b{ font-family:'JetBrains Mono',monospace; font-weight:800; font-size:1.6rem; display:block; color:var(--text); }
+  .hero-stats span{ font-size:0.85rem; color:var(--text-muted); font-weight: 600;}
 
   .signature{ position:relative; aspect-ratio:1/1; }
-  .lanes{ position:absolute; inset:0; }
+  .lanes{ position:absolute; inset:0; border: 2px solid var(--line); border-radius: 12px; background: rgba(255,255,255,0.5); backdrop-filter: blur(5px);}
   .lane-row{ position:absolute; left:0; right:0; height:24%; border-top:2px dashed var(--line); display:flex; align-items:center; }
-  .lane-row:nth-child(1){ top:0%; } .lane-row:nth-child(2){ top:25%; } .lane-row:nth-child(3){ top:50%; } .lane-row:nth-child(4){ top:75%; border-bottom:2px dashed var(--line); }
-  .lane-marker{ width:14%; height:6px; border-radius:3px; }
-  .lane-row:nth-child(1) .lane-marker{ background:var(--swim); margin-left:8%; }
-  .lane-row:nth-child(2) .lane-marker{ background:var(--basketball); margin-left:32%; }
-  .lane-row:nth-child(3) .lane-marker{ background:var(--combat); margin-left:14%; }
-  .lane-row:nth-child(4) .lane-marker{ background:var(--accent); margin-left:52%; transition:background .35s; }
-  .signature-badge{ position:absolute; bottom:16px; right:16px; background:var(--surface); border:1px solid var(--line); padding:18px 22px; border-radius:var(--radius); max-width:240px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-  .signature-badge b{ display:block; font-family:'Montserrat',sans-serif; font-weight:800; font-size:1rem; color:var(--accent); transition:color .35s; margin-bottom:6px; text-transform: uppercase;}
-  .signature-badge span{ font-size:0.85rem; color:var(--text-muted); line-height: 1.4; display: block; }
-  @media (max-width: 880px){ .hero-grid{ grid-template-columns:1fr; } .signature{ order:-1; max-width:340px; margin:0 auto 20px; } }
+  .lane-row:nth-child(1){ top:0%; border-top: none;} .lane-row:nth-child(2){ top:25%; } .lane-row:nth-child(3){ top:50%; } .lane-row:nth-child(4){ top:75%; }
+  .lane-marker{ width:14%; height:8px; border-radius:4px; }
+  .lane-row:nth-child(1) .lane-marker{ background:#3FA7A0; margin-left:8%; }
+  .lane-row:nth-child(2) .lane-marker{ background:#E08829; margin-left:32%; }
+  .lane-row:nth-child(3) .lane-marker{ background:#C13B3B; margin-left:14%; }
+  .lane-row:nth-child(4) .lane-marker{ background:var(--accent); margin-left:52%; }
+  .signature-badge{ position:absolute; bottom:-16px; right:-16px; background:var(--surface); border:1px solid var(--line); padding:20px 24px; border-radius:var(--radius); max-width:260px; box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+  .signature-badge b{ display:block; font-family:'Montserrat',sans-serif; font-weight:800; font-size:1.1rem; color:var(--accent); margin-bottom:8px; text-transform: uppercase;}
+  .signature-badge span{ font-size:0.9rem; color:var(--text-muted); line-height: 1.5; display: block; font-weight: 500;}
+  @media (max-width: 880px){ .hero-grid{ grid-template-columns:1fr; } .signature{ order:-1; max-width:340px; margin:0 auto 40px; } }
 
-  .sport-tabs{ display:inline-flex; flex-wrap:wrap; gap:6px; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:6px; margin-bottom:24px; }
-  .tab-btn{ background:transparent; border:none; color:var(--text-muted); font-weight:600; font-size:0.9rem; padding:12px 22px; border-radius:4px; cursor:pointer; transition:all .3s ease; font-family:'Inter',sans-serif; display: inline-flex; align-items: center; gap: 8px; }
-  .tab-btn i { font-size: 1.2rem; }
-  .tab-btn.active{ background:var(--accent); color:#0E1116; }
-  .tab-btn:not(.active):hover{ color:var(--text); }
-  
-  .branch-desc { color:var(--text); font-size:1.05rem; padding:20px 24px; background:var(--surface-2); border-left:3px solid var(--accent); border-radius:var(--radius); margin-bottom:34px; line-height:1.7; transition:border-color .35s; }
-
+  /* ABOUT */
   #hakkimda{ background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
   .about-grid{ display:grid; grid-template-columns:0.8fr 1.2fr; gap:70px; align-items:start; }
-  .avatar{ width:100%; aspect-ratio:4/5; border-radius:var(--radius); background:linear-gradient(160deg, var(--surface-2), var(--bg)); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
-  .avatar span{ font-family:'Montserrat',sans-serif; font-weight:900; font-size:5rem; color:var(--accent); opacity:0.9; transition:color .35s; }
-  .avatar::after{ content:''; position:absolute; inset:0; background:repeating-linear-gradient(115deg, transparent 0 18px, rgba(255,255,255,0.02) 18px 19px); }
+  .avatar{ width:100%; aspect-ratio:4/5; border-radius:12px; background:linear-gradient(160deg, #E2E8F0, #F8FAFC); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.05);}
+  .avatar img{ width:100%; height:100%; object-fit:cover; position:absolute; inset:0; opacity: 0; transition: opacity 0.5s; z-index: 2;}
+  .avatar span{ font-family:'Montserrat',sans-serif; font-weight:900; font-size:5rem; color:var(--text-muted); opacity:0.3; }
   .cert-list{ margin-top:24px; display:flex; flex-direction:column; gap:12px; }
-  .cert-list li{ display:flex; gap:12px; align-items:flex-start; font-size:0.95rem; color:var(--text-muted); }
-  .cert-list li i{ color:var(--accent); font-size: 1.2rem; flex-shrink:0; transition:color .35s; margin-top: 2px; }
-  .philosophy{ margin-top:30px; padding:26px 28px; background:var(--surface-2); border-left:3px solid var(--accent); border-radius:var(--radius); font-style:italic; color:var(--text); transition:border-color .35s; font-size: 1.05rem;}
-  .about-copy p{ color:var(--text-muted); margin-bottom:16px; font-size: 1.05rem; }
+  .cert-list li{ display:flex; gap:12px; align-items:flex-start; font-size:1rem; color:var(--text-muted); font-weight: 500;}
+  .cert-list li i{ color:var(--accent); font-size: 1.3rem; flex-shrink:0; margin-top: 2px; }
+  .philosophy{ margin-top:30px; padding:26px 28px; background:var(--bg); border-left:4px solid var(--accent); border-radius:var(--radius); font-style:italic; color:var(--text); font-size: 1.1rem; font-weight: 600;}
+  .about-copy p{ color:var(--text-muted); margin-bottom:16px; font-size: 1.1rem; line-height: 1.8;}
+
+  /* SERVICES (BRANŞLAR) */
+  .sport-tabs{ display:inline-flex; flex-wrap:wrap; gap:8px; background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:8px; margin-bottom:30px; box-shadow: 0 10px 20px rgba(0,0,0,0.02);}
+  .tab-btn{ background:transparent; border:none; color:var(--text-muted); font-weight:700; font-size:0.95rem; padding:12px 24px; border-radius:6px; cursor:pointer; transition:all .3s ease; font-family:'Inter',sans-serif; display: inline-flex; align-items: center; gap: 8px; }
+  .tab-btn i { font-size: 1.3rem; }
+  .tab-btn.active{ background:var(--accent); color:#FFFFFF; box-shadow: 0 4px 10px rgba(37,99,235,0.2);}
+  .tab-btn:not(.active):hover{ color:var(--text); background: var(--bg); }
+  
+  .branch-desc { color:var(--text); font-size:1.1rem; padding:24px 28px; background:var(--surface); border:1px solid var(--line); border-radius:10px; margin-bottom:34px; line-height:1.7; font-weight: 500; box-shadow: 0 4px 15px rgba(0,0,0,0.02);}
   
   .cards-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:22px; }
-  .service-card{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:32px; transition:transform .3s ease, border-color .3s ease; }
-  .service-card:hover{ transform:translateY(-6px); border-color:var(--accent); }
-  .service-card .lvl{ font-family:'JetBrains Mono',monospace; font-size:0.75rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.12em; transition:color .35s; }
-  .service-card h3{ font-family:'Montserrat',sans-serif; font-weight:700; text-transform:none; font-size:1.2rem; margin:12px 0 10px; letter-spacing:0; }
-  .service-card p{ color:var(--text-muted); font-size:0.95rem; }
+  .service-card{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:32px; transition:transform .3s ease, border-color .3s ease, box-shadow .3s ease; }
+  .service-card:hover{ transform:translateY(-6px); border-color:var(--accent); box-shadow: 0 15px 30px rgba(0,0,0,0.05);}
+  .service-card .lvl{ font-family:'JetBrains Mono',monospace; font-size:0.8rem; font-weight:800; color:var(--accent); text-transform:uppercase; letter-spacing:0.12em; }
+  .service-card h3{ font-family:'Montserrat',sans-serif; font-weight:800; text-transform:none; font-size:1.25rem; margin:12px 0 10px; letter-spacing:0; color: var(--text);}
+  .service-card p{ color:var(--text-muted); font-size:1rem; line-height: 1.6;}
   
-  .sport-panel{ display:none; }
-  body[data-sport="swim"] .sport-panel.swim, body[data-sport="basketball"] .sport-panel.basketball, body[data-sport="combat"] .sport-panel.combat{ display:block; animation:fadeIn .45s ease; }
-  @keyframes fadeIn{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+  .sport-panel{ display:none; animation:fadeIn .4s ease; }
+  .sport-panel.active { display:block; }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+  .practical{ margin-top:60px; display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  .practical-item{ background:var(--surface); padding:32px; border-radius:10px; border:1px solid var(--line); text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.02);}
+  .practical-item .mono{ color:var(--accent); font-size:0.85rem; font-weight:800; display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 12px;}
+  .practical-item .mono i { font-size: 2rem; }
+  .practical-item h4{ font-family:'Montserrat',sans-serif; font-weight:800; margin:10px 0; font-size:1.15rem; text-transform: none; letter-spacing: 0; }
+  .practical-item p{ color:var(--text-muted); font-size:0.95rem; }
+  @media (max-width: 720px){ .cards-grid, .practical, .about-grid{ grid-template-columns:1fr; } }
 
   /* YATAY KAYAN YORUMLAR (MARQUEE) CSS'i */
-  #yorumlar{ background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line); overflow: hidden; }
-  .marquee-container { width: 100%; position: relative; padding: 10px 0; }
-  .marquee-track { display: flex; width: max-content; gap: 24px; animation: scrollMarquee 40s linear infinite; }
+  #yorumlar{ background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line); overflow: hidden; padding-bottom: 110px;}
+  .marquee-container { width: 100%; position: relative; padding: 20px 0; }
+  .marquee-track { display: flex; width: max-content; gap: 24px; animation: scrollMarquee 45s linear infinite; }
   .marquee-container:hover .marquee-track { animation-play-state: paused; }
-  .testi-card { width: 340px; flex-shrink: 0; background:var(--surface-2); border:1px solid var(--line); padding:32px; border-radius:var(--radius); position:relative; white-space: normal; }
-  .testi-card i.quote-icon{ font-size:3rem; color:var(--accent); opacity:0.2; position:absolute; top:20px; left:24px; transition:color .35s; }
-  .testi-card p.quote{ margin-top:16px; color:var(--text); font-size:1rem; position: relative; z-index: 2; font-style: italic;}
+  .testi-card { width: 360px; flex-shrink: 0; background:var(--bg); border:1px solid var(--line); padding:36px; border-radius:12px; position:relative; white-space: normal; transition: transform 0.3s;}
+  .testi-card:hover { transform: translateY(-5px); background: #FFFFFF; box-shadow: 0 10px 30px rgba(0,0,0,0.05);}
+  .testi-card i.quote-icon{ font-size:3rem; color:var(--accent); opacity:0.1; position:absolute; top:24px; left:24px; }
+  .testi-card p.quote{ margin-top:20px; color:var(--text); font-size:1.05rem; position: relative; z-index: 2; font-style: italic; font-weight: 500;}
   .testi-meta{ margin-top:24px; display:flex; justify-content:space-between; align-items:center; }
-  .testi-meta b{ font-size:0.95rem; font-weight: 600; }
-  .testi-meta span{ font-size:0.8rem; color:var(--accent); font-family:'JetBrains Mono',monospace; font-weight: 700; text-transform:uppercase; transition:color .35s; }
+  .testi-meta b{ font-size:1rem; font-weight: 700; color: var(--text);}
+  .testi-meta span{ font-size:0.8rem; color:var(--accent); font-family:'JetBrains Mono',monospace; font-weight: 700; text-transform:uppercase; }
   @keyframes scrollMarquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
+  /* FAQ */
   .faq-item{ border-bottom:1px solid var(--line); }
-  .faq-q{ width:100%; text-align:left; background:none; border:none; color:var(--text); padding:24px 0; font-size:1.05rem; font-weight:600; cursor:pointer; display:flex; justify-content:space-between; align-items:center; font-family:'Inter',sans-serif; transition: color 0.3s; }
+  .faq-q{ width:100%; text-align:left; background:none; border:none; color:var(--text); padding:26px 0; font-size:1.1rem; font-weight:700; cursor:pointer; display:flex; justify-content:space-between; align-items:center; font-family:'Inter',sans-serif; transition: color 0.3s; }
   .faq-q:hover { color: var(--accent); }
-  .faq-q i{ color:var(--accent); font-size:1.2rem; transition:transform .3s ease, color .35s; }
+  .faq-q i{ color:var(--accent); font-size:1.4rem; transition:transform .3s ease; }
   .faq-item.open .faq-q i{ transform:rotate(180deg); }
   .faq-a{ max-height:0; overflow:hidden; transition:max-height .35s ease; }
-  .faq-a p{ color:var(--text-muted); padding-bottom:24px; max-width:640px; font-size:0.95rem; }
+  .faq-a p{ color:var(--text-muted); padding-bottom:26px; max-width:640px; font-size:1.05rem; line-height: 1.7;}
 
   /* İLETİŞİM KARTLARI */
-  #iletisim{ background:var(--bg); border-top:1px solid var(--line); }
-  .contact-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 40px; }
-  .contact-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 40px 24px; text-align: center; transition: transform .3s, border-color .3s; }
-  .contact-card:hover { transform: translateY(-6px); border-color: var(--accent); }
-  .contact-card .icon-box { margin: 0 auto 24px; width: 64px; height: 64px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; color: var(--accent); transition: background .35s, color .35s; }
-  .contact-card:hover .icon-box { background: var(--accent); color: #0E1116; border-color: var(--accent); }
-  .contact-card b { display: block; font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px; }
-  .contact-card span { font-size: 0.95rem; color: var(--text-muted); }
+  .contact-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 50px; }
+  .contact-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 40px 24px; text-align: center; transition: all .3s; box-shadow: 0 4px 20px rgba(0,0,0,0.02);}
+  .contact-card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 15px 30px rgba(37,99,235,0.1);}
+  .contact-card .icon-box { margin: 0 auto 24px; width: 70px; height: 70px; background: var(--bg); border: 1px solid var(--line); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; color: var(--accent); transition: all .35s; }
+  .contact-card:hover .icon-box { background: var(--accent); color: #FFFFFF; border-color: var(--accent); }
+  .contact-card b { display: block; font-size: 1.2rem; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+  .contact-card span { font-size: 1rem; color: var(--text-muted); font-weight: 500;}
 
-  .wa-float{ position:fixed; bottom:26px; right:26px; z-index:400; width:60px; height:60px; border-radius:50%; background:#25D366; color: white; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 24px rgba(37, 211, 102, 0.4); transition:transform .25s ease; font-size: 2rem; }
-  .wa-float:hover{ transform:scale(1.08); color: white; }
+  .wa-float{ position:fixed; bottom:30px; right:30px; z-index:400; width:64px; height:64px; border-radius:50%; background:#25D366; color: white; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 30px rgba(37, 211, 102, 0.4); transition:transform .25s ease; font-size: 2.2rem; }
+  .wa-float:hover{ transform:scale(1.1); color: white; }
   .wa-float::before{ content:''; position:absolute; inset:-6px; border-radius:50%; border:2px solid #25D366; opacity:0.6; animation:pulse 2.2s ease-out infinite; }
   @keyframes pulse{ 0%{ transform:scale(1); opacity:0.6; } 100%{ transform:scale(1.5); opacity:0; } }
   
-  footer{ padding:40px 0; border-top:1px solid var(--line); text-align:center; background: var(--surface); }
-  footer p{ color:var(--text-muted); font-size:0.9rem; font-weight:500; }
-  .reveal{ opacity:0; transform:translateY(26px); transition:opacity .7s ease, transform .7s ease; }
+  footer{ padding:40px 0; text-align:center; background: var(--surface); border-top:1px solid var(--line); }
+  footer p{ color:var(--text-muted); font-size:0.95rem; font-weight:600; }
+  .reveal{ opacity:0; transform:translateY(30px); transition:opacity .8s ease, transform .8s ease; }
   .reveal.in-view{ opacity:1; transform:translateY(0); }
-
-  /* PRELOADER STYLES */
-  #preloader{ position:fixed; inset:0; z-index:9999; background:var(--bg); display:flex; align-items:center; justify-content:center; overflow:hidden; }
-  .pre-lane{ position:absolute; top:0; bottom:0; width:33.3334%; display:flex; align-items:center; justify-content:center; transform:translateY(0); }
-  .pre-lane.l1{ left:0; background:var(--swim-dim); }
-  .pre-lane.l2{ left:33.3334%; background:var(--basketball-dim); }
-  .pre-lane.l3{ left:66.6668%; background:var(--combat-dim); }
-  .pre-lane span{ font-family:'Montserrat', sans-serif; font-weight:900; font-size:clamp(1.2rem,3vw,2rem); color:rgba(255,255,255,0.95); text-transform:uppercase; opacity:0; transform:translateY(16px); letter-spacing: 2px;}
-  #preloader.animate .pre-lane{ animation: laneIn .7s cubic-bezier(.7,0,.2,1) forwards; }
-  #preloader.animate .pre-lane.l1{ animation-delay:.05s; }
-  #preloader.animate .pre-lane.l2{ animation-delay:.18s; }
-  #preloader.animate .pre-lane.l3{ animation-delay:.31s; }
-  #preloader.animate .pre-lane span{ animation: wordIn .5s ease forwards; }
-  #preloader.animate .pre-lane.l1 span{ animation-delay:.5s; }
-  #preloader.animate .pre-lane.l2 span{ animation-delay:.62s; }
-  #preloader.animate .pre-lane.l3 span{ animation-delay:.74s; }
-  #preloader.leave{ animation: preOut .7s cubic-bezier(.7,0,.2,1) forwards; animation-delay:1.5s; }
 </style>
 </head>
-<body data-sport="swim">
+<body>
 
-<!-- AÇILIŞ ANİMASYONU -->
+<!-- ARKA PLAN ANİMASYONLARI -->
+<div class="bg-animation"></div>
+<div class="bg-pattern"></div>
+
+<!-- YENİ AÇILIŞ ANİMASYONU -->
 <div id="preloader">
-  <div class="pre-lane l1"><span>YÜZME</span></div>
-  <div class="pre-lane l2"><span>BASKETBOL</span></div>
-  <div class="pre-lane l3"><span>DÖVÜŞ</span></div>
+  <div class="loader-logo">
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="currentColor"/>
+    </svg>
+    <span>NHT <span style="font-weight:300;">CANLI</span></span>
+  </div>
+  <div class="loader-bar"><div class="loader-progress"></div></div>
 </div>
 
 <header id="siteHeader">
   <nav>
-    <a href="#anasayfa" class="logo"><span class="dot"></span><span id="headerClubName">YÜKLENİYOR...</span></a>
+    <a href="#anasayfa" class="logo">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="currentColor"/>
+      </svg>
+      <span>NHT <span class="thin">CANLI</span></span>
+    </a>
     <div class="nav-links" id="navLinks">
       <a href="#anasayfa">Anasayfa</a>
       <a href="#hakkimda">Hakkımda</a>
@@ -189,9 +226,9 @@
   <section id="anasayfa">
     <div class="container hero-grid">
       <div class="hero">
-        <div class="eyebrow">Birebir Özel Ders</div>
-        <h1>Havuzda, Sahada <br> ve <span class="line-accent">Ringde</span> <br> Disiplin Öğretiyorum</h1>
-        <p class="lead">Yüzme, basketbol ve dövüş sporlarında kişiye özel programlarla; su korkusundan performans antrenmanına kadar her seviyeye güvenli, planlı ve ölçülebilir bir yol haritası sunuyorum.</p>
+        <div class="eyebrow">Nihat Canlı Özel Spor Okulu</div>
+        <h1 id="heroTitle">Havuzda, Sahada <br> ve <span class="line-accent">Ringde</span> <br> Disiplin Öğretiyorum</h1>
+        <p class="lead">Kişiye özel programlarla; spora ilk adımdan performans antrenmanına kadar her seviyeye güvenli, planlı ve ölçülebilir bir yol haritası sunuyorum.</p>
         <div class="hero-ctas">
           <a href="#hizmetler" class="btn btn-primary"><i class="ph ph-info"></i> Bilgi Al</a>
           <a href="#" target="_blank" class="btn btn-ghost c-wa-link"><i class="ph ph-whatsapp-logo"></i> İletişime Geç</a>
@@ -199,7 +236,7 @@
         <div class="hero-stats">
           <div><b>8+</b><span>Yıl Deneyim</span></div>
           <div><b>300+</b><span>Özel Ders Öğrencisi</span></div>
-          <div><b>3</b><span>Branşta Sertifika</span></div>
+          <div><b id="heroBranchCount">3</b><span>Aktif Branş</span></div>
         </div>
       </div>
       <div class="signature">
@@ -210,7 +247,7 @@
           <div class="lane-row"><div class="lane-marker"></div></div>
         </div>
         <div class="signature-badge">
-          <b>Tek Hoca, Üç Branş</b>
+          <b>Profesyonel Eğitim</b>
           <span>Her ders senin seviyene ve hedefine göre planlanır.</span>
         </div>
       </div>
@@ -220,11 +257,14 @@
   <section id="hakkimda">
     <div class="container about-grid">
       <div class="reveal">
-        <div class="avatar"><span id="avatarInitials">..</span></div>
+        <div class="avatar">
+           <img id="aboutImage" src="" alt="Profil Fotoğrafı" style="display:none;" onload="this.style.opacity=1;"/>
+           <span id="avatarInitials">NC</span>
+        </div>
       </div>
       <div>
         <div class="eyebrow reveal">Eğitmen Profili</div>
-        <h2 class="section-title reveal" id="aboutName">Kaan Yıldırım</h2>
+        <h2 class="section-title reveal" id="aboutName">Nihat Canlı</h2>
         <div class="about-copy reveal"><p id="aboutText">Biyografi bilgileri yükleniyor...</p></div>
         <ul class="cert-list reveal" id="aboutCerts">
           <li>Yükleniyor...</li>
@@ -240,25 +280,20 @@
     <div class="container">
       <div class="eyebrow reveal">Hizmetler ve Ders İçerikleri</div>
       <h2 class="section-title reveal">Branşını Seç, Programını Gör</h2>
-      <p class="section-lead reveal" style="margin-bottom:36px;">Yüzme, basketbol ve dövüş sporlarında seviyene uygun ders paketleri. Aşağıdan branş seçerek detayları incele.</p>
+      <p class="section-lead reveal" style="margin-bottom:36px;">Sana en uygun branşı seçerek, birebir veya grup ders detaylarımızı inceleyebilirsin.</p>
 
-      <div class="sport-tabs reveal" role="tablist">
-        <button class="tab-btn active" data-sport="swim"><i class="ph ph-waves"></i> Yüzme</button>
-        <button class="tab-btn" data-sport="basketball"><i class="ph ph-basketball"></i> Basketbol</button>
-        <button class="tab-btn" data-sport="combat"><i class="ph ph-boxing-glove"></i> Dövüş Sporları</button>
+      <div class="sport-tabs reveal" id="dynamicTabs" role="tablist">
+        <p style="color:var(--text-sub)">Branşlar yükleniyor...</p>
       </div>
 
-      <div class="sport-panel swim reveal">
-        <div id="desc-swim" class="branch-desc">Yüzme branşında her seviyeye uygun; birebir özel ders, 2-3 kişilik VIP grup dersleri, çocuk ve yetişkin gruplarına özel eğitimler sunulmaktadır.</div>
-        <div class="cards-grid" id="swimGrid"></div>
+      <div id="dynamicPanels">
+        <!-- Paneller JS ile buraya çizilecek -->
       </div>
-      <div class="sport-panel basketball">
-        <div id="desc-basketball" class="branch-desc">Basketbol branşında; temel altyapı eğitiminden profesyonel performans antrenmanlarına kadar, birebir ve grup dersleri verilmektedir.</div>
-        <div class="cards-grid" id="basketGrid"></div>
-      </div>
-      <div class="sport-panel combat">
-        <div id="desc-combat" class="branch-desc">Dövüş sporlarında; kondisyon artırıcı birebir teknik antrenmanlar, savunma ve refleks geliştirici özel yetişkin dersleri mevcuttur.</div>
-        <div class="cards-grid" id="combatGrid"></div>
+
+      <div class="practical">
+        <div class="practical-item reveal"><span class="mono"><i class="ph ph-clock"></i> SÜRE</span><h4>45–90 Dakika</h4><p>Branşa ve seviyeye göre ders süresi belirlenir, ilk görüşmede netleştirilir.</p></div>
+        <div class="practical-item reveal"><span class="mono"><i class="ph ph-map-pin"></i> KONUM</span><h4>Anlaşmalı Tesisler</h4><p>Derslerimiz hijyenik ve profesyonel anlaşmalı spor tesislerinde gerçekleştirilir.</p></div>
+        <div class="practical-item reveal"><span class="mono"><i class="ph ph-bag"></i> EKİPMAN</span><h4>İhtiyaca Göre Temin</h4><p>Gerekli temel başlangıç ekipmanları tarafımızca temin edilebilir.</p></div>
       </div>
     </div>
   </section>
@@ -285,29 +320,30 @@
     </div>
   </section>
 
+  <!-- İLETİŞİM BÖLÜMÜ (BİLGİ AL BUTONU VE KARTLAR) -->
   <section id="iletisim">
     <div class="container">
       <div class="reveal" style="text-align: center; max-width: 600px; margin: 0 auto 40px;">
         <div class="eyebrow" style="justify-content: center;">İletişim</div>
         <h2 class="section-title">Hemen Bilgi Al</h2>
-        <p class="section-lead" style="margin: 0 auto;">Ders paketleri, ücretler ve uygunluk durumu hakkında detaylı bilgi almak için dilediğiniz kanaldan anında ulaşabilirsiniz.</p>
+        <p class="section-lead" style="margin: 0 auto;">Ders programları, boş saatler ve detaylı fiyatlandırma hakkında dilediğin zaman iletişime geçebilirsin.</p>
       </div>
       
       <div class="contact-cards reveal">
          <a href="#" class="contact-card c-phone-link">
             <div class="icon-box"><i class="ph ph-phone"></i></div>
             <b class="c-phone-text">Yükleniyor...</b>
-            <span>Her gün 09:00 - 20:00</span>
+            <span>Haftanın Her Günü Açığız</span>
          </a>
          <a href="#" class="contact-card c-email-link">
             <div class="icon-box"><i class="ph ph-envelope-simple"></i></div>
             <b class="c-email-text">Yükleniyor...</b>
-            <span>E-Posta gönderin</span>
+            <span>E-Posta Gönderin</span>
          </a>
          <a href="#" target="_blank" class="contact-card c-wa-link">
             <div class="icon-box"><i class="ph ph-whatsapp-logo"></i></div>
             <b>WhatsApp Hattı</b>
-            <span>Tek tıkla hızlı iletişim</span>
+            <span>Tek Tıkla Hızlı Mesaj</span>
          </a>
       </div>
     </div>
@@ -326,18 +362,11 @@
 </footer>
 
 <script>
-  // AÇILIŞ EKRANINI KALDIRAN KOD
+  // AÇILIŞ EKRANINI KALDIRAN KOD (Zamanlayıcı güncellendi)
   const pre = document.getElementById('preloader');
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(reduced){ 
-     pre.remove(); 
-  } else { 
-     requestAnimationFrame(()=> pre.classList.add('animate')); 
-     setTimeout(()=> pre.classList.add('leave'), 10); 
-     setTimeout(()=> pre.remove(), 2300); 
-  }
+  setTimeout(()=> { pre.style.opacity = '0'; setTimeout(()=> pre.remove(), 600); }, 1800); 
 
-  // SENİN YENİ FIREBASE ŞİFRELERİN BURADA!
+  // LÜTFEN KENDİ FIREBASE AYARLARINI BURAYA YAPIŞTIR!
   const firebaseConfig = {
     apiKey: "AIzaSyD_kv7CgD7V7x-yyOggRPyZygJdXgirD78",
     authDomain: "ozelderss-f48f3.firebaseapp.com",
@@ -353,52 +382,100 @@
   db.collection("appData").doc("main").onSnapshot((doc) => {
     if (doc.exists) {
       const data = doc.data();
-      
-      if(data.clubName) {
-        document.getElementById('headerClubName').textContent = data.clubName;
-        const words = data.clubName.split(" ");
-        let initials = words[0].charAt(0);
-        if(words.length > 1) initials += words[1].charAt(0);
-        document.getElementById('avatarInitials').textContent = initials.toUpperCase();
-      }
-
       renderSiteData(data.siteData || {});
     }
   });
 
   function renderSiteData(site) {
-    // 1. HAKKIMDA (Varsayılan metin koruması ile)
-    document.getElementById('aboutName').textContent = site.about?.name || "Kaan Yıldırım";
+    // 1. HAKKIMDA 
+    const aboutName = site.about?.name || "Nihat Canlı";
+    document.getElementById('aboutName').textContent = aboutName;
     document.getElementById('aboutText').textContent = site.about?.text || "Biyografi bilgileri henüz girilmedi...";
-    document.getElementById('aboutPhilosophy').textContent = '"' + (site.about?.philosophy || "Her öğrenci farklı bir hızda öğrenir. Benim işim, o hıza saygı duyup güveni önce inşa etmek.") + '"';
+    document.getElementById('aboutPhilosophy').textContent = '"' + (site.about?.philosophy || "Spor sadece fiziksel bir gelişim değil, mental bir disiplindir.") + '"';
     
-    const certs = site.about?.certs || "Cankurtaranlık Sertifikası\nYüzme Antrenörlüğü Belgesi\nBasketbol Antrenörlüğü Sertifikası\nBoks & Kickbox Antrenörlük Belgesi\nSu Güvenliği ve İlk Yardım Sertifikası";
+    // Fotoğraf Entegrasyonu
+    const photoImg = document.getElementById('aboutImage');
+    const initialsSpan = document.getElementById('avatarInitials');
+    if(site.about?.photoUrl && site.about.photoUrl.startsWith("http")) {
+       photoImg.src = site.about.photoUrl;
+       photoImg.style.display = "block";
+       initialsSpan.style.display = "none";
+    } else {
+       photoImg.style.display = "none";
+       initialsSpan.style.display = "block";
+       const words = aboutName.split(" ");
+       let initials = words[0].charAt(0);
+       if(words.length > 1) initials += words[1].charAt(0);
+       initialsSpan.textContent = initials.toUpperCase();
+    }
+
+    const certs = site.about?.certs || "Eğitim Sertifikaları Eklenmedi";
     document.getElementById('aboutCerts').innerHTML = certs.split('\n').filter(c => c.trim() !== '').map(c => `<li><i class="ph ph-check-circle"></i> ${c}</li>`).join('');
 
-    // 2. BRANŞ AÇIKLAMALARI (Varsayılan metin koruması ile)
-    document.getElementById('desc-swim').innerHTML = site.branchDetails?.swim || "Yüzme branşında her seviyeye uygun; birebir özel ders, 2-3 kişilik VIP grup dersleri, çocuk ve yetişkin gruplarına özel eğitimler sunulmaktadır.";
-    document.getElementById('desc-basketball').innerHTML = site.branchDetails?.basketball || "Basketbol branşında; temel altyapı eğitiminden profesyonel performans antrenmanlarına kadar, birebir ve grup dersleri verilmektedir.";
-    document.getElementById('desc-combat').innerHTML = site.branchDetails?.combat || "Dövüş sporlarında; kondisyon artırıcı birebir teknik antrenmanlar, savunma ve refleks geliştirici özel yetişkin dersleri mevcuttur.";
+    // 2. BRANŞLAR (Dinamik Tablar ve Paneller)
+    const branches = site.branches || [];
+    document.getElementById('heroBranchCount').textContent = branches.length > 0 ? branches.length : 3;
 
-    // 3. DERS PAKETLERİ
-    const swimGrid = document.getElementById('swimGrid'); const basketGrid = document.getElementById('basketGrid'); const combatGrid = document.getElementById('combatGrid');
-    swimGrid.innerHTML = ''; basketGrid.innerHTML = ''; combatGrid.innerHTML = '';
-    (site.services || []).forEach(s => {
-       const cardHTML = `<div class="service-card reveal"><span class="lvl">Seviye · ${s.level}</span><h3>${s.title}</h3><p>${s.desc}</p></div>`;
-       if(s.sport === 'swim') swimGrid.innerHTML += cardHTML;
-       if(s.sport === 'basketball') basketGrid.innerHTML += cardHTML;
-       if(s.sport === 'combat') combatGrid.innerHTML += cardHTML;
-    });
-    if(swimGrid.innerHTML==='') swimGrid.innerHTML = '<p style="color:var(--text-sub)">Bu branş için ders paketi eklenmemiş.</p>';
-    if(basketGrid.innerHTML==='') basketGrid.innerHTML = '<p style="color:var(--text-sub)">Bu branş için ders paketi eklenmemiş.</p>';
-    if(combatGrid.innerHTML==='') combatGrid.innerHTML = '<p style="color:var(--text-sub)">Bu branş için ders paketi eklenmemiş.</p>';
+    const tabsContainer = document.getElementById('dynamicTabs');
+    const panelsContainer = document.getElementById('dynamicPanels');
+    
+    if(branches.length > 0) {
+       tabsContainer.innerHTML = ''; panelsContainer.innerHTML = '';
+       
+       branches.forEach((b, index) => {
+         const isActive = index === 0;
+         const safeId = b.id || index;
+         
+         // Tab Butonu
+         const btn = document.createElement('button');
+         btn.className = `tab-btn ${isActive ? 'active' : ''}`;
+         btn.setAttribute('data-target', `panel-${safeId}`);
+         btn.innerHTML = `<i class="ph ph-${b.icon || 'star'}"></i> ${b.name}`;
+         tabsContainer.appendChild(btn);
 
-    // 4. MARQUEE YORUMLAR (Yatay Kayan Yorumlar)
+         // Panel
+         const panel = document.createElement('div');
+         panel.id = `panel-${safeId}`;
+         panel.className = `sport-panel ${isActive ? 'active' : ''}`;
+         
+         // İlgili paketi bul (Site services içinden bu branşa ait olanlar)
+         const relatedServices = (site.services || []).filter(s => s.sport === b.name);
+         let servicesHTML = '';
+         if(relatedServices.length > 0) {
+            servicesHTML = relatedServices.map(s => `<div class="service-card reveal"><span class="lvl">Seviye · ${s.level}</span><h3>${s.title}</h3><p>${s.desc}</p></div>`).join('');
+         } else {
+            servicesHTML = '<p style="color:var(--text-sub)">Bu branş için özel paket eklenmemiş. İletişime geçerek detaylı bilgi alabilirsiniz.</p>';
+         }
+
+         panel.innerHTML = `
+            <div class="branch-desc">${b.desc || ''}</div>
+            <div class="cards-grid">${servicesHTML}</div>
+         `;
+         panelsContainer.appendChild(panel);
+       });
+
+       // Tab Tıklama Olayları
+       const allBtns = tabsContainer.querySelectorAll('.tab-btn');
+       allBtns.forEach(btn => {
+         btn.addEventListener('click', () => {
+           allBtns.forEach(b => b.classList.remove('active'));
+           panelsContainer.querySelectorAll('.sport-panel').forEach(p => p.classList.remove('active'));
+           btn.classList.add('active');
+           document.getElementById(btn.getAttribute('data-target')).classList.add('active');
+           // Re-trigger scroll reveal for new visible items
+           document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
+         });
+       });
+
+    } else {
+       tabsContainer.innerHTML = '<p style="color:var(--text-sub)">Branşlar yükleniyor...</p>';
+    }
+
+    // 4. MARQUEE YORUMLAR
     const testiGrid = document.getElementById('testiGrid');
     if(site.testimonials && site.testimonials.length > 0) {
       const itemsHTML = site.testimonials.map(t => `<div class="testi-card"><i class="ph-fill ph-quotes quote-icon"></i><p class="quote">"${t.quote}"</p><div class="testi-meta"><b>${t.name}</b><span>${t.role}</span></div></div>`).join('');
-      // Sonsuz dönmesi için divleri 2 kere kopyalayarak yanyana ekliyoruz
-      testiGrid.innerHTML = itemsHTML + itemsHTML; 
+      testiGrid.innerHTML = itemsHTML + itemsHTML; // Sonsuz döngü için 2 kez eklendi
     } else { testiGrid.innerHTML = '<p style="color:var(--text-sub); margin-left:20px;">Henüz yorum eklenmemiş.</p>'; }
 
     // 5. SSS
@@ -408,7 +485,7 @@
       attachFaqListeners(); 
     } else { faqList.innerHTML = '<p style="color:var(--text-sub)">Henüz soru eklenmemiş.</p>'; }
 
-    // 6. İLETİŞİM BİLGİLERİ
+    // 6. İLETİŞİM BİLGİLERİ 
     const c = site.contact || { phone: "+90 500 000 00 00", email: "bilgi@siteniz.com", whatsappNum: "905000000000", whatsappMsg: "Merhaba, dersler hakkında bilgi almak istiyorum." };
     
     document.querySelectorAll('.c-phone-text').forEach(e => e.textContent = c.phone); 
@@ -423,14 +500,10 @@
     document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
   }
 
-  // Animasyonlar ve Etkileşimler
+  // Arayüz Etkileşimleri
   const header = document.getElementById('siteHeader'); window.addEventListener('scroll', ()=> header.classList.toggle('scrolled', window.scrollY > 40));
   const burger = document.getElementById('burger'); const navLinks = document.getElementById('navLinks'); burger.addEventListener('click', ()=> navLinks.classList.toggle('open')); navLinks.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> navLinks.classList.remove('open')));
   
-  const allTabBtns = document.querySelectorAll('.tab-btn'); 
-  function setSport(sport){ document.body.dataset.sport = sport; allTabBtns.forEach(b=> b.classList.toggle('active', b.dataset.sport === sport)); }
-  allTabBtns.forEach(btn=> btn.addEventListener('click', ()=> setSport(btn.dataset.sport)));
-
   function attachFaqListeners() {
     document.querySelectorAll('.faq-item').forEach(item=>{
       const q = item.querySelector('.faq-q'); const a = item.querySelector('.faq-a');
