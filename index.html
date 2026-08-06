@@ -76,7 +76,7 @@
   .nav-links{ display:flex; align-items:center; gap:34px; }
   .nav-links a{ font-size:0.95rem; font-weight:600; color:var(--text-muted); transition:color .25s; position:relative; }
   .nav-links a:hover{ color:var(--accent); }
-  .nav-cta{ background:var(--accent); color:#fff !important; padding:10px 24px; border-radius:var(--radius); font-weight:700; font-size:0.9rem; transition:background .35s, transform .2s; }
+  .nav-cta{ background:var(--accent); color:#000 !important; padding:10px 24px; border-radius:var(--radius); font-weight:700; font-size:0.9rem; transition:background .35s, transform .2s; }
   .nav-cta:hover{ transform:translateY(-2px); background: var(--accent-hover); color:#fff !important;}
   .burger{ display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:8px; }
   .burger span{ width:24px; height:2px; background:var(--text); }
@@ -110,7 +110,7 @@
   .signature-badge{ position:absolute; bottom:-16px; right:-16px; background:var(--surface); border:1px solid var(--line); padding:20px 24px; border-radius:var(--radius); max-width:260px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
   .signature-badge b{ display:block; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.1rem; color:var(--accent); margin-bottom:8px; text-transform: uppercase;}
   .signature-badge span{ font-size:0.9rem; color:var(--text-muted); line-height: 1.5; display: block; font-weight: 400;}
-
+  
   /* ABOUT */
   #hakkimda{ background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
   .about-grid{ display:grid; grid-template-columns:0.8fr 1.2fr; gap:70px; align-items:start; }
@@ -133,6 +133,7 @@
   .sport-panel{ display:none; animation:fadeIn .4s ease; }
   .sport-panel.active { display:block; }
   @keyframes fadeIn{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
   .branch-desc { color:var(--text); font-size:1.1rem; padding:24px 28px; background:var(--surface); border:1px solid var(--line); border-radius:10px; margin-bottom:34px; line-height:1.7; font-weight: 400; box-shadow: 0 4px 15px rgba(0,0,0,0.2);}
 
   .practical{ margin-top:40px; display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:24px; }
@@ -142,19 +143,30 @@
   .practical-item h4{ font-family:'Space Grotesk',sans-serif; font-weight:700; margin:10px 0; font-size:1.15rem; text-transform: none; letter-spacing: 0; }
   .practical-item p{ color:var(--text-muted); font-size:0.95rem; }
 
-  /* DİKEY DERSLERDEN GÖRÜNTÜLER (GALERİ / SHORTS) - Mobil İçi Optimize Edildi */
+  /* DİKEY DERSLERDEN GÖRÜNTÜLER (GALERİ / SHORTS) - Mobil İçi Tam Optimize */
   #galeri{ background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
   .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 24px; margin-top:20px; }
-  .gallery-item { border-radius: 12px; overflow: hidden; background: var(--surface-2); border: 1px solid var(--line); box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: transform 0.3s; aspect-ratio: 9 / 16; position: relative; }
+  .gallery-item { 
+     border-radius: 12px; overflow: hidden; background: var(--surface-2); border: 1px solid var(--line); 
+     box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: transform 0.3s;
+     position: relative;
+     height: 420px; /* Oranı desteklemeyen eski tarayıcılar için KESİN ÇÖZÜM */
+  }
+  @supports (aspect-ratio: 9 / 16) {
+     .gallery-item { height: auto; aspect-ratio: 9 / 16; }
+  }
   .gallery-item:hover { transform: translateY(-5px); border-color:var(--accent); }
   .gallery-item img, .gallery-item video, .gallery-item iframe { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border: none; }
 
-  /* YATAY KAYAN YORUMLAR (MARQUEE) - MOBİL UYUMLU */
+  /* YATAY KAYAN YORUMLAR (MARQUEE) - MOBİL FİXED */
   #yorumlar{ overflow: hidden; padding-bottom: 80px;}
   .marquee-container { width: 100%; position: relative; padding: 20px 0; }
-  .marquee-track { display: flex; width: max-content; gap: 24px; animation: scrollMarquee 45s linear infinite; }
+  .marquee-track { display: flex; flex-wrap: nowrap; width: 10000px; width: max-content; gap: 24px; animation: scrollMarquee 45s linear infinite; }
   .marquee-container:hover .marquee-track { animation-play-state: paused; }
-  .testi-card { width: min(340px, 85vw); flex-shrink: 0; background:var(--surface); border:1px solid var(--line); padding:30px; border-radius:12px; position:relative; white-space: normal; transition: transform 0.3s;}
+  .testi-card { 
+      width: 340px; max-width: 85vw; /* min() yerine en uyumlu yöntem kullanıldı */
+      flex-shrink: 0; background:var(--surface); border:1px solid var(--line); padding:30px; border-radius:12px; position:relative; white-space: normal; transition: transform 0.3s;
+  }
   .testi-card:hover { transform: translateY(-5px); background: var(--surface-2); box-shadow: 0 10px 30px rgba(0,0,0,0.4);}
   .testi-card i.quote-icon{ font-size:2.5rem; color:var(--accent); opacity:0.1; position:absolute; top:20px; left:20px; }
   .testi-card p.quote{ margin-top:10px; color:var(--text); font-size:1.05rem; position: relative; z-index: 2; font-style: italic; font-weight: 400;}
@@ -196,7 +208,7 @@
   .reveal{ opacity:0; transform:translateY(30px); transition:opacity .8s ease, transform .8s ease; }
   .reveal.in-view{ opacity:1; transform:translateY(0); }
 
-  /* KUSURSUZ MOBİL UYUM (RESPONSIVE) - FİXED */
+  /* KUSURSUZ MOBİL UYUM (RESPONSIVE) - TAMAMEN FİXED */
   @media (max-width: 768px) {
     .nav-links{ position:fixed; top:0; right:-100%; height:100vh; width:min(320px,80%); background:var(--surface); flex-direction:column; justify-content:center; align-items:flex-start; padding:40px; gap:26px; transition:right .4s ease; border-left:1px solid var(--line); box-shadow: -10px 0 30px rgba(0,0,0,0.5);} 
     .nav-links.open{ right:0; } .burger{ display:flex; } .nav-links a.nav-cta{ margin-top:10px; } 
@@ -226,8 +238,9 @@
     
     .contact-cards { grid-template-columns: 1fr; gap: 16px; }
     
-    /* VİDEO / GALERİ MOBİL FİX */
+    /* VİDEO / GALERİ MOBİL FİX (Taşma engellendi) */
     .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+    .gallery-item { height: 260px; }
     
     /* BUTONLAR MOBİL FİX */
     .social-floats { right: 16px; bottom: 16px; gap: 10px; }
@@ -536,13 +549,12 @@
     if(site.gallery && site.gallery.length > 0) {
       galleryGrid.innerHTML = site.gallery.slice().reverse().map(m => {
         if(m.type === 'video') {
-           // Mobilde sorunsuz açılması için preload, playsinline ve controls eklendi.
-           return `<div class="gallery-item"><video src="${m.url}" controls playsinline preload="metadata"></video></div>`;
+           // iOS KİLİDİNİ AŞMAK İÇİN PLAYSINLINE EKLENDİ
+           return `<div class="gallery-item"><video src="${m.url}" controls playsinline webkit-playsinline preload="metadata" style="width:100%; height:100%; object-fit:cover; position:absolute; inset:0; z-index:1;"></video></div>`;
         } else if(m.type === 'youtube') {
-           return `<div class="gallery-item"><iframe src="${m.url}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+           return `<div class="gallery-item"><iframe src="${m.url}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%; height:100%; position:absolute; inset:0; z-index:1; border:none;"></iframe></div>`;
         } else {
-           // Resim linki bozuksa kartı tamamen gizler.
-           return `<div class="gallery-item"><img src="${m.url}" alt="Ders Görüntüsü" onerror="this.parentElement.style.display='none';"/></div>`;
+           return `<div class="gallery-item"><img src="${m.url}" alt="Ders Görüntüsü" style="width:100%; height:100%; object-fit:cover; position:absolute; inset:0; z-index:1;" onerror="this.parentElement.style.display='none';"/></div>`;
         }
       }).join('');
     } else {
